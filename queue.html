@@ -70,20 +70,20 @@
 				<div class="row">
 					<div id="stacked-chart"></div>
 				</div>
-				<div class="row">
-					<h3>Stacked chart</h3>
+				<div class="row justify-content-center">
+					<h5>Match Attendance Start/Sub</h5>
 				</div>
                 <div class="row">
-					<div id="per-person-chart"></div>
+					<div id="goals-per-person-chart"></div>
 				</div>
-				<div class="row">
-					<h5>Total Spend Per Person</h5>
+				<div class="row justify-content-center">
+					<h5>Total Goals/Assists Per Person</h5>
 				</div>
                 <div class="row">
-					<div id="per-store-chart"></div>
+					<div id="goals-per-opponent-chart"></div>
 				</div>
-				<div class="row">
-					<h5>Total Spend Per Store</h5>
+				<div class="row justify-content-center">
+					<h5>Total Goals/Assists Per Opponent</h5>
 				</div>
                 <div class="row">
 					<div id="per-state-chart"></div>
@@ -109,17 +109,17 @@
             
             
         var name_dim = ndx.dimension(dc.pluck('name'));
-        var spendByNameStoreA = name_dim.group().reduceSum(function (d) {
-            if (d.store === 1) {
-                return +d.store;
+        var start = name_dim.group().reduceSum(function (d) {
+            if (d.squad === 1) {
+                return +d.squad;
             } else {
                 return 0;
             }
         });
 
-        var spendByNameStoreB = name_dim.group().reduceSum(function (d) {
-            if (d.store === 0) {
-                return +d.store+1;
+        var sub = name_dim.group().reduceSum(function (d) {
+            if (d.squad === 0) {
+                return +d.squad+1;
             } else {
                 return 0;
             }
@@ -129,43 +129,47 @@
             .width(600)
             .height(150)
             .dimension(name_dim)
-            .group(spendByNameStoreA, "Start")
-            .stack(spendByNameStoreB, "Sub")
+            .group(start, "Start")
+            .stack(sub, "Sub")
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .legend(dc.legend().x(420).y(0).itemHeight(15).gap(5))
-            .margins().right = 100;
-
+            .margins({top: 10, right: 50, bottom: 30, left: 50})
 
             
         var name_dim = ndx.dimension(dc.pluck('name'));
-        var total_spend_per_person = name_dim.group().reduceSum(dc.pluck('spend'));
+        var total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
+        var total_assists_per_person = name_dim.group().reduceSum(dc.pluck('assists'));
 
-        dc.barChart('#per-person-chart')
+        var stackedChart = dc.barChart('#goals-per-person-chart');
+        stackedChart
             .width(600)
             .height(150)
             .margins({top: 10, right: 50, bottom: 30, left: 50})
             .dimension(name_dim)
-            .group(total_spend_per_person)
+            .group(total_goals_per_person, "Goals")
+            .stack(total_assists_per_person, "Assists")
             .transitionDuration(500)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Person")
             .yAxis().ticks(4);
         
-        var store_dim = ndx.dimension(dc.pluck('store'));
-        var total_spend_per_store = store_dim.group().reduceSum(dc.pluck('spend'));
+        var opponent_dim = ndx.dimension(dc.pluck('opponent'));
+        var total_goals_per_opponent = opponent_dim.group().reduceSum(dc.pluck('goals'));
+        var total_assists_per_opponent = opponent_dim.group().reduceSum(dc.pluck('assists'));
 
-        dc.barChart('#per-store-chart')
+        dc.barChart('#goals-per-opponent-chart')
             .width(600)
             .height(150)
             .margins({top: 10, right: 50, bottom: 30, left: 50})
-            .dimension(store_dim)
-            .group(total_spend_per_store)
+            .dimension(opponent_dim)
+            .group(total_goals_per_opponent, "Goals")
+            .stack(total_assists_per_opponent, "Assists")
             .transitionDuration(500)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .xAxisLabel("Store")
+            .xAxisLabel("Opponent")
             .yAxis().ticks(4);
 
         var state_dim = ndx.dimension(dc.pluck('state'));

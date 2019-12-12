@@ -86,16 +86,16 @@
         function spend_by_name(name) {
             return function(d) {
                 if (d.name === name) {
-                    return +d.spend;
+                    return d.rating;
                 } else {
                     return 0;
                 }
             }
         }
-        var tomSpendByMonth = date_dim.group().reduceSum(spend_by_name('Tom'));
-        var bobSpendByMonth = date_dim.group().reduceSum(spend_by_name('Bob'));
+        var tomSpendByMonth = date_dim.group().reduceSum(spend_by_name('Alex'));
+        var bobSpendByMonth = date_dim.group().reduceSum(spend_by_name('James'));
         
-        var aliceSpendByMonth = date_dim.group().reduceSum(spend_by_name('Alice'));
+        var aliceSpendByMonth = date_dim.group().reduceSum(spend_by_name('Saad'));
         var compositeChart = dc.compositeChart('#composite-chart');
         compositeChart
             .width(990)
@@ -108,13 +108,13 @@
             .compose([
                 dc.lineChart(compositeChart)
                     .colors('green')
-                    .group(tomSpendByMonth, 'Tom'),
+                    .group(tomSpendByMonth, 'Alex'),
                 dc.lineChart(compositeChart)
                     .colors('red')
-                    .group(bobSpendByMonth, 'Bob'),
+                    .group(bobSpendByMonth, 'James'),
                 dc.lineChart(compositeChart)
                     .colors('blue')
-                    .group(aliceSpendByMonth, 'Alice')
+                    .group(aliceSpendByMonth, 'Saad')
             ])
             .brushOn(false)
             .render();

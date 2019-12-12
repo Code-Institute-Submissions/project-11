@@ -101,7 +101,7 @@
             var ndx = crossfilter(transactionsData);
 
             var name_dim = ndx.dimension(dc.pluck('name'));
-            var total_spend_per_person = name_dim.group().reduceSum(dc.pluck('spend'));
+            var total_spend_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
         dc.pieChart('#per-person-chart')
             .width(330)
             .height(90)
@@ -110,8 +110,8 @@
             .group(total_spend_per_person)
             
             
-            var store_dim = ndx.dimension(dc.pluck('store'));
-            var total_spend_per_store = store_dim.group().reduceSum(dc.pluck('spend'));
+            var store_dim = ndx.dimension(dc.pluck('opponent'));
+            var total_spend_per_store = store_dim.group().reduceSum(dc.pluck('goals'));
         dc.pieChart('#per-store-chart')
             .width(330)
             .height(90)
@@ -120,8 +120,8 @@
             .group(total_spend_per_store)
             
 
-        var state_dim = ndx.dimension(dc.pluck('state'));
-            var total_spend_per_state = state_dim.group().reduceSum(dc.pluck('spend'));
+        var state_dim = ndx.dimension(dc.pluck('opponent'));
+            var total_spend_per_state = state_dim.group().reduceSum(dc.pluck('goals'));
         dc.pieChart('#per-state-chart')
             .width(330)
             .height(90)
