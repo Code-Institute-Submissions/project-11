@@ -16,6 +16,7 @@
 	</script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-queue/1.0.7/d3-queue.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -67,26 +68,23 @@
 			</div>
 			<div class="col-6">
 				<div class="row">
-					<div id="chart-here"></div>
+					<div id="stacked-chart"></div>
 				</div>
 				<div class="row">
-					<h3>New chart</h3>
+					<h3>Stacked chart</h3>
 				</div>
-
                 <div class="row">
 					<div id="per-person-chart"></div>
 				</div>
 				<div class="row">
 					<h5>Total Spend Per Person</h5>
 				</div>
-
                 <div class="row">
 					<div id="per-store-chart"></div>
 				</div>
 				<div class="row">
 					<h5>Total Spend Per Store</h5>
 				</div>
-
                 <div class="row">
 					<div id="per-state-chart"></div>
 				</div>
@@ -108,12 +106,43 @@
         function makeGraphs(error, transactionsData) {
             var ndx = crossfilter(transactionsData);
 
+            
+            
+        var name_dim = ndx.dimension(dc.pluck('name'));
+        var spendByNameStoreA = name_dim.group().reduceSum(function (d) {
+            if (d.store === 1) {
+                return +d.store;
+            } else {
+                return 0;
+            }
+        });
 
-            var name_dim = ndx.dimension(dc.pluck('name'));
+        var spendByNameStoreB = name_dim.group().reduceSum(function (d) {
+            if (d.store === 0) {
+                return +d.store+1;
+            } else {
+                return 0;
+            }
+        });
+        var stackedChart = dc.barChart("#stacked-chart");
+        stackedChart
+            .width(600)
+            .height(150)
+            .dimension(name_dim)
+            .group(spendByNameStoreA, "Start")
+            .stack(spendByNameStoreB, "Sub")
+            .x(d3.scale.ordinal())
+            .xUnits(dc.units.ordinal)
+            .legend(dc.legend().x(420).y(0).itemHeight(15).gap(5))
+            .margins().right = 100;
+
+
+            
+        var name_dim = ndx.dimension(dc.pluck('name'));
         var total_spend_per_person = name_dim.group().reduceSum(dc.pluck('spend'));
 
         dc.barChart('#per-person-chart')
-            .width(300)
+            .width(600)
             .height(150)
             .margins({top: 10, right: 50, bottom: 30, left: 50})
             .dimension(name_dim)
@@ -128,7 +157,7 @@
         var total_spend_per_store = store_dim.group().reduceSum(dc.pluck('spend'));
 
         dc.barChart('#per-store-chart')
-            .width(300)
+            .width(600)
             .height(150)
             .margins({top: 10, right: 50, bottom: 30, left: 50})
             .dimension(store_dim)
@@ -143,7 +172,7 @@
         var total_spend_per_state = state_dim.group().reduceSum(dc.pluck('spend'));
 
         dc.barChart('#per-state-chart')
-            .width(300)
+            .width(600)
             .height(150)
             .margins({top: 10, right: 50, bottom: 30, left: 50})
             .dimension(state_dim)
