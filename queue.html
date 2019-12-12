@@ -37,30 +37,65 @@
 						<a class="nav-link" href="queue.html">Queue</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="pie-chart.html" >Pie</a>
+						<a class="nav-link" href="pie-chart.html">Pie</a>
 					</li>
-                    <li class="nav-item">
+					<li class="nav-item">
 						<a class="nav-link" href="line-graphs.html">Line</a>
 					</li>
-                    <li class="nav-item">
+					<li class="nav-item">
 						<a class="nav-link" href="composite-graphs.html">Composite</a>
-                    </li>
-                    <li class="nav-item">
+					</li>
+					<li class="nav-item">
 						<a class="nav-link" href="stacked.html">Stacked</a>
 					</li>
-                    <li class="nav-item">
+					<li class="nav-item">
 						<a class="nav-link" href="scatter.html">Scatterplot</a>
 					</li>
 				</ul>
 			</div>
 		</nav>
 	</header>
-	<div class="container">
-		<div class="row justify-content-center">
+	<div class="container-fluid justify-content-center">
+		<div class="row">
 			<div class="col-12 text-center">
-				<h1>Intro to Queue</h1>
-				<div id="chart-here"></div>
+				<h1>Intro to DC and Crossfilter</h1>
+
 			</div>
+		</div>
+		<div class="row">
+			<div class="col-6 intro">
+			</div>
+			<div class="col-6">
+				<div class="row">
+					<div id="chart-here"></div>
+				</div>
+				<div class="row">
+					<h3>New chart</h3>
+				</div>
+
+                <div class="row">
+					<div id="per-person-chart"></div>
+				</div>
+				<div class="row">
+					<h5>Total Spend Per Person</h5>
+				</div>
+
+                <div class="row">
+					<div id="per-store-chart"></div>
+				</div>
+				<div class="row">
+					<h5>Total Spend Per Store</h5>
+				</div>
+
+                <div class="row">
+					<div id="per-state-chart"></div>
+				</div>
+				<div class="row">
+					<h5>Total Spend Per State</h5>
+				</div>
+			</div>
+
+
 		</div>
 	</div>
 
@@ -72,9 +107,12 @@
 
         function makeGraphs(error, transactionsData) {
             var ndx = crossfilter(transactionsData);
+
+
             var name_dim = ndx.dimension(dc.pluck('name'));
-            var total_spend_per_person = name_dim.group().reduceSum(dc.pluck('spend'));
-        dc.barChart('#chart-here')
+        var total_spend_per_person = name_dim.group().reduceSum(dc.pluck('spend'));
+
+        dc.barChart('#per-person-chart')
             .width(300)
             .height(150)
             .margins({top: 10, right: 50, bottom: 30, left: 50})
@@ -84,6 +122,36 @@
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .xAxisLabel("Person")
+            .yAxis().ticks(4);
+        
+        var store_dim = ndx.dimension(dc.pluck('store'));
+        var total_spend_per_store = store_dim.group().reduceSum(dc.pluck('spend'));
+
+        dc.barChart('#per-store-chart')
+            .width(300)
+            .height(150)
+            .margins({top: 10, right: 50, bottom: 30, left: 50})
+            .dimension(store_dim)
+            .group(total_spend_per_store)
+            .transitionDuration(500)
+            .x(d3.scale.ordinal())
+            .xUnits(dc.units.ordinal)
+            .xAxisLabel("Store")
+            .yAxis().ticks(4);
+
+        var state_dim = ndx.dimension(dc.pluck('state'));
+        var total_spend_per_state = state_dim.group().reduceSum(dc.pluck('spend'));
+
+        dc.barChart('#per-state-chart')
+            .width(300)
+            .height(150)
+            .margins({top: 10, right: 50, bottom: 30, left: 50})
+            .dimension(state_dim)
+            .group(total_spend_per_state)
+            .transitionDuration(500)
+            .x(d3.scale.ordinal())
+            .xUnits(dc.units.ordinal)
+            .xAxisLabel("State")
             .yAxis().ticks(4);
         
         dc.renderAll();
