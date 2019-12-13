@@ -86,10 +86,10 @@
 					<h5>Total Goals/Assists Per Opponent</h5>
 				</div>
                 <div class="row">
-					<div id="per-state-chart"></div>
+					<div id="composite-chart"></div>
 				</div>
 				<div class="row">
-					<h5>Total Spend Per State</h5>
+					<h5>Composit Ratings Chart</h5>
 				</div>
 			</div>
 
@@ -172,21 +172,47 @@
             .xAxisLabel("Opponent")
             .yAxis().ticks(4);
 
-        var state_dim = ndx.dimension(dc.pluck('state'));
-        var total_spend_per_state = state_dim.group().reduceSum(dc.pluck('spend'));
-
-        dc.barChart('#per-state-chart')
+        var parseDate = d3.time.format("%d/%m/%Y").parse;
+        transactionsData.forEach(function(d){
+            d.date = parseDate(d.date);
+        });
+        var date_dim = ndx.dimension(dc.pluck('date'));
+        var minDate = date_dim.bottom(1)[0].date;
+        var maxDate = date_dim.top(1)[0].date;
+        function spend_by_name(name) {
+            return function(d) {
+                if (d.name === name) {
+                    return d.rating;
+                } else {
+                    return 0;
+                }
+            }
+        }
+        var tomSpendByMonth = date_dim.group().reduceSum(spend_by_name('Alex'));
+        var bobSpendByMonth = date_dim.group().reduceSum(spend_by_name('James'));        
+        var aliceSpendByMonth = date_dim.group().reduceSum(spend_by_name('Saad'));
+        var compositeChart = dc.compositeChart('#composite-chart');
+        compositeChart
             .width(600)
             .height(150)
-            .margins({top: 10, right: 50, bottom: 30, left: 50})
-            .dimension(state_dim)
-            .group(total_spend_per_state)
-            .transitionDuration(500)
-            .x(d3.scale.ordinal())
-            .xUnits(dc.units.ordinal)
-            .xAxisLabel("State")
-            .yAxis().ticks(4);
-        
+            .dimension(date_dim)
+            .x(d3.time.scale().domain([minDate, maxDate]))
+            .yAxisLabel("Spend")
+            .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
+            .renderHorizontalGridLines(true)
+            .compose([
+                dc.lineChart(compositeChart)
+                    .colors('green')
+                    .group(tomSpendByMonth, 'Alex'),
+                dc.lineChart(compositeChart)
+                    .colors('red')
+                    .group(bobSpendByMonth, 'James'),
+                dc.lineChart(compositeChart)
+                    .colors('blue')
+                    .group(aliceSpendByMonth, 'Saad')
+            ])
+            .brushOn(false)
+            .render();
         dc.renderAll();
         }
 

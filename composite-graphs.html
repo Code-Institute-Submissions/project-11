@@ -93,13 +93,12 @@
             }
         }
         var tomSpendByMonth = date_dim.group().reduceSum(spend_by_name('Alex'));
-        var bobSpendByMonth = date_dim.group().reduceSum(spend_by_name('James'));
-        
+        var bobSpendByMonth = date_dim.group().reduceSum(spend_by_name('James'));        
         var aliceSpendByMonth = date_dim.group().reduceSum(spend_by_name('Saad'));
         var compositeChart = dc.compositeChart('#composite-chart');
         compositeChart
             .width(990)
-            .height(200)
+            .height(400)
             .dimension(date_dim)
             .x(d3.time.scale().domain([minDate, maxDate]))
             .yAxisLabel("Spend")
