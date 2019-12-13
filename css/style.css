@@ -1,11 +1,26 @@
+body {
+    background-color: lightblue;
+}
+
 .intro {
-    background: url("/images/jamie-esker-celtic.jpg");
+    /*background: url("/images/jamie-esker-celtic.jpg");*/
     background-size: contain;
     background-repeat: no-repeat;
     background-position-y: center;
     background-position-x: center;
 };
 
-h3 {
-    text-align: center;
+.heading {
+    
+    font-weight: 900;
+    color: red;
+    
+    padding: 20px 0px;
+    text-transform: uppercase;
+
+    margin-bottom: 50px;
+}
+p {
+    color: red;
+    text-transform: uppercase;
 }

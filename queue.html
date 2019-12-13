@@ -16,10 +16,10 @@
 	</script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-queue/1.0.7/d3-queue.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
-<body>
+<body class="container-fluid">
 	<header>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="#">Navbar</a>
@@ -56,44 +56,43 @@
 			</div>
 		</nav>
 	</header>
-	<div class="container-fluid justify-content-center">
+    <p>This is a test paragraph </p>
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-12 text-center">
-				<h1>Intro to DC and Crossfilter</h1>
-
+			<div class="col-12 text-center heading">
+				<h1>Esker Celtic U13's</h1>
 			</div>
 		</div>
+
 		<div class="row">
-			<div class="col-6 intro">
-			</div>
-			<div class="col-6">
+			<div class="col-12 col-lg-6">
 				<div class="row">
 					<div id="stacked-chart"></div>
 				</div>
 				<div class="row justify-content-center">
 					<h5>Match Attendance Start/Sub</h5>
 				</div>
-                <div class="row">
+				<div class="row">
 					<div id="goals-per-person-chart"></div>
 				</div>
 				<div class="row justify-content-center">
 					<h5>Total Goals/Assists Per Person</h5>
 				</div>
-                <div class="row">
+			</div>
+			<div class="col-12 col-lg-6">
+				<div class="row">
 					<div id="goals-per-opponent-chart"></div>
 				</div>
 				<div class="row justify-content-center">
 					<h5>Total Goals/Assists Per Opponent</h5>
 				</div>
-                <div class="row">
+				<div class="row">
 					<div id="composite-chart"></div>
 				</div>
-				<div class="row">
-					<h5>Composit Ratings Chart</h5>
+				<div class="row justify-content-center">
+					<h5>Ratings Chart</h5>
 				</div>
 			</div>
-
-
 		</div>
 	</div>
 
@@ -133,7 +132,7 @@
             .stack(sub, "Sub")
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .legend(dc.legend().x(420).y(0).itemHeight(15).gap(5))
+            .legend(dc.legend().x(560).y(10).itemHeight(15).gap(5))
             .margins({top: 10, right: 50, bottom: 30, left: 50})
 
             
@@ -152,7 +151,7 @@
             .transitionDuration(500)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .xAxisLabel("Person")
+            .legend(dc.legend().x(560).y(10).itemHeight(15).gap(5))
             .yAxis().ticks(4);
         
         var opponent_dim = ndx.dimension(dc.pluck('opponent'));
@@ -169,7 +168,7 @@
             .transitionDuration(500)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .xAxisLabel("Opponent")
+            .legend(dc.legend().x(560).y(10).itemHeight(15).gap(5))
             .yAxis().ticks(4);
 
         var parseDate = d3.time.format("%d/%m/%Y").parse;
@@ -188,28 +187,83 @@
                 }
             }
         }
-        var tomSpendByMonth = date_dim.group().reduceSum(spend_by_name('Alex'));
-        var bobSpendByMonth = date_dim.group().reduceSum(spend_by_name('James'));        
-        var aliceSpendByMonth = date_dim.group().reduceSum(spend_by_name('Saad'));
+        var jamieSpendByMonth = date_dim.group().reduceSum(spend_by_name('Jamie'));
+        var joshfSpendByMonth = date_dim.group().reduceSum(spend_by_name('Josh F')); 
+        var joshrSpendByMonth = date_dim.group().reduceSum(spend_by_name('Josh R'));    
+        var jamesSpendByMonth = date_dim.group().reduceSum(spend_by_name('James'));
+        var jackSpendByMonth = date_dim.group().reduceSum(spend_by_name('Jack'));
+        var seanSpendByMonth = date_dim.group().reduceSum(spend_by_name('Sean'));
+        var ralphSpendByMonth = date_dim.group().reduceSum(spend_by_name('Ralph'));
+        var alexSpendByMonth = date_dim.group().reduceSum(spend_by_name('Alex'));
+        var pavanSpendByMonth = date_dim.group().reduceSum(spend_by_name('Pavan'));
+        var tadghSpendByMonth = date_dim.group().reduceSum(spend_by_name('Tadgh'));
+        var coleSpendByMonth = date_dim.group().reduceSum(spend_by_name('Cole'));
+        var leeSpendByMonth = date_dim.group().reduceSum(spend_by_name('Lee'));
+        var marcusSpendByMonth = date_dim.group().reduceSum(spend_by_name('Marcus'));
+        var saadSpendByMonth = date_dim.group().reduceSum(spend_by_name('Saad'));
+        var paulSpendByMonth = date_dim.group().reduceSum(spend_by_name('Paul'));
+        var gusSpendByMonth = date_dim.group().reduceSum(spend_by_name('Gus'));
+
         var compositeChart = dc.compositeChart('#composite-chart');
-        compositeChart
+        compositeChart 
             .width(600)
             .height(150)
+            .margins({top: 10, right: 50, bottom: 30, left: 50})
             .dimension(date_dim)
             .x(d3.time.scale().domain([minDate, maxDate]))
             .yAxisLabel("Spend")
-            .legend(dc.legend().x(80).y(20).itemHeight(13).gap(5))
+            .legend(dc.legend().x(560).y(0).itemHeight(13).gap(5))
             .renderHorizontalGridLines(true)
             .compose([
                 dc.lineChart(compositeChart)
                     .colors('green')
-                    .group(tomSpendByMonth, 'Alex'),
+                    .group(jamieSpendByMonth, 'Jamie'),
                 dc.lineChart(compositeChart)
                     .colors('red')
-                    .group(bobSpendByMonth, 'James'),
+                    .group(joshfSpendByMonth, 'Josh F'),
                 dc.lineChart(compositeChart)
                     .colors('blue')
-                    .group(aliceSpendByMonth, 'Saad')
+                    .group(joshrSpendByMonth, 'Josh R'),
+                dc.lineChart(compositeChart)
+                    .colors('maroon')
+                    .group(jackSpendByMonth, 'Jack'),
+                dc.lineChart(compositeChart)
+                    .colors('yellow')
+                    .group(jamesSpendByMonth, 'James'),                
+                dc.lineChart(compositeChart)
+                    .colors('pink')
+                    .group(seanSpendByMonth, 'Sean'),   
+                dc.lineChart(compositeChart)
+                    .colors('tomato')
+                    .group(ralphSpendByMonth, 'Ralph'),     
+                dc.lineChart(compositeChart)
+                    .colors('orange')
+                    .group(alexSpendByMonth, 'Alex'), 
+                dc.lineChart(compositeChart)
+                    .colors('dodgerblue')
+                    .group(pavanSpendByMonth, 'Pavan'), 
+                dc.lineChart(compositeChart)
+                    .colors('mediumseagreen')
+                    .group(tadghSpendByMonth, 'Tadgh'),  
+                dc.lineChart(compositeChart)
+                    .colors('grey')
+                    .group(coleSpendByMonth, 'Cole'),  
+                dc.lineChart(compositeChart)
+                    .colors('slateblue')
+                    .group(leeSpendByMonth, 'Lee'),  
+                dc.lineChart(compositeChart)
+                    .colors('violet')
+                    .group(marcusSpendByMonth, 'Marcus'),  
+                dc.lineChart(compositeChart)
+                    .colors('lightgrey')
+                    .group(leeSpendByMonth, 'Saad'),  
+                dc.lineChart(compositeChart)
+                    .colors('teal')
+                    .group(paulSpendByMonth, 'Paul'),  
+                dc.lineChart(compositeChart)
+                    .colors('black')
+                    .group(gusSpendByMonth, 'Gus'),  
+                
             ])
             .brushOn(false)
             .render();
