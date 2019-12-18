@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Bowlby+One&display=swap');
+
 body {
     background-color: lightblue;
 }
@@ -10,17 +12,19 @@ body {
     background-position-x: center;
 };
 
-.heading {
-    
-    font-weight: 900;
-    color: red;
-    
-    padding: 20px 0px;
+h1 {
+    font-family: 'Bowlby One', cursive;
+    background-color: #3b89cf;
+    color: #fff;
     text-transform: uppercase;
+    padding: 20px 20px;
+}
 
-    margin-bottom: 50px;
+h1 span:first-child {
+    color: #ab8b4d;
 }
-p {
-    color: red;
-    text-transform: uppercase;
+
+h1 span:last-child {
+    text-transform: lowercase;
 }
+

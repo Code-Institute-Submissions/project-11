@@ -56,46 +56,47 @@
 			</div>
 		</nav>
 	</header>
-    <p>This is a test paragraph </p>
+
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 text-center heading">
-				<h1>Esker Celtic U13's</h1>
+				<h1>Esker <span>Celtic</span> U13'<span>s</span></h1>
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-12 col-lg-6">
-				<div class="row">
-					<div id="stacked-chart"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-12 col-lg-6">
+					<div class="row">
+						<div id="attendance-chart"></div>
+					</div>
+					<div class="row justify-content-center">
+						<h5>Match Attendance Start/Sub</h5>
+					</div>
+					<div class="row">
+						<div id="goals-per-person-chart"></div>
+					</div>
+					<div class="row justify-content-center">
+						<h5>Total Goals/Assists Per Person</h5>
+					</div>
 				</div>
-				<div class="row justify-content-center">
-					<h5>Match Attendance Start/Sub</h5>
-				</div>
-				<div class="row">
-					<div id="goals-per-person-chart"></div>
-				</div>
-				<div class="row justify-content-center">
-					<h5>Total Goals/Assists Per Person</h5>
-				</div>
-			</div>
-			<div class="col-12 col-lg-6">
-				<div class="row">
-					<div id="goals-per-opponent-chart"></div>
-				</div>
-				<div class="row justify-content-center">
-					<h5>Total Goals/Assists Per Opponent</h5>
-				</div>
-				<div class="row">
-					<div id="composite-chart"></div>
-				</div>
-				<div class="row justify-content-center">
-					<h5>Ratings Chart</h5>
+				<div class="col-12 col-lg-6">
+					<div class="row">
+						<div id="goals-per-opponent-chart"></div>
+					</div>
+					<div class="row justify-content-center">
+						<h5>Total Goals/Assists Per Opponent</h5>
+					</div>
+					<div class="row">
+						<div id="composite-chart"></div>
+					</div>
+					<div class="row justify-content-center">
+						<h5>Ratings Chart</h5>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 
 	<script>
 		queue()
@@ -123,7 +124,7 @@
                 return 0;
             }
         });
-        var stackedChart = dc.barChart("#stacked-chart");
+        var stackedChart = dc.barChart("#attendance-chart");
         stackedChart
             .width(600)
             .height(150)
@@ -132,7 +133,7 @@
             .stack(sub, "Sub")
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .legend(dc.legend().x(560).y(10).itemHeight(15).gap(5))
+            .legend(dc.legend().x(555).y(10).itemHeight(15).gap(5))
             .margins({top: 10, right: 50, bottom: 30, left: 50})
 
             
@@ -151,7 +152,7 @@
             .transitionDuration(500)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
-            .legend(dc.legend().x(560).y(10).itemHeight(15).gap(5))
+            .legend(dc.legend().x(555).y(10).itemHeight(15).gap(5))
             .yAxis().ticks(4);
         
         var opponent_dim = ndx.dimension(dc.pluck('opponent'));
@@ -189,8 +190,7 @@
         }
         var jamieSpendByMonth = date_dim.group().reduceSum(spend_by_name('Jamie'));
         var joshfSpendByMonth = date_dim.group().reduceSum(spend_by_name('Josh F')); 
-        var joshrSpendByMonth = date_dim.group().reduceSum(spend_by_name('Josh R'));    
-        var jamesSpendByMonth = date_dim.group().reduceSum(spend_by_name('James'));
+        var joshrSpendByMonth = date_dim.group().reduceSum(spend_by_name('Josh R')); var jamesSpendByMonth = date_dim.group().reduceSum(spend_by_name('James'));
         var jackSpendByMonth = date_dim.group().reduceSum(spend_by_name('Jack'));
         var seanSpendByMonth = date_dim.group().reduceSum(spend_by_name('Sean'));
         var ralphSpendByMonth = date_dim.group().reduceSum(spend_by_name('Ralph'));
