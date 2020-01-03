@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bowlby+One&display=swap');
 
 body {
     background-color: lightblue;
@@ -13,12 +13,12 @@ body {
 }
 
 h1 {
-    font-family: 'Bowlby One SC', cursive;
+    font-family: 'Bowlby One', cursive;
     background-color: #3b89cf;
     color: #fff;
     padding: 20px 20px;
 }
 
-h1 span:first-child {
+h1 span {
     color: #ab8b4d;
 }
