@@ -8,7 +8,7 @@ document.getElementById("myform").innerHTML = myJSON;
 function getData(type, cb) {
     var xhr = new XMLHttpRequest();
 
-    xhr.open("GET", "data/transactions.json");
+    xhr.open("GET", "data/players.json");
     xhr.send();
 
     xhr.onreadystatechange = function () {
@@ -19,11 +19,12 @@ function getData(type, cb) {
 }
 
 function writeToDocument(type) {
-    getData(type, function (data) {
-        console.dir(data);
+    var el = document.getElementById("data");
+    el.innerHTML = "";
 
+    getData(type, function (data) {
         data.forEach(function(item) {
-            document.getElementById("data").innerHTML += "<p>" + item.name + "</p>";
+            el.innerHTML += "<p>" + item + "</p>";
         });
         
     });
