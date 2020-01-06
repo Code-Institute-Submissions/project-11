@@ -31,7 +31,7 @@ function writeToDocument(type) {
     getData(type, function (data) {
         data.forEach(function(item) {
             
-            el.innerHTML += "<div class='form-row'><div class='form-group col-5'><input type='text' value=" + item + "></div><div class='form-group col-2'><input type='text'></div><div class='form-group col-2'><input type='text'></div><div class='form-group col-2'><input type='text'></div></div>";
+            el.innerHTML += "<div class='form-row'><div class='form-group col-5'><input type='text' value=" + item + "readonly></div><div class='form-group col-2'><input type='number'></div><div class='form-group col-2'><input type='text'></div><div class='form-group col-2'><input type='text'></div></div>";
 
             
             console.log(item);

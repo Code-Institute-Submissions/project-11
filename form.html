@@ -68,41 +68,41 @@
 	</div>
 
 	<div class="container">
-		<form>
+		<form action="transactions.json" method="post">
 			<div class="form-row justify-content-around">
 				<div class="form-group col-md-4">
 					<input type="text" id="datepicker" placeholder="Date">
                 </div>
-					<div class="form-group col-md-4">
-						<select id="activity" class="form-control">
+				<div class="form-group col-md-4">
+					<select id="activity" class="form-control">
                         <option>Training</option>
                         <option>Friendly</option>
                         <option>Match</option>
-                    </select>
-					</div>
-					<div class="form-group col-md-4">
-						<textarea class="form-control" id="opponent" rows="1" placeholder="Opposition"></textarea>
-					</div>
+                     </select>
 				</div>
+				<div class="form-group col-md-4">
+					<textarea class="form-control" id="opponent" rows="1" placeholder="Opposition"></textarea>
+				</div>
+				
 
 				<div class="container">
 					<div class="row">
-						<div class="col-3">
-							<h5>Player</h5>
+						<div class="col-5">
+							<p><strong>Player</strong></p>
 						</div>
-						<div class="col-3">
-							<h5>Goals</h5>
+						<div class="col-2">
+							<p><strong>Goals</strong></p>
 						</div>
-						<div class="col-3">
-							<h5>Assists</h5>
+						<div class="col-2">
+							<p><strong>Assists</strong></p>
 						</div>
-						<div class="col-3">
-							<h5>Rating</h5>
+						<div class="col-2">
+							<p><strong>Rating</strong></p>
 						</div>
 					</div>
 				</div>
-
-				<div id="data"></div>
+            </div>
+			<div id="data"></div>
 		</form>
 	</div>
 
