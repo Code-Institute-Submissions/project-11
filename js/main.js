@@ -1,11 +1,11 @@
 
+//Datepicker function from https://jqueryui.com/datepicker/#icon-trigger
 
-$( function() {
+$(function() {
     $( "#datepicker" ).datepicker({
-      showOn: "button",
-      buttonImage: "images/calendar.gif",
-      buttonImageOnly: true,
+      showOn: "button",     
       buttonText: "Select date"
+      
     });
   } );
 
@@ -31,7 +31,9 @@ function writeToDocument(type) {
     getData(type, function (data) {
         data.forEach(function(item) {
             
-            el.innerHTML += "<input type='text' value=" + item + "/>" + "<br>";
+            el.innerHTML += "<div class='form-row'><div class='form-group col-5'><input type='text' value=" + item + "></div><div class='form-group col-2'><input type='text'></div><div class='form-group col-2'><input type='text'></div><div class='form-group col-2'><input type='text'></div></div>";
+
+            
             console.log(item);
             
         });

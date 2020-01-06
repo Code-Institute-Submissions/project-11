@@ -24,10 +24,10 @@
 
 	<!--Datepicker jQuery links-->
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	
+
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <!--------------------------->
+	<!--------------------------->
 
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
 
@@ -68,14 +68,55 @@
 	</div>
 
 	<div class="container">
-		<div class="row">
-			<div class="col-12 heading">
-				<form id="my-form">
-					<p>Date: <input type="text" id="datepicker"></p>
-				</form>
-			</div>
+		<form>
+			<div class="form-row justify-content-around">
+				<div class="form-group col-md-4">
+					<input type="text" id="datepicker" placeholder="Date">
+                </div>
+					<div class="form-group col-md-4">
+						<select id="activity" class="form-control">
+                        <option>Training</option>
+                        <option>Friendly</option>
+                        <option>Match</option>
+                    </select>
+					</div>
+					<div class="form-group col-md-4">
+						<textarea class="form-control" id="opponent" rows="1" placeholder="Opposition"></textarea>
+					</div>
+				</div>
+
+				<div class="container">
+					<div class="row">
+						<div class="col-3">
+							<h5>Player</h5>
+						</div>
+						<div class="col-3">
+							<h5>Goals</h5>
+						</div>
+						<div class="col-3">
+							<h5>Assists</h5>
+						</div>
+						<div class="col-3">
+							<h5>Rating</h5>
+						</div>
+					</div>
+				</div>
+
+				<div id="data"></div>
+		</form>
+	</div>
+
+	<div class="form-group">
+		<div class="form-check">
+			<input class="form-check-input" type="checkbox" id="gridCheck">
+			<label class="form-check-label" for="gridCheck">Check me out</label>
 		</div>
 	</div>
+	<button type="submit" class="btn btn-primary">Sign in</button>
+
+
+	</div>
+
 
 	<div class="container">
 		<div class="row">
@@ -87,7 +128,7 @@
 				<button onclick="writeToDocument('vehicles')">Vehicles</button>
 				<button onclick="writeToDocument('films')">Films</button>
 
-				<div id="data"></div>
+
 			</div>
 		</div>
 	</div>
