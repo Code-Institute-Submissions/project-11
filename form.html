@@ -6,7 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Optional JavaScript -->
+	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
@@ -22,9 +22,16 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+	<!--Datepicker jQuery links-->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!--------------------------->
+
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
 
-	<title>Hello, world!</title>
+	<title>Input form</title>
 </head>
 
 <body class="container-fluid">
@@ -39,11 +46,11 @@
 					<li class="nav-item">
 						<a class="nav-link" href="index.html">Charts <span class="sr-only">(current)</span></a>
 					</li>
-					
+
 					<li class="nav-item">
 						<a class="nav-link" href="pie-chart.html">Pie</a>
 					</li>
-					
+
 					<li class="nav-item active">
 						<a class="nav-link" href="form.html">Form</a>
 					</li>
@@ -51,7 +58,6 @@
 			</div>
 		</nav>
 	</header>
-
 
 	<div class="container-fluid">
 		<div class="row">
@@ -61,25 +67,19 @@
 		</div>
 	</div>
 
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
-			<div class="col-12 text-center heading">
-				<form id="myform">
-
-					<input type="" name="name">
-
-					<input type="" name="age">
-
-					<input type="" name="gender">
-
-                </form>
-			</div> 
+			<div class="col-12 heading">
+				<form id="my-form">
+					<p>Date: <input type="text" id="datepicker"></p>
+				</form>
+			</div>
 		</div>
 	</div>
 
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
-			<div class="col-12 text-center heading">
+			<div class="col-12 heading">
 				<button onclick="writeToDocument('people')">People</button>
 				<button onclick="writeToDocument('planets')">Planets</button>
 				<button onclick="writeToDocument('species')">Species</button>
@@ -88,15 +88,15 @@
 				<button onclick="writeToDocument('films')">Films</button>
 
 				<div id="data"></div>
-			</div> 
+			</div>
 		</div>
 	</div>
 
- 
 
-	
 
-	
+
+
+
 	<!--JavaScript link-------------->
 	<script type="text/javascript" src="js/main.js"></script>
 

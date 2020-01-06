@@ -1,8 +1,14 @@
 
 
-var obj = { name: "John", age: 30, city: "New York" };
-var myJSON = JSON.stringify(obj);
-document.getElementById("myform").innerHTML = myJSON;
+$( function() {
+    $( "#datepicker" ).datepicker({
+      showOn: "button",
+      buttonImage: "images/calendar.gif",
+      buttonImageOnly: true,
+      buttonText: "Select date"
+    });
+  } );
+
 
 //const baseURL = "https://swapi.co/api/"
 function getData(type, cb) {
@@ -24,7 +30,10 @@ function writeToDocument(type) {
 
     getData(type, function (data) {
         data.forEach(function(item) {
-            el.innerHTML += "<p>" + item + "</p>";
+            
+            el.innerHTML += "<input type='text' value=" + item + "/>" + "<br>";
+            console.log(item);
+            
         });
         
     });
