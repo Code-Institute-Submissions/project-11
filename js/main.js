@@ -1,19 +1,29 @@
+$(document).ready(function() {
+    console.log("ready");
 
-//Datepicker function from https://jqueryui.com/datepicker/#icon-trigger
+    //Datepicker function from https://jqueryui.com/datepicker/#icon-trigger
+    $(function() {
+        $( "#datepicker" ).datepicker({
+        showOn: "button",     
+        buttonText: "Select date",
+        format: "dd/mm/yyyy"
+        });
+    } );
 
-$(function() {
-    $( "#datepicker" ).datepicker({
-      showOn: "button",     
-      buttonText: "Select date"
-      
-    });
-  } );
+    $("#newPlayerName").hide();
+    $("#enterButton").hide();
+    $("#newPlayer").click(function() {
+        $("#newPlayerName").toggle();
+        $("#enterButton").toggle();
+    }); 
+
+});
 
 
 //const baseURL = "https://swapi.co/api/"
 function getData(type, cb) {
     var xhr = new XMLHttpRequest();
-
+    console.log("xhr declare");
     xhr.open("GET", "data/players.json");
     xhr.send();
 
@@ -29,9 +39,24 @@ function writeToDocument(type) {
     el.innerHTML = "";
 
     getData(type, function (data) {
+        console.log("getData function");
         data.forEach(function(item) {
-            
-            el.innerHTML += "<div class='form-row'><div class='form-group col-5'><input type='text' value=" + item + "readonly></div><div class='form-group col-2'><input type='number'></div><div class='form-group col-2'><input type='text'></div><div class='form-group col-2'><input type='text'></div></div>";
+            el.innerHTML += `
+            <div class="form-row">
+                <div class="form-group col-5">
+                    <input type="text" value="${item}">
+                </div>
+                <div class="form-group col-2">
+                    <input type="number">
+                </div>
+                <div class="form-group col-2">
+                    <input type="number">
+                </div>
+                <div class="form-group col-2">
+                    <input type="number">
+                </div>
+            </div>
+            `;
 
             
             console.log(item);
