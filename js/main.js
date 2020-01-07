@@ -1,34 +1,34 @@
-$(document).ready(function() {
+$(document).ready(function () {
     console.log("ready");
 
     //Datepicker function from https://jqueryui.com/datepicker/#icon-trigger
-    $(function() {
-        $( "#datepicker" ).datepicker({
-        showOn: "button",     
-        buttonText: "Select date",
-        format: "dd/mm/yyyy"
+    $(function () {
+        $("#datepicker").datepicker({
+            showOn: "button",
+            buttonText: "Select date",
+            format: "dd/mm/yyyy"
         });
-    } );
+    });
 
     $("#newPlayerName").hide();
     $("#enterButton").hide();
-    $("#newPlayer").click(function() {
+    $("#newPlayer").click(function () {
         $("#newPlayerName").toggle();
         $("#enterButton").toggle();
-    }); 
+    });
 
     (function writeToDocument() {
-    console.log("writeToDoc function");
-    var el = document.getElementById("data");
-    el.innerHTML = "";
+        console.log("writeToDoc function");
+        var el = document.getElementById("data");
+        el.innerHTML = "";
 
-    getData(function (data) {
-        console.log("getData function");
-        data.forEach(function(item) {
-            el.innerHTML += `
+        getData(function (data) {
+            console.log("getData function");
+            data.forEach(function (item) {
+                el.innerHTML += `
             <div class="form-row">
                 <div class="form-group col-5">
-                    <input type="text" readonly class="form-control-plaintext" value="${item}">
+                    <input type="text" readonly class="form-control-plaintext" value="${item.name}">
                 </div>
                 <div class="form-group col-2">
                     <input type="number" name="goals">
@@ -42,13 +42,13 @@ $(document).ready(function() {
             </div>
             `;
 
-            
-            console.log(item);
-            
+
+                console.log(item);
+
+            });
+
         });
-        
-    });
-})();
+    })();
 
 
 });
