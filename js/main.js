@@ -17,43 +17,27 @@ $(document).ready(function() {
         $("#enterButton").toggle();
     }); 
 
-});
-
-
-//const baseURL = "https://swapi.co/api/"
-function getData(type, cb) {
-    var xhr = new XMLHttpRequest();
-    console.log("xhr declare");
-    xhr.open("GET", "data/players.json");
-    xhr.send();
-
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            cb(JSON.parse(this.responseText));
-        }
-    };
-}
-
-function writeToDocument(type) {
+    (function writeToDocument() {
+    console.log("writeToDoc function");
     var el = document.getElementById("data");
     el.innerHTML = "";
 
-    getData(type, function (data) {
+    getData(function (data) {
         console.log("getData function");
         data.forEach(function(item) {
             el.innerHTML += `
             <div class="form-row">
                 <div class="form-group col-5">
-                    <input type="text" value="${item}">
+                    <input type="text" readonly class="form-control-plaintext" value="${item}">
                 </div>
                 <div class="form-group col-2">
-                    <input type="number">
+                    <input type="number" name="goals">
                 </div>
                 <div class="form-group col-2">
-                    <input type="number">
+                    <input type="number" name="assists">
                 </div>
                 <div class="form-group col-2">
-                    <input type="number">
+                    <input type="number" name="rating">
                 </div>
             </div>
             `;
@@ -64,5 +48,25 @@ function writeToDocument(type) {
         });
         
     });
+})();
+
+
+});
+
+
+//const baseURL = "https://swapi.co/api/"
+function getData(cb) {
+    var xhr = new XMLHttpRequest();
+    console.log("xhr declare");
+    xhr.open("GET", "data/players.json");
+    xhr.send();
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            cb(JSON.parse(this.responseText));
+            console.log(this.responseText);
+        }
+    };
 }
+
 
