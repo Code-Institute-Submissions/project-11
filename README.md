@@ -8,16 +8,16 @@ We have preinstalled all of the tools you need to get started.
 
 Happy coding!
 
-#Peter Kellett - Milestone Project 2
+# Peter Kellett - Milestone Project 2
 
-##Introduction
+## Introduction
 The basis of this project is to demonstrate my ability in the use of JavaScript and jQuery.
 
-##Project Scope
+## Project Scope
 The use of this project is to compile the data of an underage soccer team. This data will then be used to construct dynamic charting of some key statistics of the players/team
 
-##Wireframes
-###Home Page
+## Wireframes
+### Home Page
 https://res.cloudinary.com/dfboxofas/image/upload/v1578494633/Project%202/Project_2_Home_Page_Wireframe_sk69rm.png
 ###Input Form Page
 https://res.cloudinary.com/dfboxofas/image/upload/v1578494638/Project%202/Project_2_Form_page_wireframe_godbml.png
@@ -28,34 +28,34 @@ This is where the dynamic charting takes place. The charting dynamics uses the f
 - crossfilter.min.js version 1.3.12
 - dc.js version 2.1.8
 
-##Charts rendered
-###Match Attendance Start/Sub: Stacked Bar Chart
+## Charts rendered
+### Match Attendance Start/Sub: Stacked Bar Chart
 This chart is a stacked bar chart showing the amount of games played per player and is split between the number of games each player started and the number of games that the respective player was a substitute. 
 - X-axis: Player Name
 - Y-axis: Number of matches (Started/Substitute/Total)
 
-###Total Goals/Assists per Opponent: Stacked Bar Chart
+### Total Goals/Assists per Opponent: Stacked Bar Chart
 This chart is a stacked bar chart showing the number of Goals and assists that the team has scored versus each respective opponent.
 - X-axis: Opponent Name
 - Y-axis: Number of Goals/Assists
 
-###Total Goals/Assists per Player: Stacked Bar Chart
+### Total Goals/Assists per Player: Stacked Bar Chart
 This chart is a stacked bar chart showing the total number of Goals and assists that each Player has scored.
 - X-axis: Player Name
 - Y-axis: Number of Goals/Assists
 
-###Player Ratings Chart: Composite Line Graph
+### Player Ratings Chart: Composite Line Graph
 This chart plots each players rating per match played.
 - X-axis: Date
 - Y-axis: Numeric 0-10 scale
 
-###Goals per Player: Pie Chart
+### Goals per Player: Pie Chart
 This pie chart shows the percentage of goals scored per player against the total number of goals scored by the team.
 
-###Assists per Player: Pie Chart
+### Assists per Player: Pie Chart
 This pie chart shows the percentage of assists per player against the total number of assists by the team.
 
-##Data used for chart rendering
+## Data used for chart rendering
 The data used for rendering the charts is stored in JSON format. The value object pairs are:
 - "date": "", 
 - "name": "", 
@@ -66,7 +66,7 @@ The data used for rendering the charts is stored in JSON format. The value objec
 - "rating": ,
 
 
-##Form Page
+## Form Page
 This page is used by the team administrator to input new data to the chartData.JSON file. A HTML form is used to input the relevant data required.
 The fields required are:
 - Date: A jQuery date picker widget is used for this using the following link snippets.
