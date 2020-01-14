@@ -117,14 +117,14 @@
         var stackedChart = dc.barChart("#attendance-chart");
         stackedChart
             .width(600)
-            .height(150)
+            .height(200)
             .dimension(name_dim)
             .group(start, "Start")
             .stack(sub, "Sub")
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .legend(dc.legend().x(555).y(10).itemHeight(15).gap(5))
-            .margins({top: 10, right: 50, bottom: 30, left: 50})
+            .margins({top: 30, right: 50, bottom: 30, left: 50})
 
             
         var name_dim = ndx.dimension(dc.pluck('name'));
@@ -134,8 +134,8 @@
         var stackedChart = dc.barChart('#goals-per-person-chart');
         stackedChart
             .width(600)
-            .height(150)
-            .margins({top: 10, right: 50, bottom: 30, left: 50})
+            .height(200)
+            .margins({top: 30, right: 50, bottom: 30, left: 50})
             .dimension(name_dim)
             .group(total_goals_per_person, "Goals")
             .stack(total_assists_per_person, "Assists")
@@ -151,8 +151,8 @@
 
         dc.barChart('#goals-per-opponent-chart')
             .width(600)
-            .height(150)
-            .margins({top: 10, right: 50, bottom: 30, left: 50})
+            .height(200)
+            .margins({top: 30, right: 50, bottom: 30, left: 50})
             .dimension(opponent_dim)
             .group(total_goals_per_opponent, "Goals")
             .stack(total_assists_per_opponent, "Assists")
@@ -197,8 +197,8 @@
         var compositeChart = dc.compositeChart('#composite-chart');
         compositeChart 
             .width(600)
-            .height(150)
-            .margins({top: 10, right: 50, bottom: 30, left: 50})
+            .height(200)
+            .margins({top: 30, right: 50, bottom: 30, left: 50})
             .dimension(date_dim)
             .x(d3.time.scale().domain([minDate, maxDate]))
             .yAxisLabel("Spend")
