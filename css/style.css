@@ -11,7 +11,15 @@ body {
 }
 
 .nav-button {
+    display: block;
+    width: 100%;
     margin: auto;
+}
+
+svg {
+    
+    width: 555;
+    
 }
 
 .intro {
