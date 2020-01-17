@@ -19,44 +19,31 @@
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
-<body class="container-fluid">
-	<header>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="#">Navbar</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav">
-					<li class="nav-item active">
-						<a class="nav-link" href="index.html">Charts <span class="sr-only">(current)</span></a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="pie-chart.html">Pie</a>
-					</li>
-                    <li class="nav-item">
-						<a class="nav-link" href="form.html">Form</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-	</header>
+<body>
 
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 text-center heading">
-				<h1>ESKER <span>CELTIC</span> U13's</h1>
+				<h1><img src="images/EskerCrest.JPG">ESKER <span>CELTIC</span> U13's</h1>
 			</div>
 		</div>
 
-        <div class="container">
+        <div class="container"> 
             <div class="row">
                 <div class="col-12">
-                    <p>Kids love to see how they're doing and compared to each other. Select a name from the drop down menus and see their stats refocus.</p>
+                    <p>Kids love to see how they're doing and how they compare to each other. Select a name from the drop down menus and see their stats refocus.</p>
                 </div>
             </div>
         </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <a class="btn btn-primary" href="form.html" role="button">Input</a>
+                </div>
+            </div>
+        </div>
+
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-lg-6">
@@ -102,9 +89,7 @@
 
         function makeGraphs(error, transactionsData) {
             var ndx = crossfilter(transactionsData);
-
-            
-            
+     
         var name_dim = ndx.dimension(dc.pluck('name'));
         var start = name_dim.group().reduceSum(function (d) {
             if (d.squad === 1) {
@@ -130,6 +115,7 @@
             .stack(sub, "Sub")
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
+            .ordinalColors(['blue','white'])
             .legend(dc.legend().x(555).y(10).itemHeight(15).gap(5))
             .margins({top: 30, right: 50, bottom: 30, left: 50})
 
@@ -149,6 +135,7 @@
             .transitionDuration(500)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
+            .ordinalColors(['blue','white'])
             .legend(dc.legend().x(555).y(10).itemHeight(15).gap(5))
             .yAxis().ticks(4);
         
@@ -166,6 +153,7 @@
             .transitionDuration(500)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
+            .ordinalColors(['blue','white'])
             .legend(dc.legend().x(560).y(10).itemHeight(15).gap(5))
             .yAxis().ticks(4);
 

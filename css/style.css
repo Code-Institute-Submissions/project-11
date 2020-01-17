@@ -2,6 +2,23 @@
 
 body {
     background-color: lightblue;
+    padding: 0;
+    margin: 0;
+}
+
+.heading {
+    padding: 0;
+}
+
+.nav-button {
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+svg {
+    
+    width: 555;
+    
 }
 
 .intro {
