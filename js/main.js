@@ -1,6 +1,10 @@
 $(document).ready(function () {
     console.log("ready");
 
+    $(".btn").click(function(){
+    $(this).hide();
+  });
+
     //Datepicker function from https://jqueryui.com/datepicker/#icon-trigger
     $(function () {
         $("#datepicker").datepicker({
@@ -41,10 +45,7 @@ $(document).ready(function () {
                 </div>
             </div>
             `;
-
-
                 console.log(item);
-
             });
 
         });
