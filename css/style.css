@@ -21,12 +21,20 @@ svg {
     
 }
 
-.intro {
-    /*background: url("/images/jamie-esker-celtic.jpg");*/
+/*.intro {
+    background: url("images/jamie-esker-celtic.jpg");
     background-size: contain;
     background-repeat: no-repeat;
     background-position-y: center;
     background-position-x: center;
+}*/
+
+p {
+    margin: 0 20px 20px;
+}
+
+.intro p {
+text-align: center;
 }
 
 h1 {
