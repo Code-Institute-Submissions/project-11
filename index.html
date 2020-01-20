@@ -31,18 +31,11 @@
         <div class="container"> 
             <div class="row">
                 <div class="col-12">
-                    <p>Kids love to see how they're doing and how they compare to each other. Select a name from the drop down menus and see their stats refocus.</p>
+                    <p>Kids love to see how they're doing and how they compare to each other. Select a name from the drop down menus and see how their stats refocus.</p>
                 </div>
             </div>
         </div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <a class="btn btn-primary" href="form.html" role="button">Input</a>
-                </div>
-            </div>
-        </div>
 
 		<div class="container">
 			<div class="row">
@@ -85,7 +78,7 @@
                     <div id="per-person-chart"></div>                   
                 </div>
                 <div class="row justify-content-center">
-                    <h5>Total Spend Per Person</h5>
+                    <h5>Total Goals Per Person</h5>
                 </div>	
 			</div>
 
@@ -94,7 +87,7 @@
                     <div id="per-store-chart"></div>
                 </div>
                 <div class="row justify-content-center">                   
-                    <h5>Total Spend Per store</h5>                    
+                    <h5>Total Goals Per Opponent</h5>                    
                 </div>	
             </div>
 
@@ -108,6 +101,12 @@
             </div>
 		</div>
 	</div>
+    <div class="container">
+            <div class="row justify-content-center">               
+                <a class="btn btn-primary" href="form.html" role="button">Input</a>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -287,13 +286,13 @@
             .render();
 
             var name_dim = ndx.dimension(dc.pluck('name'));
-            var total_spend_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
+            var total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
         dc.pieChart('#per-person-chart')
             .width(330)
             .height(90)
             .transitionDuration(1500)
             .dimension(name_dim)
-            .group(total_spend_per_person)
+            .group(total_goals_per_person)
             
             
             var store_dim = ndx.dimension(dc.pluck('opponent'));

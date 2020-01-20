@@ -31,7 +31,7 @@
     {"date": "12/10/19", "name": "Paul", "squad": 0, "opponent": "Glebe North", "goals": 0, "assists": 0, "rating": 7},
     {"date": "12/10/19", "name": "Gus", "squad": 0, "opponent": "Glebe North", "goals": 0, "assists": 0, "rating": 7},
 
-    {"date": "19/10/19", "name": "Jamie", "squad": 1, "opponent": "Knockmitten", "goals": 0, "assists": 1, "rating": 7},
+    {"date": "19/10/19", "name": "Jamie", "squad": 1, "opponent": "Knockmitten", "goals": 1, "assists": 1, "rating": 7},
     {"date": "19/10/19", "name": "Josh F", "squad": 1, "opponent": "Knockmitten", "goals": 0, "assists": 0, "rating": 7},
     {"date": "19/10/19", "name": "Josh R", "squad": 1, "opponent": "Knockmitten", "goals": 0, "assists": 0, "rating": 7},
     {"date": "19/10/19", "name": "James", "squad": 1, "opponent": "Knockmitten", "goals": 1, "assists": 0, "rating": 8},
