@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Bowlby+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bowlby+One|Lato|Rubik&display=swap');
 
 body {
     background-color: lightblue;
@@ -31,10 +31,13 @@ svg {
 
 p {
     margin: 0 20px 20px;
+    font-family: 'Lato', sans-serif;
 }
 
 .intro p {
 text-align: center;
+font-family: 'Rubik', sans-serif;
+
 }
 
 h1 {
