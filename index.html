@@ -28,55 +28,100 @@
 			</div>
 		</div>
 
-        <div class="container"> 
-            <div class="row">
-                <div class="col-12">
-                    <p>Kids love to see how they're doing and how they compare to each other. Select a name from the drop down menus and see their stats refocus.</p>
-                </div>
-            </div>
+        <div class="container intro">            
+            <p>Kids love to see how they're doing and how they compare to each other. Select a name from the drop down menus and see how their stats refocus.</p>               
         </div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <a class="btn btn-primary" href="form.html" role="button">Input</a>
-                </div>
-            </div>
-        </div>
 
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-lg-6">
-					<div class="row">
-						<div id="attendance-chart"></div>
-					</div>
-					<div class="row justify-content-center">
+                    <div class="row justify-content-center">
 						<h5>Match Attendance Start/Sub</h5>
 					</div>
 					<div class="row">
-						<div id="goals-per-person-chart"></div>
+						<div id="attendance-chart"></div>
 					</div>
-					<div class="row justify-content-center">
-						<h5>Total Goals/Assists Per Person</h5>
+                    <div class="row justify-content-center">
+						<p>This chart shows the number of games each player has played split between the number of matches started and the number to which they were a substitute.</p>
 					</div>
 				</div>
-				<div class="col-12 col-lg-6">
-					<div class="row">
-						<div id="goals-per-opponent-chart"></div>
-					</div>
-					<div class="row justify-content-center">
-						<h5>Total Goals/Assists Per Opponent</h5>
+
+                <div class="col-12 col-lg-6">
+                    <div class="row justify-content-center">
+						<h5>Ratings Chart</h5>
 					</div>
 					<div class="row">
 						<div id="composite-chart"></div>
 					</div>
 					<div class="row justify-content-center">
-						<h5>Ratings Chart</h5>
+						<p>This chart shows the match rating each player has acquired each matchday week.</p>
 					</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="row justify-content-center">
+						<h5>Total Goals/Assists Per Person</h5>
+					</div>
+					<div class="row">
+						<div id="goals-per-person-chart"></div>
+					</div>	
+                    <div class="row justify-content-center">
+						<p>This chart shows the number of goals and assists each player made.</p>
+					</div>			
+				</div>
+				<div class="col-12 col-lg-6">
+                    <div class="row justify-content-center">
+						<h5>Total Goals/Assists Per Opponent</h5>
+					</div>
+					<div class="row">
+						<div id="goals-per-opponent-chart"></div>
+					</div>
+					<div class="row justify-content-center">
+						<p>This chart shows the number of goals and assists made against each opponent played.</p>
+					</div>
+
+                    
 				</div>
 			</div>
 		</div>
 	</div>
+
+    <div class="container">
+        <div class="row">
+			<div class="col-6">
+                <div class="row justify-content-center">
+                    <h5>Total Goals Per Person</h5>
+                </div>	
+                <div class="row justify-content-center"> 
+                    <div id="per-person-chart"></div>                
+                </div>
+                <div class="row">
+                    <p>This chart shows the number of goals each player has scored compared to the total goals scored.</p>
+                </div>	
+			</div>
+
+            <div class="col-6">
+                <div class="row justify-content-center">            
+                    <h5>Total Goals Per Opponent</h5>                
+                </div>	
+                <div class="row justify-content-center">
+                    <div id="per-store-chart"></div>
+                </div> 
+                <div class="row">
+                    <p>This chart shows the number of goals scored player againsty the various opponents faced.</p>
+                </div>	              
+            </div>
+		</div>
+	</div>
+    <div class="container">
+            <div class="row justify-content-center">               
+                <a class="btn btn-primary" href="form.html" role="button">Input</a>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -106,13 +151,15 @@
                 return 0;
             }
         });
+
         var stackedChart = dc.barChart("#attendance-chart");
         stackedChart
-            .width(600)
+            .width(550)
             .height(200)
             .dimension(name_dim)
             .group(start, "Start")
             .stack(sub, "Sub")
+            .transitionDuration(1000)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .ordinalColors(['blue','white'])
@@ -126,13 +173,13 @@
 
         var stackedChart = dc.barChart('#goals-per-person-chart');
         stackedChart
-            .width(600)
+            .width(550)
             .height(200)
             .margins({top: 30, right: 50, bottom: 30, left: 50})
             .dimension(name_dim)
             .group(total_goals_per_person, "Goals")
             .stack(total_assists_per_person, "Assists")
-            .transitionDuration(500)
+            .transitionDuration(1000)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .ordinalColors(['blue','white'])
@@ -144,23 +191,24 @@
         var total_assists_per_opponent = opponent_dim.group().reduceSum(dc.pluck('assists'));
 
         dc.barChart('#goals-per-opponent-chart')
-            .width(600)
+            .width(550)
             .height(200)
             .margins({top: 30, right: 50, bottom: 30, left: 50})
             .dimension(opponent_dim)
             .group(total_goals_per_opponent, "Goals")
             .stack(total_assists_per_opponent, "Assists")
-            .transitionDuration(500)
+            .transitionDuration(1000)
             .x(d3.scale.ordinal())
             .xUnits(dc.units.ordinal)
             .ordinalColors(['blue','white'])
             .legend(dc.legend().x(560).y(10).itemHeight(15).gap(5))
-            .yAxis().ticks(4);
+            .yAxis().ticks(4); 
 
         var parseDate = d3.time.format("%d/%m/%Y").parse;
         transactionsData.forEach(function(d){
-            d.date = parseDate(d.date);
+            d.date = parseDate(d.date); 
         });
+
         var date_dim = ndx.dimension(dc.pluck('date'));
         var minDate = date_dim.bottom(1)[0].date;
         var maxDate = date_dim.top(1)[0].date;
@@ -191,10 +239,11 @@
 
         var compositeChart = dc.compositeChart('#composite-chart');
         compositeChart 
-            .width(600)
+            .width(550)
             .height(200)
             .margins({top: 30, right: 50, bottom: 30, left: 50})
             .dimension(date_dim)
+            .transitionDuration(1000)
             .x(d3.time.scale().domain([minDate, maxDate]))
             .yAxisLabel("Spend")
             .legend(dc.legend().x(560).y(0).itemHeight(13).gap(5))
@@ -252,6 +301,27 @@
             ])
             .brushOn(false)
             .render();
+
+            var name_dim = ndx.dimension(dc.pluck('name'));
+            var total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
+        dc.pieChart('#per-person-chart')
+            .width(550)
+            .height(150)
+            
+            .transitionDuration(1000)
+            .dimension(name_dim)
+            .group(total_goals_per_person)
+            
+            
+            var store_dim = ndx.dimension(dc.pluck('opponent'));
+            var total_spend_per_store = store_dim.group().reduceSum(dc.pluck('goals'));
+        dc.pieChart('#per-store-chart')
+            .width(330)
+            .height(150)
+            .transitionDuration(1000)
+            .dimension(name_dim)
+            .group(total_spend_per_store)
+
         dc.renderAll();
         }
 
