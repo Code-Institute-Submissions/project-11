@@ -78,6 +78,37 @@
 		</div>
 	</div>
 
+    <div class="container">
+        <div class="row">
+			<div class="col-4">
+                <div class="row justify-content-center"> 
+                    <div id="per-person-chart"></div>                   
+                </div>
+                <div class="row justify-content-center">
+                    <h5>Total Spend Per Person</h5>
+                </div>	
+			</div>
+
+            <div class="col-4">
+                <div class="row justify-content-center">
+                    <div id="per-store-chart"></div>
+                </div>
+                <div class="row justify-content-center">                   
+                    <h5>Total Spend Per store</h5>                    
+                </div>	
+            </div>
+
+            <div class="col-4">
+                <div class="row justify-content-center">                   
+                    <div id="per-state-chart"></div>
+                </div>
+                <div class="row justify-content-center">
+                    <h5>Total Spend Per state</h5>                   
+                </div>	
+            </div>
+		</div>
+	</div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -106,6 +137,7 @@
                 return 0;
             }
         });
+
         var stackedChart = dc.barChart("#attendance-chart");
         stackedChart
             .width(600)
@@ -161,6 +193,7 @@
         transactionsData.forEach(function(d){
             d.date = parseDate(d.date);
         });
+
         var date_dim = ndx.dimension(dc.pluck('date'));
         var minDate = date_dim.bottom(1)[0].date;
         var maxDate = date_dim.top(1)[0].date;
@@ -252,6 +285,36 @@
             ])
             .brushOn(false)
             .render();
+
+            var name_dim = ndx.dimension(dc.pluck('name'));
+            var total_spend_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
+        dc.pieChart('#per-person-chart')
+            .width(330)
+            .height(90)
+            .transitionDuration(1500)
+            .dimension(name_dim)
+            .group(total_spend_per_person)
+            
+            
+            var store_dim = ndx.dimension(dc.pluck('opponent'));
+            var total_spend_per_store = store_dim.group().reduceSum(dc.pluck('goals'));
+        dc.pieChart('#per-store-chart')
+            .width(330)
+            .height(90)
+            .transitionDuration(1500)
+            .dimension(name_dim)
+            .group(total_spend_per_store)
+            
+
+        var state_dim = ndx.dimension(dc.pluck('opponent'));
+            var total_spend_per_state = state_dim.group().reduceSum(dc.pluck('goals'));
+        dc.pieChart('#per-state-chart')
+            .width(330)
+            .height(90)
+            .transitionDuration(1500)
+            .dimension(state_dim)
+            .group(total_spend_per_state)
+
         dc.renderAll();
         }
 
