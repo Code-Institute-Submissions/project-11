@@ -120,7 +120,7 @@
 						<h5>Total Goals/Assists Per Opponent</h5>
 					</div>
 					<div class="container charts">
-						<div class="row">
+						<div style="width:100%">
 							<div id="goals-per-opponent-chart"></div>
 						</div>
 					</div>
@@ -172,12 +172,23 @@
 
 
 	<script>
+        var ndx;
+        
 		queue()
         .defer(d3.json, "data/transactions.json")
         .await(makeGraphs);
 
         function makeGraphs(error, transactionsData) {
-            var ndx = crossfilter(transactionsData);
+             ndx = crossfilter(transactionsData);
+             var parseDate = d3.time.format("%d/%m/%Y").parse;
+            transactionsData.forEach(function(d){
+                d.date = parseDate(d.date); 
+        });
+             work();
+        }
+        function work(){
+
+
      
         var name_dim = ndx.dimension(dc.pluck('name'));
         var start = name_dim.group().reduceSum(function (d) {
@@ -233,8 +244,9 @@
         var total_goals_per_opponent = opponent_dim.group().reduceSum(dc.pluck('goals'));
         var total_assists_per_opponent = opponent_dim.group().reduceSum(dc.pluck('assists'));
 
-        dc.barChart('#goals-per-opponent-chart')
-            .width(550)
+        var goalBarChart= dc.barChart('#goals-per-opponent-chart');
+        goalBarChart
+            .width($(goalBarChart.anchor()).parent().width())
             .height(200)
             .margins({top: 30, right: 50, bottom: 30, left: 50})
             .dimension(opponent_dim)
@@ -247,10 +259,7 @@
             .legend(dc.legend().x(560).y(10).itemHeight(15).gap(5))
             .yAxis().ticks(4); 
 
-        var parseDate = d3.time.format("%d/%m/%Y").parse;
-        transactionsData.forEach(function(d){
-            d.date = parseDate(d.date); 
-        });
+        
 
         var date_dim = ndx.dimension(dc.pluck('date'));
         var minDate = date_dim.bottom(1)[0].date;
@@ -368,8 +377,13 @@
 
         dc.renderAll();
         }
+        
 
-   
+    $(window).resize(function() {
+        console.log("window resized");
+        work();
+    });
+
         
 	</script>
 </body>
