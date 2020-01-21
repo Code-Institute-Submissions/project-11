@@ -15,11 +15,6 @@ body {
     width: 100%;
     margin: auto;
 }
-svg {
-    
-    width: 555;
-    
-}
 
 /*.intro {
     background: url("images/jamie-esker-celtic.jpg");
@@ -49,4 +44,9 @@ h1 {
 
 h1 span {
     color: #ab8b4d;
+}
+
+.charts {
+    width: 100%;
+    padding-top: 10%;
 }

@@ -75,8 +75,10 @@
 					<div class="row justify-content-center">
 						<h5>Match Attendance Start/Sub</h5>
 					</div>
-					<div class="row">
-						<div id="attendance-chart"></div>
+					<div class="container charts">
+						<div class="row">
+							<div id="attendance-chart"></div>
+						</div>
 					</div>
 					<div class="row justify-content-center">
 						<p>This chart shows the number of games each player has played split between the number of
@@ -88,8 +90,10 @@
 					<div class="row justify-content-center">
 						<h5>Ratings Chart</h5>
 					</div>
-					<div class="row">
-						<div id="composite-chart"></div>
+					<div class="container charts">
+						<div class="row">
+							<div id="composite-chart"></div>
+						</div>
 					</div>
 					<div class="row justify-content-center">
 						<p>This chart shows the match rating each player has acquired each matchday week.</p>
@@ -102,8 +106,10 @@
 					<div class="row justify-content-center">
 						<h5>Total Goals/Assists Per Person</h5>
 					</div>
-					<div class="row">
-						<div id="goals-per-person-chart"></div>
+					<div class="container charts">
+						<div class="row">
+							<div id="goals-per-person-chart"></div>
+						</div>
 					</div>
 					<div class="row justify-content-center">
 						<p>This chart shows the number of goals and assists each player made.</p>
@@ -113,8 +119,10 @@
 					<div class="row justify-content-center">
 						<h5>Total Goals/Assists Per Opponent</h5>
 					</div>
-					<div class="row">
-						<div id="goals-per-opponent-chart"></div>
+					<div class="container charts">
+						<div class="row">
+							<div id="goals-per-opponent-chart"></div>
+						</div>
 					</div>
 					<div class="row justify-content-center">
 						<p>This chart shows the number of goals and assists made against each opponent played.</p>
@@ -161,7 +169,7 @@
 	</div>
 	</div>
 
-	
+
 
 	<script>
 		queue()
@@ -190,8 +198,7 @@
 
         var stackedChart = dc.barChart("#attendance-chart");
         stackedChart
-            .width(550)
-            .height(200)
+            
             .dimension(name_dim)
             .group(start, "Start")
             .stack(sub, "Sub")
@@ -362,7 +369,7 @@
         dc.renderAll();
         }
 
-        
+   
         
 	</script>
 </body>
