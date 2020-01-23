@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Bowlby+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Bowlby+One|Lato|Rubik&display=swap');
 
 body {
     background-color: lightblue;
@@ -15,11 +15,6 @@ body {
     width: 100%;
     margin: auto;
 }
-svg {
-    
-    width: 555;
-    
-}
 
 /*.intro {
     background: url("images/jamie-esker-celtic.jpg");
@@ -31,10 +26,13 @@ svg {
 
 p {
     margin: 0 20px 20px;
+    font-family: 'Lato', sans-serif;
 }
 
 .intro p {
 text-align: center;
+font-family: 'Rubik', sans-serif;
+
 }
 
 h1 {
@@ -46,4 +44,9 @@ h1 {
 
 h1 span {
     color: #ab8b4d;
+}
+
+.charts {
+    width: 100%;
+    padding-top: 10%;
 }
