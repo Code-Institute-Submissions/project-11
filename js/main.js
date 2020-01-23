@@ -13,14 +13,28 @@ function makeGraphs(error, transactionsData) {
     var parseDate = d3.time.format("%d/%m/%Y").parse;
     transactionsData.forEach(function (d) {
         d.date = parseDate(d.date);
+        console.log("ndx complete");
     });
 
     work();
+    console.log("Work function called");
+    playerList();
+    console.log("Player list function called");
+
+}
+
+function playerList() {
+    console.log("Player list function");
+    var players = ndx.dimension(dc.pluck('name'));
+    var list = players.group().reduceSum();
+    console.log(list);
 }
 
 function work() {
     var name_dim = ndx.dimension(dc.pluck('name'));
+    console.log(name_dim);
     var start = name_dim.group().reduceSum(function (d) {
+        //console.log(d.name);
         if (d.squad === 1) {
             return +d.squad;
         } else {
@@ -36,9 +50,9 @@ function work() {
         }
     });
 
-    var attendanceStackedChart = dc.barChart("#attendance-chart");
-    attendanceStackedChart
-        .width($(attendanceStackedChart.anchor()).parent().width())
+    var attendance_Stacked_Chart = dc.barChart("#attendance-chart");
+    attendance_Stacked_Chart
+        .width($(attendance_Stacked_Chart.anchor()).parent().width())
         .dimension(name_dim)
         .group(start, "Start")
         .stack(sub, "Sub")
@@ -52,9 +66,9 @@ function work() {
     var name_dim = ndx.dimension(dc.pluck('name'));
     var total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
     var total_assists_per_person = name_dim.group().reduceSum(dc.pluck('assists'));
-    var goalsAssistsStackedChart = dc.barChart('#goals-per-person-chart');
-    goalsAssistsStackedChart
-        .width($(goalsAssistsStackedChart.anchor()).parent().width())
+    var goals_Assists_Stacked_Chart = dc.barChart('#goals-per-person-chart');
+    goals_Assists_Stacked_Chart
+        .width($(goals_Assists_Stacked_Chart.anchor()).parent().width())
         .height(200)
         .margins({ top: 30, right: 50, bottom: 30, left: 50 })
         .dimension(name_dim)
@@ -205,17 +219,14 @@ var resizing = false;
 console.log("Setting var resizing = false");
 var resizeTimer;
 console.log("setting var resizeTimer");
-function aFunction() {
-    work();
-    console.log("Work function fired");
-}
+
 
 function resize() {
     if (!resizing) {
         console.log("Setting var resizing = True");
         resizing = true;
         console.log("Set resizeTime");
-        resizeTimer = setTimeout("aFunction()", 1000);
+        resizeTimer = setTimeout("work()", 1000);
 
     }
     else {
@@ -230,4 +241,5 @@ window.addEventListener('resize', function (event) {
     console.log("Event listener resize fired");
     resize();
 });
+
 
