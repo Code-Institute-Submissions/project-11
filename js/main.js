@@ -26,13 +26,39 @@ function makeGraphs(error, transactionsData) {
 function playerList() {
     console.log("Player list function");
     var players = ndx.dimension(dc.pluck('name'));
-    var list = players.group().reduceSum();
-    console.log(list);
+    console.log(players);
+    var list = players.group().reduceSum(function (d) {
+        console.log(d.name);
+        /*if (d.squad === 1) {
+            return +d.squad;
+        } else {
+            return 0;
+        }*/
+    });
+    //list = players.group().reduceSum();
+    console.log("list array declared");
+       
+    
+    let array_with_duplicates = ['DELHI','NEWYORK','DELHI','GOA','MUMBAI','CALIFORNIA','GOA']
+    console.log(array_with_duplicates);
+    function removeDuplicates(array_with_duplicates){
+        
+        let unique_array = [];
+        for(let i = 0; i < array_with_duplicates.length; i++){
+            if(unique_array.indexOf(array_with_duplicates[i]) == -1){
+                unique_array.push(array_with_duplicates[i])
+            }
+        }
+        return unique_array
+    }
+
+    console.log(removeDuplicates(array_with_duplicates)); // [ 'DELHI', 'NEWYORK', 'GOA', 'MUMBAI', 'CALIFORNIA' ]
+
 }
 
 function work() {
     var name_dim = ndx.dimension(dc.pluck('name'));
-    console.log(name_dim);
+    //console.log(name_dim);
     var start = name_dim.group().reduceSum(function (d) {
         //console.log(d.name);
         if (d.squad === 1) {
