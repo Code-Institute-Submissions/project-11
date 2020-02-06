@@ -1,12 +1,7 @@
-$(document).ready(function () {
-    console.log("ready");
-});
-
-var ndx; //?Can this be called anything or is 'ndx'a specific name?
-
+var ndx; 
 queue()//Function from script libraries above
-    .defer(d3.json, "data/transactions.json")//This gets the data from json files
-    .await(makeGraphs);//makeGraphs is the function declared below
+.defer(d3.json, "data/transactions.json")//This gets the data from json files
+.await(makeGraphs);//makeGraphs is the function declared below
 
 function makeGraphs(error, transactionsData) {
     ndx = crossfilter(transactionsData);
@@ -16,49 +11,29 @@ function makeGraphs(error, transactionsData) {
         console.log("ndx complete");
     });
 
-    work();
-    console.log("Work function called");
     playerList();
     console.log("Player list function called");
-
-}
-
+    work();
+    console.log("Work function called");
+};
 function playerList() {
     console.log("Player list function");
-    var players = ndx.dimension(dc.pluck('name'));
-    console.log(players);
-    var list = players.group().reduceSum(function (d) {
+    var name_dim = ndx.dimension(dc.pluck('name'));
+    console.log(name_dim);
+    var list = name_dim.group().reduceSum(function (d) {
+        console.log("d.name follows")
         console.log(d.name);
         /*if (d.squad === 1) {
             return +d.squad;
         } else {
             return 0;
         }*/
-    });
-    //list = players.group().reduceSum();
-    console.log("list array declared");
-       
-    
-    let array_with_duplicates = ['DELHI','NEWYORK','DELHI','GOA','MUMBAI','CALIFORNIA','GOA']
-    console.log(array_with_duplicates);
-    function removeDuplicates(array_with_duplicates){
-        
-        let unique_array = [];
-        for(let i = 0; i < array_with_duplicates.length; i++){
-            if(unique_array.indexOf(array_with_duplicates[i]) == -1){
-                unique_array.push(array_with_duplicates[i])
-            }
-        }
-        return unique_array
-    }
-
-    console.log(removeDuplicates(array_with_duplicates)); // [ 'DELHI', 'NEWYORK', 'GOA', 'MUMBAI', 'CALIFORNIA' ]
-
-}
-
+    })
+};
+   
 function work() {
     var name_dim = ndx.dimension(dc.pluck('name'));
-    //console.log(name_dim);
+    console.log("work function");
     var start = name_dim.group().reduceSum(function (d) {
         //console.log(d.name);
         if (d.squad === 1) {
@@ -66,16 +41,14 @@ function work() {
         } else {
             return 0;
         }
-    });
-
+    })
     var sub = name_dim.group().reduceSum(function (d) {
         if (d.squad === 0) {
             return +d.squad + 1;
         } else {
             return 0;
         }
-    });
-
+    })
     var attendance_Stacked_Chart = dc.barChart("#attendance-chart");
     attendance_Stacked_Chart
         .width($(attendance_Stacked_Chart.anchor()).parent().width())
@@ -106,8 +79,7 @@ function work() {
         .ordinalColors(['blue', 'white'])
         .legend(dc.legend().x(555).y(10).itemHeight(15).gap(5))
         .yAxis().ticks(4);
-
-
+        
     var opponent_dim = ndx.dimension(dc.pluck('opponent'));
     var total_goals_per_opponent = opponent_dim.group().reduceSum(dc.pluck('goals'));
     var total_assists_per_opponent = opponent_dim.group().reduceSum(dc.pluck('assists'));
@@ -137,7 +109,7 @@ function work() {
                 return 0;
             }
         }
-    }
+    };
 
     var jamieSpendByMonth = date_dim.group().reduceSum(spend_by_name('Jamie'));
     var joshfSpendByMonth = date_dim.group().reduceSum(spend_by_name('Josh F'));
@@ -209,14 +181,14 @@ function work() {
                 .group(marcusSpendByMonth, 'Marcus'),
             dc.lineChart(compositeChart)
                 .colors('lightgrey')
-                .group(leeSpendByMonth, 'Saad'),
+                .group(saadSpendByMonth, 'Saad'),
             dc.lineChart(compositeChart)
                 .colors('teal')
                 .group(paulSpendByMonth, 'Paul'),
             dc.lineChart(compositeChart)
                 .colors('black')
                 .group(gusSpendByMonth, 'Gus'),
-        ])
+            ])
         .brushOn(false)
         .render();
 
@@ -239,7 +211,7 @@ function work() {
         .group(total_spend_per_store)
 
     dc.renderAll();
-}
+};
 
 var resizing = false;
 console.log("Setting var resizing = false");
@@ -253,8 +225,7 @@ function resize() {
         resizing = true;
         console.log("Set resizeTime");
         resizeTimer = setTimeout("work()", 1000);
-
-    }
+        }
     else {
         console.log("clearTimeout");
         clearTimeout(resizeTimer);
@@ -266,6 +237,4 @@ function resize() {
 window.addEventListener('resize', function (event) {
     console.log("Event listener resize fired");
     resize();
-});
-
-
+})
