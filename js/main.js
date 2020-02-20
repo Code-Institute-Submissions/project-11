@@ -11,34 +11,37 @@ function makeGraphs(error, transactionsData) {
         console.log("ndx complete");
     });
 
-    playerList();
+    //playerList();
     console.log("Player list function called");
-    work();
     console.log("Work function called");
+    work();
+    
 };
-function playerList() {
+/*function playerList() {
     console.log("Player list function");
     var name_dim = ndx.dimension(dc.pluck('name'));
     console.log(name_dim);
     var list = name_dim.group().reduceSum(function (d) {
         console.log("d.name follows")
         console.log(d.name);
-        /*if (d.squad === 1) {
-            return +d.squad;
-        } else {
-            return 0;
-        }*/
-    })
-};
-   
+        })
+};*/
+    
 function work() {
     var name_dim = ndx.dimension(dc.pluck('name'));
     console.log("work function");
+    //console.log(name_dim);
+    var players = name_dim.group().reduceSum(function (d) {
+        console.log("players");
+        console.log(d.name);
+    })
     var start = name_dim.group().reduceSum(function (d) {
         //console.log(d.name);
         if (d.squad === 1) {
-            return +d.squad;
+            //console.log("d.squad = 1");
+            return +d.squad;            
         } else {
+            //console.log("d.squad = 0");
             return 0;
         }
     })
@@ -62,7 +65,7 @@ function work() {
         .legend(dc.legend().x(555).y(10).itemHeight(15).gap(5))
         .margins({ top: 30, right: 50, bottom: 30, left: 50 })
 
-    var name_dim = ndx.dimension(dc.pluck('name'));
+    //var name_dim = ndx.dimension(dc.pluck('name'));
     var total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
     var total_assists_per_person = name_dim.group().reduceSum(dc.pluck('assists'));
     var goals_Assists_Stacked_Chart = dc.barChart('#goals-per-person-chart');
