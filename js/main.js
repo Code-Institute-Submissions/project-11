@@ -1,7 +1,7 @@
-var ndx; 
+var ndx;
 queue()//Function from script libraries above
-.defer(d3.json, "data/transactions.json")//This gets the data from json files
-.await(makeGraphs);//makeGraphs is the function declared below
+    .defer(d3.json, "data/transactions.json")//This gets the data from json files
+    .await(makeGraphs);//makeGraphs is the function declared below
 
 function makeGraphs(error, transactionsData) {
     ndx = crossfilter(transactionsData);
@@ -15,31 +15,35 @@ function makeGraphs(error, transactionsData) {
     console.log("Player list function called");
     console.log("Work function called");
     work();
-    
+
 };
 
-var select1 = new dc.SelectMenu('#select1');
-var letterDimension = ndx.dimension(function(d) { return d.name; });
-console.log(d.name);
-select1
-    .dimension(letterDimension)
-    .group(letterDimension.group())
-    .controlsUseVisibility(true);
-    
+
+
 function work() {
     var name_dim = ndx.dimension(dc.pluck('name'));
     console.log("work function");
     //console.log(name_dim);
+
+    var select1 = new dc.selectMenu("#select1")
+        .dimension(name_dim)
+        .group();
+    var letterDimension = ndx.dimension(function (d) { return d.name; });
+    console.log(d.name);
+    select1
+        .dimension(letterDimension)
+        .group(letterDimension.group())
+        .controlsUseVisibility(true);
 
     var players = name_dim.group().reduceSum(function (d) {
         //console.log("players");
         console.log(d.name);
     })
     var start = name_dim.group().reduceSum(function (d) {
-        //console.log(d.name);
+        //console.log(d.name); 
         if (d.squad === 1) {
             //console.log("d.squad = 1");
-            return +d.squad;            
+            return +d.squad;
         } else {
             //console.log("d.squad = 0");
             return 0;
@@ -82,7 +86,7 @@ function work() {
         .ordinalColors(['blue', 'white'])
         .legend(dc.legend().x(555).y(10).itemHeight(15).gap(5))
         .yAxis().ticks(4);
-        
+
     var opponent_dim = ndx.dimension(dc.pluck('opponent'));
     var total_goals_per_opponent = opponent_dim.group().reduceSum(dc.pluck('goals'));
     var total_assists_per_opponent = opponent_dim.group().reduceSum(dc.pluck('assists'));
@@ -191,7 +195,7 @@ function work() {
             dc.lineChart(compositeChart)
                 .colors('black')
                 .group(gusSpendByMonth, 'Gus'),
-            ])
+        ])
         .brushOn(false)
         .render();
 
@@ -228,7 +232,7 @@ function resize() {
         resizing = true;
         console.log("Set resizeTime");
         resizeTimer = setTimeout("work()", 1000);
-        }
+    }
     else {
         console.log("clearTimeout");
         clearTimeout(resizeTimer);
