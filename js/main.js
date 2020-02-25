@@ -17,22 +17,22 @@ function makeGraphs(error, transactionsData) {
     work();
     
 };
-/*function playerList() {
-    console.log("Player list function");
-    var name_dim = ndx.dimension(dc.pluck('name'));
-    console.log(name_dim);
-    var list = name_dim.group().reduceSum(function (d) {
-        console.log("d.name follows")
-        console.log(d.name);
-        })
-};*/
+
+var select1 = new dc.SelectMenu('#select1');
+var letterDimension = ndx.dimension(function(d) { return d.name; });
+console.log(d.name);
+select1
+    .dimension(letterDimension)
+    .group(letterDimension.group())
+    .controlsUseVisibility(true);
     
 function work() {
     var name_dim = ndx.dimension(dc.pluck('name'));
     console.log("work function");
     //console.log(name_dim);
+
     var players = name_dim.group().reduceSum(function (d) {
-        console.log("players");
+        //console.log("players");
         console.log(d.name);
     })
     var start = name_dim.group().reduceSum(function (d) {
