@@ -46,6 +46,13 @@ h1 span {
     color: #ab8b4d;
 }
 
+.dc-select-menu {
+    background-color: blue;
+    color: #fff;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
 .charts {
     width: 100%;
     padding-top: 10%;

@@ -21,14 +21,20 @@ function makeGraphs(error, transactionsData) {
 
 
 function work() {
-    var name_dim = ndx.dimension(dc.pluck('name'));
     console.log("work function");
-    //console.log(name_dim);
 
+    var name_dim = ndx.dimension(dc.pluck('name'));
+    var playerName = name_dim.group().reduceCount();  
+    console.log(playerName);  
     var select1 = new dc.selectMenu("#select1");
     select1
         .dimension(name_dim)
-        .group(name_dim.group())
+        .group(playerName)
+        .title(function(d) {
+            return d.key;
+        })
+        //.multiple(true)
+        //.numberVisible(16)
         .controlsUseVisibility(true);
 
     var name_dim = ndx.dimension(dc.pluck('name'));
