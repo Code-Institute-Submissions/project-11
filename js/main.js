@@ -24,7 +24,7 @@ function work() {
     console.log("work function");
 
     var name_dim = ndx.dimension(dc.pluck('name'));
-    var playerName = name_dim.group().reduceCount();  
+    var playerName = name_dim.group();  
     console.log(playerName);  
     var select1 = new dc.selectMenu("#select1");
     select1
@@ -202,6 +202,8 @@ function work() {
         .transitionDuration(1000)
         .dimension(name_dim)
         .group(total_goals_per_person)
+        .externalRadiusPadding(300)
+        .externalLabels(true)
 
     var store_dim = ndx.dimension(dc.pluck('opponent'));
     var total_spend_per_store = store_dim.group().reduceSum(dc.pluck('goals'));
