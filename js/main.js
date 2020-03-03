@@ -62,8 +62,8 @@ function work() {
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .ordinalColors(['blue', 'white'])
-        .legend(dc.legend().x(555).y(10).itemHeight(15).gap(5))
-        .margins({ top: 30, right: 50, bottom: 30, left: 50 })
+        .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+        .margins({ top: 30, right: 50, bottom: 30, left: 70 })
 
     var name_dim = ndx.dimension(dc.pluck('name'));
     var total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
@@ -72,7 +72,7 @@ function work() {
     goals_Assists_Stacked_Chart
         .width($(goals_Assists_Stacked_Chart.anchor()).parent().width())
         .height(200)
-        .margins({ top: 30, right: 50, bottom: 30, left: 50 })
+        .margins({ top: 30, right: 50, bottom: 30, left: 70 })
         .dimension(name_dim)
         .group(total_goals_per_person, "Goals")
         .stack(total_assists_per_person, "Assists")
@@ -80,7 +80,7 @@ function work() {
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .ordinalColors(['blue', 'white'])
-        .legend(dc.legend().x(555).y(10).itemHeight(15).gap(5))
+        .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
         .yAxis().ticks(4);
 
     var opponent_dim = ndx.dimension(dc.pluck('opponent'));
@@ -90,7 +90,7 @@ function work() {
     goalBarChart
         .width($(goalBarChart.anchor()).parent().width())
         .height(200)
-        .margins({ top: 30, right: 50, bottom: 30, left: 50 })
+        .margins({ top: 30, right: 50, bottom: 30, left: 70 })
         .dimension(opponent_dim)
         .group(total_goals_per_opponent, "Goals")
         .stack(total_assists_per_opponent, "Assists")
@@ -98,7 +98,7 @@ function work() {
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .ordinalColors(['blue', 'white'])
-        .legend(dc.legend().x(560).y(10).itemHeight(15).gap(5))
+        .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
         .yAxis().ticks(4);
 
     var date_dim = ndx.dimension(dc.pluck('date'));
@@ -135,12 +135,11 @@ function work() {
     compositeChart
         .width($(compositeChart.anchor()).parent().width())
         .height(200)
-        .margins({ top: 30, right: 50, bottom: 30, left: 50 })
+        .margins({ top: 30, right: 50, bottom: 30, left: 70 })
         .dimension(date_dim)
         .transitionDuration(1000)
         .x(d3.time.scale().domain([minDate, maxDate]))
-        .yAxisLabel("Spend")
-        .legend(dc.legend().x(560).y(0).itemHeight(13).gap(5))
+        .legend(dc.legend().x(0).y(0).itemHeight(7).gap(5))
         .renderHorizontalGridLines(true)
         .compose([
             dc.lineChart(compositeChart)
