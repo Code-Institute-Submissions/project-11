@@ -1,6 +1,6 @@
 var ndx;
 queue()//Function from script libraries above
-    .defer(d3.json, "data/transactions.json")//This gets the data from json files
+    .defer(d3.json, "data/stats.json")//This gets the data from json files
     .await(makeGraphs);//makeGraphs is the function declared below
 
 function makeGraphs(error, transactionsData) {
@@ -73,7 +73,7 @@ function work() {
     var date_dim = ndx.dimension(dc.pluck('date'));
     var minDate = date_dim.bottom(1)[0].date;
     var maxDate = date_dim.top(1)[0].date;
-    function spend_by_name(name) {
+    function rating_by_name(name) {
         return function (d) {
             if (d.name === name) {
                 return d.rating;
@@ -83,22 +83,22 @@ function work() {
         }
     };
 
-    var jamieRating = date_dim.group().reduceSum(spend_by_name('Jamie'));
-    var joshfRating = date_dim.group().reduceSum(spend_by_name('Josh F'));
-    var joshrRating = date_dim.group().reduceSum(spend_by_name('Josh R'));
-    var jamesRating = date_dim.group().reduceSum(spend_by_name('James'));
-    var jackRating = date_dim.group().reduceSum(spend_by_name('Jack'));
-    var seanRating = date_dim.group().reduceSum(spend_by_name('Sean'));
-    var ralphRating = date_dim.group().reduceSum(spend_by_name('Ralph'));
-    var alexRating = date_dim.group().reduceSum(spend_by_name('Alex'));
-    var pavanRating = date_dim.group().reduceSum(spend_by_name('Pavan'));
-    var tadghRating = date_dim.group().reduceSum(spend_by_name('Tadgh'));
-    var coleRating = date_dim.group().reduceSum(spend_by_name('Cole'));
-    var leeRating = date_dim.group().reduceSum(spend_by_name('Lee'));
-    var marcusRating = date_dim.group().reduceSum(spend_by_name('Marcus'));
-    var saadRating = date_dim.group().reduceSum(spend_by_name('Saad'));
-    var paulRating = date_dim.group().reduceSum(spend_by_name('Paul'));
-    var gusRating = date_dim.group().reduceSum(spend_by_name('Gus'));
+    var jamieRating = date_dim.group().reduceSum(rating_by_name('Jamie'));
+    var joshfRating = date_dim.group().reduceSum(rating_by_name('Josh F'));
+    var joshrRating = date_dim.group().reduceSum(rating_by_name('Josh R'));
+    var jamesRating = date_dim.group().reduceSum(rating_by_name('James'));
+    var jackRating = date_dim.group().reduceSum(rating_by_name('Jack'));
+    var seanRating = date_dim.group().reduceSum(rating_by_name('Sean'));
+    var ralphRating = date_dim.group().reduceSum(rating_by_name('Ralph'));
+    var alexRating = date_dim.group().reduceSum(rating_by_name('Alex'));
+    var pavanRating = date_dim.group().reduceSum(rating_by_name('Pavan'));
+    var tadghRating = date_dim.group().reduceSum(rating_by_name('Tadgh'));
+    var coleRating = date_dim.group().reduceSum(rating_by_name('Cole'));
+    var leeRating = date_dim.group().reduceSum(rating_by_name('Lee'));
+    var marcusRating = date_dim.group().reduceSum(rating_by_name('Marcus'));
+    var saadRating = date_dim.group().reduceSum(rating_by_name('Saad'));
+    var paulRating = date_dim.group().reduceSum(rating_by_name('Paul'));
+    var gusRating = date_dim.group().reduceSum(rating_by_name('Gus'));
 
     var compositeChart = dc.compositeChart('#composite-chart');
     compositeChart
@@ -213,19 +213,19 @@ function work() {
         .transitionDuration(1000)
         .dimension(name_dim)
         .group(total_goals_per_person)
-    //.externalRadiusPadding(300)
-    //.externalLabels(true)
+        //.externalRadiusPadding(300)
+        //.externalLabels(true)
 
 
     //Pie chart 2
-    var store_dim = ndx.dimension(dc.pluck('opponent'));
-    var total_spend_per_store = store_dim.group().reduceSum(dc.pluck('goals'));
+    var opponent_dim = ndx.dimension(dc.pluck('opponent'));
+    var total_goals_per_opponenet = opponent_dim.group().reduceSum(dc.pluck('goals'));
     dc.pieChart('#per-store-chart')
         .width(150)
         .height(150)
         .transitionDuration(1000)
-        .dimension(name_dim)
-        .group(total_spend_per_store)
+        .dimension(opponent_dim)
+        .group(total_goals_per_opponent)
 
     dc.renderAll();
 };
