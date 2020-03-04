@@ -23,20 +23,23 @@ function makeGraphs(error, transactionsData) {
 function work() {
     console.log("work function");
 
+    //Select drop down menu
     var name_dim = ndx.dimension(dc.pluck('name'));
-    var playerName = name_dim.group();  
-    console.log(playerName);  
+    var playerName = name_dim.group();
+    console.log(playerName);
     var select1 = new dc.selectMenu("#select1");
     select1
         .dimension(name_dim)
         .group(playerName)
-        .title(function(d) {
+        .title(function (d) {
             return d.key;
         })
-        //.multiple(true)
-        //.numberVisible(16)
-        .controlsUseVisibility(true);
+    //.multiple(true)
+    //.numberVisible(16)
+    //.controlsUseVisibility(true);
 
+
+    //Match attendance start/sub chart
     var name_dim = ndx.dimension(dc.pluck('name'));
     var start = name_dim.group().reduceSum(function (d) {
         if (d.squad === 1) {
@@ -65,6 +68,103 @@ function work() {
         .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
         .margins({ top: 30, right: 50, bottom: 30, left: 70 })
 
+
+    //Player ratings chart
+    var date_dim = ndx.dimension(dc.pluck('date'));
+    var minDate = date_dim.bottom(1)[0].date;
+    var maxDate = date_dim.top(1)[0].date;
+    function spend_by_name(name) {
+        return function (d) {
+            if (d.name === name) {
+                return d.rating;
+            } else {
+                return 0;
+            }
+        }
+    };
+
+    var jamieRating = date_dim.group().reduceSum(spend_by_name('Jamie'));
+    var joshfRating = date_dim.group().reduceSum(spend_by_name('Josh F'));
+    var joshrRating = date_dim.group().reduceSum(spend_by_name('Josh R'));
+    var jamesRating = date_dim.group().reduceSum(spend_by_name('James'));
+    var jackRating = date_dim.group().reduceSum(spend_by_name('Jack'));
+    var seanRating = date_dim.group().reduceSum(spend_by_name('Sean'));
+    var ralphRating = date_dim.group().reduceSum(spend_by_name('Ralph'));
+    var alexRating = date_dim.group().reduceSum(spend_by_name('Alex'));
+    var pavanRating = date_dim.group().reduceSum(spend_by_name('Pavan'));
+    var tadghRating = date_dim.group().reduceSum(spend_by_name('Tadgh'));
+    var coleRating = date_dim.group().reduceSum(spend_by_name('Cole'));
+    var leeRating = date_dim.group().reduceSum(spend_by_name('Lee'));
+    var marcusRating = date_dim.group().reduceSum(spend_by_name('Marcus'));
+    var saadRating = date_dim.group().reduceSum(spend_by_name('Saad'));
+    var paulRating = date_dim.group().reduceSum(spend_by_name('Paul'));
+    var gusRating = date_dim.group().reduceSum(spend_by_name('Gus'));
+
+    var compositeChart = dc.compositeChart('#composite-chart');
+    compositeChart
+        .width($(compositeChart.anchor()).parent().width())
+        .height(200)
+        .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+        .dimension(date_dim)
+        .transitionDuration(1000)
+        .x(d3.time.scale().domain([minDate, maxDate]))
+        .legend(dc.legend().x(0).y(0).itemHeight(7).gap(5))
+        .renderHorizontalGridLines(true)
+        .compose([
+            dc.lineChart(compositeChart)
+                .colors('green')
+                .group(jamieRating, 'Jamie'),
+            dc.lineChart(compositeChart)
+                .colors('red')
+                .group(joshfRating, 'Josh F'),
+            dc.lineChart(compositeChart)
+                .colors('blue')
+                .group(joshrRating, 'Josh R'),
+            dc.lineChart(compositeChart)
+                .colors('maroon')
+                .group(jackRating, 'Jack'),
+            dc.lineChart(compositeChart)
+                .colors('yellow')
+                .group(jamesRating, 'James'),
+            dc.lineChart(compositeChart)
+                .colors('pink')
+                .group(seanRating, 'Sean'),
+            dc.lineChart(compositeChart)
+                .colors('tomato')
+                .group(ralphRating, 'Ralph'),
+            dc.lineChart(compositeChart)
+                .colors('orange')
+                .group(alexRating, 'Alex'),
+            dc.lineChart(compositeChart)
+                .colors('dodgerblue')
+                .group(pavanRating, 'Pavan'),
+            dc.lineChart(compositeChart)
+                .colors('mediumseagreen')
+                .group(tadghRating, 'Tadgh'),
+            dc.lineChart(compositeChart)
+                .colors('grey')
+                .group(coleRating, 'Cole'),
+            dc.lineChart(compositeChart)
+                .colors('slateblue')
+                .group(leeRating, 'Lee'),
+            dc.lineChart(compositeChart)
+                .colors('violet')
+                .group(marcusRating, 'Marcus'),
+            dc.lineChart(compositeChart)
+                .colors('lightgrey')
+                .group(saadRating, 'Saad'),
+            dc.lineChart(compositeChart)
+                .colors('teal')
+                .group(paulRating, 'Paul'),
+            dc.lineChart(compositeChart)
+                .colors('black')
+                .group(gusRating, 'Gus'),
+        ])
+        .brushOn(false)
+        .render();
+
+
+    //Goals/assists per person chart
     var name_dim = ndx.dimension(dc.pluck('name'));
     var total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
     var total_assists_per_person = name_dim.group().reduceSum(dc.pluck('assists'));
@@ -83,6 +183,8 @@ function work() {
         .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
         .yAxis().ticks(4);
 
+
+    //Goals/asssists per opponent chart
     var opponent_dim = ndx.dimension(dc.pluck('opponent'));
     var total_goals_per_opponent = opponent_dim.group().reduceSum(dc.pluck('goals'));
     var total_assists_per_opponent = opponent_dim.group().reduceSum(dc.pluck('assists'));
@@ -101,99 +203,8 @@ function work() {
         .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
         .yAxis().ticks(4);
 
-    var date_dim = ndx.dimension(dc.pluck('date'));
-    var minDate = date_dim.bottom(1)[0].date;
-    var maxDate = date_dim.top(1)[0].date;
-    function spend_by_name(name) {
-        return function (d) {
-            if (d.name === name) {
-                return d.rating;
-            } else {
-                return 0;
-            }
-        }
-    };
 
-    var jamieSpendByMonth = date_dim.group().reduceSum(spend_by_name('Jamie'));
-    var joshfSpendByMonth = date_dim.group().reduceSum(spend_by_name('Josh F'));
-    var joshrSpendByMonth = date_dim.group().reduceSum(spend_by_name('Josh R'));
-    var jamesSpendByMonth = date_dim.group().reduceSum(spend_by_name('James'));
-    var jackSpendByMonth = date_dim.group().reduceSum(spend_by_name('Jack'));
-    var seanSpendByMonth = date_dim.group().reduceSum(spend_by_name('Sean'));
-    var ralphSpendByMonth = date_dim.group().reduceSum(spend_by_name('Ralph'));
-    var alexSpendByMonth = date_dim.group().reduceSum(spend_by_name('Alex'));
-    var pavanSpendByMonth = date_dim.group().reduceSum(spend_by_name('Pavan'));
-    var tadghSpendByMonth = date_dim.group().reduceSum(spend_by_name('Tadgh'));
-    var coleSpendByMonth = date_dim.group().reduceSum(spend_by_name('Cole'));
-    var leeSpendByMonth = date_dim.group().reduceSum(spend_by_name('Lee'));
-    var marcusSpendByMonth = date_dim.group().reduceSum(spend_by_name('Marcus'));
-    var saadSpendByMonth = date_dim.group().reduceSum(spend_by_name('Saad'));
-    var paulSpendByMonth = date_dim.group().reduceSum(spend_by_name('Paul'));
-    var gusSpendByMonth = date_dim.group().reduceSum(spend_by_name('Gus'));
-
-    var compositeChart = dc.compositeChart('#composite-chart');
-    compositeChart
-        .width($(compositeChart.anchor()).parent().width())
-        .height(200)
-        .margins({ top: 30, right: 50, bottom: 30, left: 70 })
-        .dimension(date_dim)
-        .transitionDuration(1000)
-        .x(d3.time.scale().domain([minDate, maxDate]))
-        .legend(dc.legend().x(0).y(0).itemHeight(7).gap(5))
-        .renderHorizontalGridLines(true)
-        .compose([
-            dc.lineChart(compositeChart)
-                .colors('green')
-                .group(jamieSpendByMonth, 'Jamie'),
-            dc.lineChart(compositeChart)
-                .colors('red')
-                .group(joshfSpendByMonth, 'Josh F'),
-            dc.lineChart(compositeChart)
-                .colors('blue')
-                .group(joshrSpendByMonth, 'Josh R'),
-            dc.lineChart(compositeChart)
-                .colors('maroon')
-                .group(jackSpendByMonth, 'Jack'),
-            dc.lineChart(compositeChart)
-                .colors('yellow')
-                .group(jamesSpendByMonth, 'James'),
-            dc.lineChart(compositeChart)
-                .colors('pink')
-                .group(seanSpendByMonth, 'Sean'),
-            dc.lineChart(compositeChart)
-                .colors('tomato')
-                .group(ralphSpendByMonth, 'Ralph'),
-            dc.lineChart(compositeChart)
-                .colors('orange')
-                .group(alexSpendByMonth, 'Alex'),
-            dc.lineChart(compositeChart)
-                .colors('dodgerblue')
-                .group(pavanSpendByMonth, 'Pavan'),
-            dc.lineChart(compositeChart)
-                .colors('mediumseagreen')
-                .group(tadghSpendByMonth, 'Tadgh'),
-            dc.lineChart(compositeChart)
-                .colors('grey')
-                .group(coleSpendByMonth, 'Cole'),
-            dc.lineChart(compositeChart)
-                .colors('slateblue')
-                .group(leeSpendByMonth, 'Lee'),
-            dc.lineChart(compositeChart)
-                .colors('violet')
-                .group(marcusSpendByMonth, 'Marcus'),
-            dc.lineChart(compositeChart)
-                .colors('lightgrey')
-                .group(saadSpendByMonth, 'Saad'),
-            dc.lineChart(compositeChart)
-                .colors('teal')
-                .group(paulSpendByMonth, 'Paul'),
-            dc.lineChart(compositeChart)
-                .colors('black')
-                .group(gusSpendByMonth, 'Gus'),
-        ])
-        .brushOn(false)
-        .render();
-
+    //Pie chart 1
     var name_dim = ndx.dimension(dc.pluck('name'));
     var total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
     dc.pieChart('#per-person-chart')
@@ -202,9 +213,11 @@ function work() {
         .transitionDuration(1000)
         .dimension(name_dim)
         .group(total_goals_per_person)
-        //.externalRadiusPadding(300)
-        //.externalLabels(true)
+    //.externalRadiusPadding(300)
+    //.externalLabels(true)
 
+
+    //Pie chart 2
     var store_dim = ndx.dimension(dc.pluck('opponent'));
     var total_spend_per_store = store_dim.group().reduceSum(dc.pluck('goals'));
     dc.pieChart('#per-store-chart')
