@@ -3,10 +3,10 @@ queue()//Function from script libraries above
     .defer(d3.json, "data/stats.json")//This gets the data from json files
     .await(makeGraphs);//makeGraphs is the function declared below
 
-function makeGraphs(error, transactionsData) {
-    ndx = crossfilter(transactionsData);
+function makeGraphs(error, statsData) {
+    let ndx = crossfilter(statsData);
     var parseDate = d3.time.format("%d/%m/%Y").parse;
-    transactionsData.forEach(function (d) {
+    statsData.forEach(function (d) {
         d.date = parseDate(d.date);
         console.log("ndx complete");
     });
