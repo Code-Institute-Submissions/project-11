@@ -9,12 +9,13 @@ const total_goals_per_opponenet = new dc.pieChart('#per-store-chart');
 
 
 d3.json('data/stats.json').then(function (data) {
-    const dateFormatSpecifier = '%m/%d/%Y';
+    const dateFormatSpecifier = '%d/%m/%Y';
     const dateFormat = d3.timeFormat(dateFormatSpecifier);
     const dateFormatParser = d3.timeParse(dateFormatSpecifier);
     const numberFormat = d3.format('.2f');
 
     data.forEach(d => {
+        //console.log(d);
         d.dd = dateFormatParser(d.date);
         d.month = d3.timeMonth(d.dd); // pre-calculate month for better performance
         d.close = +d.close; // coerce to number
@@ -53,4 +54,6 @@ d3.json('data/stats.json').then(function (data) {
         //.xUnits(dc.units.ordinal)
         //.ordinalColors(['blue', 'white'])
         .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+    
+    dc.renderAll();
 }); 
