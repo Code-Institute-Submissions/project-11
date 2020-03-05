@@ -55,23 +55,16 @@
 		</div>
 		<div class="container">
 			<div class="row justify-content-center">
-				<div class="btn-group">
-					<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"                 aria-haspopup="true" aria-expanded="false">Player Names
-                    </button>
-					<div class="dropdown-menu" id="player-menu">
-						<a class="dropdown-item" href="#">Action</a>
-						<a class="dropdown-item" href="#">Another action</a>
-						<a class="dropdown-item" href="#">Something else here</a>
-						<a class="dropdown-item" href="#">Separated link</a>
-					</div>
+				<div id="select1">
+
 				</div>
 			</div>
 		</div>
 
 
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
-				<div class="col-12 col-lg-6">
+				<div class="col-12 col-lg-6 chart">
 					<div class="row justify-content-center">
 						<h5>Match Attendance Start/Sub</h5>
 					</div>
@@ -84,9 +77,9 @@
 						<p>This chart shows the number of games each player has played split between the number of
 							matches started and the number of which they were a substitute.</p>
 					</div>
-				</div> 
+				</div>
 
-				<div class="col-12 col-lg-6">
+				<div class="col-12 col-lg-6 chart">
 					<div class="row justify-content-center">
 						<h5>Ratings Chart</h5>
 					</div>
@@ -102,7 +95,7 @@
 			</div>
 
 			<div class="row">
-				<div class="col-12 col-lg-6">
+				<div class="col-12 col-lg-6 chart">
 					<div class="row justify-content-center">
 						<h5>Total Goals/Assists Per Person</h5>
 					</div>
@@ -115,7 +108,7 @@
 						<p>This chart shows the number of goals and assists each player made.</p>
 					</div>
 				</div>
-				<div class="col-12 col-lg-6">
+				<div class="col-12 col-lg-6 chart">
 					<div class="row justify-content-center">
 						<h5>Total Goals/Assists Per Opponent</h5>
 					</div>
@@ -127,52 +120,50 @@
 					<div class="row justify-content-center">
 						<p>This chart shows the number of goals and assists made against each opponent played.</p>
 					</div>
-
-
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-6">
-				<div class="row justify-content-center">
-					<h5>Total Goals Per Person</h5>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-6 chart">
+					<div class="row justify-content-center">
+						<h5>Total Goals Per Person</h5>
+					</div>
+					<div class="row justify-content-center">
+						<div id="per-person-chart"></div>
+					</div>
+					<div class="row">
+						<p>This chart shows the number of goals each player has scored compared to the total goals
+							scored.
+						</p>
+					</div>
 				</div>
-				<div class="row justify-content-center">
-					<div id="per-person-chart"></div>
-				</div>
-				<div class="row">
-					<p>This chart shows the number of goals each player has scored compared to the total goals scored.
-					</p>
-				</div>
-			</div>
 
-			<div class="col-6">
-				<div class="row justify-content-center">
-					<h5>Total Goals Per Opponent</h5>
-				</div>
-				<div class="row justify-content-center">
-					<div id="per-store-chart"></div>
-				</div>
-				<div class="row">
-					<p>This chart shows the number of goals scored against the various opponents faced.</p>
+				<div class="col-6 chart">
+					<div class="row justify-content-center">
+						<h5>Total Goals Per Opponent</h5>
+					</div>
+					<div class="row justify-content-center">
+						<div id="per-store-chart"></div>
+					</div>
+					<div class="row">
+						<p>This chart shows the number of goals scored against the various opponents faced.</p>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="container">
-		<div class="row justify-content-center">
-			<a class="btn btn-primary" href="form.html" role="button">Input</a>
+		<div class="container">
+			<div class="row justify-content-center">
+				<a class="btn btn-primary" href="form.html" role="button">Input</a>
+			</div>
 		</div>
-	</div>
 	</div>
 
 
 
 	<script>
-       
+
 	</script>
 </body>
 
