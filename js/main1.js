@@ -5,7 +5,6 @@ $(document).ready(function () {
 
     const attendance_Stacked_Chart = new dc.barChart('#attendance-chart');
     const ratingsChart = new dc.compositeChart('#composite-chart');
-    //const ratingsChart = new dc.lineChart(compositeChart);
     const goals_Assists_Stacked_Chart = new dc.barChart('#goals-per-person-chart');
     const goalBarChart = new dc.barChart('#goals-per-opponent-chart');
     //const total_goals_per_person = new dc.pieChart('#goals-per-person-piechart');
@@ -29,6 +28,26 @@ $(document).ready(function () {
 
         // attendance_Stacked_Chart = dc.barChart("#attendance-chart");
         const name_dim = ndx.dimension(dc.pluck('name'));
+        /*
+                const playerName = name_dim.group();
+                console.log(playerName);
+                const select1 = new dc.selectMenu("#select1");
+                select1
+                    .dimension(name_dim)
+                    .group(playerName)
+                    .title(function (d) {
+                        return d.key;
+                    })
+        */
+        var select = new SelectMenu('#select1')
+            .dimension(name_dim)
+            .group();
+        // the option text can be set via the title() function
+        // by default the option text is '`key`: `value`'
+        select.title(function (d) {
+            return 'STATE: ' + d.key;
+        })
+
         const start = name_dim.group().reduceSum(function (d) {
             if (d.squad === 1) {
                 return +d.squad;
