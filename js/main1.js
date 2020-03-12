@@ -4,7 +4,8 @@ $(document).ready(function () {
     'use strict';
 
     const attendance_Stacked_Chart = new dc.barChart('#attendance-chart');
-    //var compositeChart = new dc.compositeChart('#composite-chart');
+    const ratingsChart = new dc.compositeChart('#composite-chart');
+    //const ratingsChart = new dc.lineChart(compositeChart);
     const goals_Assists_Stacked_Chart = new dc.barChart('#goals-per-person-chart');
     const goalBarChart = new dc.barChart('#goals-per-opponent-chart');
     //const total_goals_per_person = new dc.pieChart('#goals-per-person-piechart');
@@ -13,20 +14,15 @@ $(document).ready(function () {
 
     d3.json('data/stats.json').then(function (data) {
         console.log(data);
+
         const dateFormatSpecifier = '%d/%m/%Y';
         const dateFormat = d3.timeFormat(dateFormatSpecifier);
         const dateFormatParser = d3.timeParse(dateFormatSpecifier);
         const numberFormat = d3.format('.2f');
-        //console.log(numberFormat);
 
         data.forEach(d => {
-            //console.log(d);
-            d.dd = dateFormatParser(d.date);
-            d.month = d3.timeMonth(d.dd); // pre-calculate month for better performance
-            d.close = +d.close; // coerce to number
-            d.open = +d.open;
+            d.date = dateFormatParser(d.date);
         });
-
 
         const ndx = crossfilter(data);
         const all = ndx.groupAll();
@@ -58,6 +54,105 @@ $(document).ready(function () {
             .xUnits(dc.units.ordinal)
             .ordinalColors(['blue', 'white'])
             .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+
+
+        //Player ratings chart
+        const date_dim = ndx.dimension(dc.pluck('date'));
+        //console.log(d.date);
+        const minDate = date_dim.bottom(1)[0].date;
+        console.log("min_date = " + minDate);
+        const maxDate = date_dim.top(1)[0].date;
+        console.log("max_date = " + maxDate);
+        function rating_by_name(name) {
+            return function (d) {
+                if (d.name === name) {
+                    return d.rating;
+                } else {
+                    return 0;
+                }
+            }
+        };
+
+        const jamieRating = date_dim.group().reduceSum(rating_by_name('Jamie'));
+        const joshfRating = date_dim.group().reduceSum(rating_by_name('Josh F'));
+        const joshrRating = date_dim.group().reduceSum(rating_by_name('Josh R'));
+        const jamesRating = date_dim.group().reduceSum(rating_by_name('James'));
+        const jackRating = date_dim.group().reduceSum(rating_by_name('Jack'));
+        const seanRating = date_dim.group().reduceSum(rating_by_name('Sean'));
+        const ralphRating = date_dim.group().reduceSum(rating_by_name('Ralph'));
+        const alexRating = date_dim.group().reduceSum(rating_by_name('Alex'));
+        const pavanRating = date_dim.group().reduceSum(rating_by_name('Pavan'));
+        const tadghRating = date_dim.group().reduceSum(rating_by_name('Tadgh'));
+        const coleRating = date_dim.group().reduceSum(rating_by_name('Cole'));
+        const leeRating = date_dim.group().reduceSum(rating_by_name('Lee'));
+        const marcusRating = date_dim.group().reduceSum(rating_by_name('Marcus'));
+        const saadRating = date_dim.group().reduceSum(rating_by_name('Saad'));
+        const paulRating = date_dim.group().reduceSum(rating_by_name('Paul'));
+        const gusRating = date_dim.group().reduceSum(rating_by_name('Gus'));
+
+        //const compositeChart = dc.compositeChart('#composite-chart');
+        ratingsChart
+            .width($(ratingsChart.anchor()).parent().width())
+            .height(200)
+            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+            .dimension(date_dim)
+            .transitionDuration(1000)
+            .x(d3.scaleTime().domain([minDate, maxDate]))
+            .legend(dc.legend().x(0).y(0).itemHeight(7).gap(5))
+            .renderHorizontalGridLines(true)
+            .compose([
+                new dc.lineChart(ratingsChart)
+                    .colors('green')
+                    .group(jamieRating, 'Jamie'),
+                new dc.lineChart(ratingsChart)
+                    .colors('red')
+                    .group(joshfRating, 'Josh F'),
+                new dc.lineChart(ratingsChart)
+                    .colors('blue')
+                    .group(joshrRating, 'Josh R'),
+                new dc.lineChart(ratingsChart)
+                    .colors('maroon')
+                    .group(jackRating, 'Jack'),
+                new dc.lineChart(ratingsChart)
+                    .colors('yellow')
+                    .group(jamesRating, 'James'),
+                new dc.lineChart(ratingsChart)
+                    .colors('pink')
+                    .group(seanRating, 'Sean'),
+                new dc.lineChart(ratingsChart)
+                    .colors('tomato')
+                    .group(ralphRating, 'Ralph'),
+                new dc.lineChart(ratingsChart)
+                    .colors('orange')
+                    .group(alexRating, 'Alex'),
+                new dc.lineChart(ratingsChart)
+                    .colors('dodgerblue')
+                    .group(pavanRating, 'Pavan'),
+                new dc.lineChart(ratingsChart)
+                    .colors('mediumseagreen')
+                    .group(tadghRating, 'Tadgh'),
+                new dc.lineChart(ratingsChart)
+                    .colors('grey')
+                    .group(coleRating, 'Cole'),
+                new dc.lineChart(ratingsChart)
+                    .colors('slateblue')
+                    .group(leeRating, 'Lee'),
+                new dc.lineChart(ratingsChart)
+                    .colors('violet')
+                    .group(marcusRating, 'Marcus'),
+                new dc.lineChart(ratingsChart)
+                    .colors('lightgrey')
+                    .group(saadRating, 'Saad'),
+                new dc.lineChart(ratingsChart)
+                    .colors('teal')
+                    .group(paulRating, 'Paul'),
+                new dc.lineChart(ratingsChart)
+                    .colors('black')
+                    .group(gusRating, 'Gus'),
+            ])
+            .brushOn(false)
+            .render();
+
 
 
         //Goals/assists per person chart
@@ -98,9 +193,9 @@ $(document).ready(function () {
 
 
         //Pie chart 1
-        //var name_dim = ndx.dimension(dc.pluck('name'));
+        //const name_dim = ndx.dimension(dc.pluck('name'));
         /*
-        var total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
+        const total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
         dc.pieChart('#per-person-chart')
             .width(150)
             .height(150)
