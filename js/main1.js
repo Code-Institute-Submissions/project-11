@@ -31,7 +31,7 @@ $(document).ready(function () {
         const ndx = crossfilter(data);
         const all = ndx.groupAll();
 
-// attendance_Stacked_Chart = dc.barChart("#attendance-chart");
+        // attendance_Stacked_Chart = dc.barChart("#attendance-chart");
         const name_dim = ndx.dimension(dc.pluck('name'));
         const start = name_dim.group().reduceSum(function (d) {
             if (d.squad === 1) {
@@ -97,7 +97,6 @@ $(document).ready(function () {
         //.yAxis().ticks(4);
 
 
-
         //Pie chart 1
         //var name_dim = ndx.dimension(dc.pluck('name'));
         /*
@@ -112,8 +111,6 @@ $(document).ready(function () {
         //.externalLabels(true)
         */
 
-
-        
         dc.renderAll();
     });
 });
