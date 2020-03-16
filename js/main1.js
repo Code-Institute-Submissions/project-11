@@ -218,5 +218,6 @@ $(document).ready(function () {
             .group(total_goals_per_opponent)
 
         dc.renderAll();
+        dc.redrawAll();
     });
 });
