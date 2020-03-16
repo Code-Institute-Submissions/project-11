@@ -2,19 +2,19 @@ $(document).ready(function () {
     console.log("ready!");
 
     'use strict';
+    //Declare chart objects
+    const attendanceStackedBarChart = new dc.barChart('#attendance-chart'); //Match Attendance Start/Sub Chart object
+    const ratingsLineChart = new dc.compositeChart('#ratings-composite-chart');//Match Ratings Chart object
+    const personGoalsAssistsBarChart = new dc.barChart('#goals-per-person-chart');//Goals/Assists per person chart object
+    const opponentGoalsAssistsBarChart = new dc.barChart('#goals-per-opponent-chart');//Goals/Assists per opponent chart object
+    const goalsPerPersonPieChart = new dc.pieChart('#goals-per-person-piechart');//Goals per person pie chart object
+    const goalsPerOpponentPieChart = new dc.pieChart('#goals-per-opponent-piechart');//Goals per opponent chart object
 
-    const attendance_Stacked_Chart = new dc.barChart('#attendance-chart');
-    const ratingsChart = new dc.compositeChart('#composite-chart');
-    //const ratingsChart = new dc.lineChart(compositeChart);
-    const goals_Assists_Stacked_Chart = new dc.barChart('#goals-per-person-chart');
-    const goalBarChart = new dc.barChart('#goals-per-opponent-chart');
-    const goals_per_person_PieChart = new dc.pieChart('#goals-per-person-piechart');
-    const goals_per_opponenet_PieChart = new dc.pieChart('#goals-per-opponent-piechart');
-
-
+    //Get data
     d3.json('data/stats.json').then(function (data) {
         console.log(data);
 
+        //Parse the date
         const dateFormatSpecifier = '%d/%m/%Y';
         const dateFormat = d3.timeFormat(dateFormatSpecifier);
         const dateFormatParser = d3.timeParse(dateFormatSpecifier);
@@ -25,10 +25,11 @@ $(document).ready(function () {
             //console.log(d.date);
         });
 
+        //Create the crossfilter
         const ndx = crossfilter(data);
         const all = ndx.groupAll();
 
-        // attendance_Stacked_Chart = dc.barChart("#attendance-chart");
+        //Create name dimension
         const name_dim = ndx.dimension(dc.pluck('name'));
         const start = name_dim.group().reduceSum(function (d) {
             if (d.squad === 1) {
@@ -44,20 +45,8 @@ $(document).ready(function () {
                 return 0;
             }
         })
-        attendance_Stacked_Chart
-            .width($(attendance_Stacked_Chart.anchor()).parent().width())
-            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
-            .dimension(name_dim)
-            .group(start, "Start")
-            .stack(sub, "Sub")
-            .transitionDuration(1000)
-            .x(d3.scaleBand())
-            .xUnits(dc.units.ordinal)
-            .ordinalColors(['blue', 'white'])
-            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
 
-
-        //Player ratings chart
+        //Create date dimension
         const date_dim = ndx.dimension(dc.pluck('date'));
         //console.log(d.date);
         const minDate = date_dim.bottom(1)[0].date;
@@ -74,6 +63,7 @@ $(document).ready(function () {
             }
         };
 
+        //Group the ratings by player name
         const jamieRating = date_dim.group().reduceSum(rating_by_name('Jamie'));
         const joshfRating = date_dim.group().reduceSum(rating_by_name('Josh F'));
         const joshrRating = date_dim.group().reduceSum(rating_by_name('Josh R'));
@@ -91,9 +81,30 @@ $(document).ready(function () {
         const paulRating = date_dim.group().reduceSum(rating_by_name('Paul'));
         const gusRating = date_dim.group().reduceSum(rating_by_name('Gus'));
 
-        //const compositeChart = dc.compositeChart('#composite-chart');
-        ratingsChart
-            .width($(ratingsChart.anchor()).parent().width())
+        const total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));//Group goals per person
+        const total_assists_per_person = name_dim.group().reduceSum(dc.pluck('assists'));//Group assists per person
+
+        const opponent_dim = ndx.dimension(dc.pluck('opponent'));//Create opponent dimension
+        const total_goals_per_opponent = opponent_dim.group().reduceSum(dc.pluck('goals'));//Group goals per opponent
+        const total_assists_per_opponent = opponent_dim.group().reduceSum(dc.pluck('assists'));//Group assists per opponent
+
+        //Match Attendance Start/Sub Chart
+        attendanceStackedBarChart
+            .width($(attendanceStackedBarChart.anchor()).parent().width())
+            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+            .dimension(name_dim)
+            .group(start, "Start")
+            .stack(sub, "Sub")
+            .transitionDuration(1000)
+            .x(d3.scaleBand())
+            .xUnits(dc.units.ordinal)
+            .ordinalColors(['blue', 'white'])
+            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+
+
+        //Player ratings chart
+        ratingsLineChart
+            .width($(ratingsLineChart.anchor()).parent().width())
             .height(200)
             .margins({ top: 30, right: 50, bottom: 30, left: 70 })
             .dimension(date_dim)
@@ -102,65 +113,61 @@ $(document).ready(function () {
             .legend(dc.legend().x(0).y(0).itemHeight(7).gap(5))
             .renderHorizontalGridLines(true)
             .compose([
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('green')
                     .group(jamieRating, 'Jamie'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('red')
                     .group(joshfRating, 'Josh F'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('blue')
                     .group(joshrRating, 'Josh R'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('maroon')
                     .group(jackRating, 'Jack'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('yellow')
                     .group(jamesRating, 'James'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('pink')
                     .group(seanRating, 'Sean'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('tomato')
                     .group(ralphRating, 'Ralph'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('orange')
                     .group(alexRating, 'Alex'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('dodgerblue')
                     .group(pavanRating, 'Pavan'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('mediumseagreen')
                     .group(tadghRating, 'Tadgh'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('grey')
                     .group(coleRating, 'Cole'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('slateblue')
                     .group(leeRating, 'Lee'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('violet')
                     .group(marcusRating, 'Marcus'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('lightgrey')
                     .group(saadRating, 'Saad'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('teal')
                     .group(paulRating, 'Paul'),
-                new dc.lineChart(ratingsChart)
+                new dc.lineChart(ratingsLineChart)
                     .colors('black')
                     .group(gusRating, 'Gus'),
             ])
             .brushOn(false)
             .render();
 
-
-
         //Goals/assists per person chart
-        const total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
-        const total_assists_per_person = name_dim.group().reduceSum(dc.pluck('assists'));
-        goals_Assists_Stacked_Chart
-            .width($(goals_Assists_Stacked_Chart.anchor()).parent().width())
+        personGoalsAssistsBarChart
+            .width($(personGoalsAssistsBarChart.anchor()).parent().width())
             .height(200)
             .margins({ top: 30, right: 50, bottom: 30, left: 70 })
             .dimension(name_dim)
@@ -175,11 +182,8 @@ $(document).ready(function () {
 
 
         //Goals/asssists per opponent chart
-        const opponent_dim = ndx.dimension(dc.pluck('opponent'));
-        const total_goals_per_opponent = opponent_dim.group().reduceSum(dc.pluck('goals'));
-        const total_assists_per_opponent = opponent_dim.group().reduceSum(dc.pluck('assists'));
-        goalBarChart
-            .width($(goalBarChart.anchor()).parent().width())
+        opponentGoalsAssistsBarChart
+            .width($(opponentGoalsAssistsBarChart.anchor()).parent().width())
             .height(200)
             .margins({ top: 30, right: 50, bottom: 30, left: 70 })
             .dimension(opponent_dim)
@@ -194,7 +198,7 @@ $(document).ready(function () {
 
 
         //Pie chart 1
-        goals_per_person_PieChart
+        goalsPerPersonPieChart
             //.width(150)
             //.height(150)
             .radius(80)
@@ -205,7 +209,7 @@ $(document).ready(function () {
         //.externalLabels(true)
 
         //Pie chart 2
-        goals_per_opponenet_PieChart
+        goalsPerOpponentPieChart
             //.width(150)
             //.height(150)
             .radius(80)
