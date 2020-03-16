@@ -31,6 +31,7 @@ $(document).ready(function () {
 
         //Create name dimension
         const name_dim = ndx.dimension(dc.pluck('name'));
+        //Create and calculate number of starts per player
         const start = name_dim.group().reduceSum(function (d) {
             if (d.squad === 1) {
                 return +d.squad;
@@ -38,6 +39,7 @@ $(document).ready(function () {
                 return 0;
             }
         })
+        //Create and calculate number of subs per player
         const sub = name_dim.group().reduceSum(function (d) {
             if (d.squad === 0) {
                 return +d.squad + 1;
@@ -46,13 +48,11 @@ $(document).ready(function () {
             }
         })
 
-        //Create date dimension
-        const date_dim = ndx.dimension(dc.pluck('date'));
-        //console.log(d.date);
-        const minDate = date_dim.bottom(1)[0].date;
-        console.log("min_date = " + minDate);
-        const maxDate = date_dim.top(1)[0].date;
-        console.log("max_date = " + maxDate);
+        
+        const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
+        const minDate = date_dim.bottom(1)[0].date;//Declare and get the minimum date
+        const maxDate = date_dim.top(1)[0].date;//Declare and get the maximum date
+        //Get the player rating for each date
         function rating_by_name(name) {
             return function (d) {
                 if (d.name === name) {
