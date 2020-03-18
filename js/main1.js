@@ -1,218 +1,257 @@
-$(document).ready(function () {
-    console.log("ready!");
+var ndx;
+queue()//Function from script libraries above
+    .defer(d3.json, "data/stats.json")//This gets the data from json files
+    .await(makeGraphs);//makeGraphs is the function declared below
 
-    'use strict';
+function makeGraphs(error, transactionsData) {
+    ndx = crossfilter(transactionsData);
+    var parseDate = d3.time.format("%d/%m/%Y").parse;
+    transactionsData.forEach(function (d) {
+        d.date = parseDate(d.date);
+        console.log("ndx complete");
+    });
 
-    const attendance_Stacked_Chart = new dc.barChart('#attendance-chart');
-    const ratingsChart = new dc.compositeChart('#composite-chart');
-    //const ratingsChart = new dc.lineChart(compositeChart);
-    const goals_Assists_Stacked_Chart = new dc.barChart('#goals-per-person-chart');
-    const goalBarChart = new dc.barChart('#goals-per-opponent-chart');
-    const goals_per_person_PieChart = new dc.pieChart('#goals-per-person-piechart');
-    const goals_per_opponenet_PieChart = new dc.pieChart('#goals-per-opponent-piechart');
+    //playerList();
+    console.log("Player list function called");
+    console.log("Work function called");
+    work();
+
+};
 
 
-    d3.json('data/stats.json').then(function (data) {
-        console.log(data);
 
-        const dateFormatSpecifier = '%d/%m/%Y';
-        const dateFormat = d3.timeFormat(dateFormatSpecifier);
-        const dateFormatParser = d3.timeParse(dateFormatSpecifier);
-        const numberFormat = d3.format('.2f');
+function work() {
+    console.log("work function");
 
-        data.forEach(d => {
-            d.date = dateFormatParser(d.date);
-            //console.log(d.date);
-        });
+    //Select drop down menu
+    var name_dim = ndx.dimension(dc.pluck('name'));
+    var playerName = name_dim.group();
+    console.log(playerName);
+    var select1 = new dc.selectMenu("#select1");
+    select1
+        .dimension(name_dim)
+        .group(playerName)
+        .title(function (d) {
+            return d.key;
+        })
+    //.multiple(true)
+    //.numberVisible(16)
+    //.controlsUseVisibility(true);
 
-        const ndx = crossfilter(data);
-        const all = ndx.groupAll();
 
-        // attendance_Stacked_Chart = dc.barChart("#attendance-chart");
-        const name_dim = ndx.dimension(dc.pluck('name'));
-        const start = name_dim.group().reduceSum(function (d) {
-            if (d.squad === 1) {
-                return +d.squad;
+    //Match attendance start/sub chart
+    var name_dim = ndx.dimension(dc.pluck('name'));
+    var start = name_dim.group().reduceSum(function (d) {
+        if (d.squad === 1) {
+            return +d.squad;
+        } else {
+            return 0;
+        }
+    })
+    var sub = name_dim.group().reduceSum(function (d) {
+        if (d.squad === 0) {
+            return +d.squad + 1;
+        } else {
+            return 0;
+        }
+    })
+    var attendance_Stacked_Chart = dc.barChart("#attendance-chart");
+    attendance_Stacked_Chart
+        .width($(attendance_Stacked_Chart.anchor()).parent().width())
+        .dimension(name_dim)
+        .group(start, "Start")
+        .stack(sub, "Sub")
+        .transitionDuration(1000)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .ordinalColors(['blue', 'white'])
+        .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+        .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+
+
+    //Player ratings chart
+    var date_dim = ndx.dimension(dc.pluck('date'));
+    var minDate = date_dim.bottom(1)[0].date;
+    var maxDate = date_dim.top(1)[0].date;
+    function rating_by_name(name) {
+        return function (d) {
+            if (d.name === name) {
+                return d.rating;
             } else {
                 return 0;
             }
-        })
-        const sub = name_dim.group().reduceSum(function (d) {
-            if (d.squad === 0) {
-                return +d.squad + 1;
-            } else {
-                return 0;
-            }
-        })
-        attendance_Stacked_Chart
-            .width($(attendance_Stacked_Chart.anchor()).parent().width())
-            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
-            .dimension(name_dim)
-            .group(start, "Start")
-            .stack(sub, "Sub")
-            .transitionDuration(1000)
-            .x(d3.scaleBand())
-            .xUnits(dc.units.ordinal)
-            .ordinalColors(['blue', 'white'])
-            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+        }
+    };
+
+    var jamieRating = date_dim.group().reduceSum(rating_by_name('Jamie'));
+    var joshfRating = date_dim.group().reduceSum(rating_by_name('Josh F'));
+    var joshrRating = date_dim.group().reduceSum(rating_by_name('Josh R'));
+    var jamesRating = date_dim.group().reduceSum(rating_by_name('James'));
+    var jackRating = date_dim.group().reduceSum(rating_by_name('Jack'));
+    var seanRating = date_dim.group().reduceSum(rating_by_name('Sean'));
+    var ralphRating = date_dim.group().reduceSum(rating_by_name('Ralph'));
+    var alexRating = date_dim.group().reduceSum(rating_by_name('Alex'));
+    var pavanRating = date_dim.group().reduceSum(rating_by_name('Pavan'));
+    var tadghRating = date_dim.group().reduceSum(rating_by_name('Tadgh'));
+    var coleRating = date_dim.group().reduceSum(rating_by_name('Cole'));
+    var leeRating = date_dim.group().reduceSum(rating_by_name('Lee'));
+    var marcusRating = date_dim.group().reduceSum(rating_by_name('Marcus'));
+    var saadRating = date_dim.group().reduceSum(rating_by_name('Saad'));
+    var paulRating = date_dim.group().reduceSum(rating_by_name('Paul'));
+    var gusRating = date_dim.group().reduceSum(rating_by_name('Gus'));
+
+    var compositeChart = dc.compositeChart('#composite-chart');
+    compositeChart
+        .width($(compositeChart.anchor()).parent().width())
+        .height(200)
+        .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+        .dimension(date_dim)
+        .transitionDuration(1000)
+        .x(d3.time.scale().domain([minDate, maxDate]))
+        .legend(dc.legend().x(0).y(0).itemHeight(7).gap(5))
+        .renderHorizontalGridLines(true)
+        .compose([
+            dc.lineChart(compositeChart)
+                .colors('green')
+                .group(jamieRating, 'Jamie'),
+            dc.lineChart(compositeChart)
+                .colors('red')
+                .group(joshfRating, 'Josh F'),
+            dc.lineChart(compositeChart)
+                .colors('blue')
+                .group(joshrRating, 'Josh R'),
+            dc.lineChart(compositeChart)
+                .colors('maroon')
+                .group(jackRating, 'Jack'),
+            dc.lineChart(compositeChart)
+                .colors('yellow')
+                .group(jamesRating, 'James'),
+            dc.lineChart(compositeChart)
+                .colors('pink')
+                .group(seanRating, 'Sean'),
+            dc.lineChart(compositeChart)
+                .colors('tomato')
+                .group(ralphRating, 'Ralph'),
+            dc.lineChart(compositeChart)
+                .colors('orange')
+                .group(alexRating, 'Alex'),
+            dc.lineChart(compositeChart)
+                .colors('dodgerblue')
+                .group(pavanRating, 'Pavan'),
+            dc.lineChart(compositeChart)
+                .colors('mediumseagreen')
+                .group(tadghRating, 'Tadgh'),
+            dc.lineChart(compositeChart)
+                .colors('grey')
+                .group(coleRating, 'Cole'),
+            dc.lineChart(compositeChart)
+                .colors('slateblue')
+                .group(leeRating, 'Lee'),
+            dc.lineChart(compositeChart)
+                .colors('violet')
+                .group(marcusRating, 'Marcus'),
+            dc.lineChart(compositeChart)
+                .colors('lightgrey')
+                .group(saadRating, 'Saad'),
+            dc.lineChart(compositeChart)
+                .colors('teal')
+                .group(paulRating, 'Paul'),
+            dc.lineChart(compositeChart)
+                .colors('black')
+                .group(gusRating, 'Gus'),
+        ])
+        .brushOn(false)
+        .render();
 
 
-        //Player ratings chart
-        const date_dim = ndx.dimension(dc.pluck('date'));
-        //console.log(d.date);
-        const minDate = date_dim.bottom(1)[0].date;
-        console.log("min_date = " + minDate);
-        const maxDate = date_dim.top(1)[0].date;
-        console.log("max_date = " + maxDate);
-        function rating_by_name(name) {
-            return function (d) {
-                if (d.name === name) {
-                    return d.rating;
-                } else {
-                    return 0;
-                }
-            }
-        };
-
-        const jamieRating = date_dim.group().reduceSum(rating_by_name('Jamie'));
-        const joshfRating = date_dim.group().reduceSum(rating_by_name('Josh F'));
-        const joshrRating = date_dim.group().reduceSum(rating_by_name('Josh R'));
-        const jamesRating = date_dim.group().reduceSum(rating_by_name('James'));
-        const jackRating = date_dim.group().reduceSum(rating_by_name('Jack'));
-        const seanRating = date_dim.group().reduceSum(rating_by_name('Sean'));
-        const ralphRating = date_dim.group().reduceSum(rating_by_name('Ralph'));
-        const alexRating = date_dim.group().reduceSum(rating_by_name('Alex'));
-        const pavanRating = date_dim.group().reduceSum(rating_by_name('Pavan'));
-        const tadghRating = date_dim.group().reduceSum(rating_by_name('Tadgh'));
-        const coleRating = date_dim.group().reduceSum(rating_by_name('Cole'));
-        const leeRating = date_dim.group().reduceSum(rating_by_name('Lee'));
-        const marcusRating = date_dim.group().reduceSum(rating_by_name('Marcus'));
-        const saadRating = date_dim.group().reduceSum(rating_by_name('Saad'));
-        const paulRating = date_dim.group().reduceSum(rating_by_name('Paul'));
-        const gusRating = date_dim.group().reduceSum(rating_by_name('Gus'));
-
-        //const compositeChart = dc.compositeChart('#composite-chart');
-        ratingsChart
-            .width($(ratingsChart.anchor()).parent().width())
-            .height(200)
-            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
-            .dimension(date_dim)
-            .transitionDuration(1000)
-            .x(d3.scaleTime().domain([minDate, maxDate]))
-            .legend(dc.legend().x(0).y(0).itemHeight(7).gap(5))
-            .renderHorizontalGridLines(true)
-            .compose([
-                new dc.lineChart(ratingsChart)
-                    .colors('green')
-                    .group(jamieRating, 'Jamie'),
-                new dc.lineChart(ratingsChart)
-                    .colors('red')
-                    .group(joshfRating, 'Josh F'),
-                new dc.lineChart(ratingsChart)
-                    .colors('blue')
-                    .group(joshrRating, 'Josh R'),
-                new dc.lineChart(ratingsChart)
-                    .colors('maroon')
-                    .group(jackRating, 'Jack'),
-                new dc.lineChart(ratingsChart)
-                    .colors('yellow')
-                    .group(jamesRating, 'James'),
-                new dc.lineChart(ratingsChart)
-                    .colors('pink')
-                    .group(seanRating, 'Sean'),
-                new dc.lineChart(ratingsChart)
-                    .colors('tomato')
-                    .group(ralphRating, 'Ralph'),
-                new dc.lineChart(ratingsChart)
-                    .colors('orange')
-                    .group(alexRating, 'Alex'),
-                new dc.lineChart(ratingsChart)
-                    .colors('dodgerblue')
-                    .group(pavanRating, 'Pavan'),
-                new dc.lineChart(ratingsChart)
-                    .colors('mediumseagreen')
-                    .group(tadghRating, 'Tadgh'),
-                new dc.lineChart(ratingsChart)
-                    .colors('grey')
-                    .group(coleRating, 'Cole'),
-                new dc.lineChart(ratingsChart)
-                    .colors('slateblue')
-                    .group(leeRating, 'Lee'),
-                new dc.lineChart(ratingsChart)
-                    .colors('violet')
-                    .group(marcusRating, 'Marcus'),
-                new dc.lineChart(ratingsChart)
-                    .colors('lightgrey')
-                    .group(saadRating, 'Saad'),
-                new dc.lineChart(ratingsChart)
-                    .colors('teal')
-                    .group(paulRating, 'Paul'),
-                new dc.lineChart(ratingsChart)
-                    .colors('black')
-                    .group(gusRating, 'Gus'),
-            ])
-            .brushOn(false)
-            .render();
+    //Goals/assists per person chart
+    var name_dim = ndx.dimension(dc.pluck('name'));
+    var total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
+    var total_assists_per_person = name_dim.group().reduceSum(dc.pluck('assists'));
+    var goals_Assists_Stacked_Chart = dc.barChart('#goals-per-person-chart');
+    goals_Assists_Stacked_Chart
+        .width($(goals_Assists_Stacked_Chart.anchor()).parent().width())
+        .height(200)
+        .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+        .dimension(name_dim)
+        .group(total_goals_per_person, "Goals")
+        .stack(total_assists_per_person, "Assists")
+        .transitionDuration(1000)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .ordinalColors(['blue', 'white'])
+        .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+        .yAxis().ticks(4);
 
 
-
-        //Goals/assists per person chart
-        const total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
-        const total_assists_per_person = name_dim.group().reduceSum(dc.pluck('assists'));
-        goals_Assists_Stacked_Chart
-            .width($(goals_Assists_Stacked_Chart.anchor()).parent().width())
-            .height(200)
-            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
-            .dimension(name_dim)
-            .group(total_goals_per_person, "Goals")
-            .stack(total_assists_per_person, "Assists")
-            .transitionDuration(1000)
-            .x(d3.scaleBand())
-            .xUnits(dc.units.ordinal)
-            .ordinalColors(['blue', 'white'])
-            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
-        //.yAxis().ticks(4);
-
-
-        //Goals/asssists per opponent chart
-        const opponent_dim = ndx.dimension(dc.pluck('opponent'));
-        const total_goals_per_opponent = opponent_dim.group().reduceSum(dc.pluck('goals'));
-        const total_assists_per_opponent = opponent_dim.group().reduceSum(dc.pluck('assists'));
-        goalBarChart
-            .width($(goalBarChart.anchor()).parent().width())
-            .height(200)
-            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
-            .dimension(opponent_dim)
-            .group(total_goals_per_opponent, "Goals")
-            .stack(total_assists_per_opponent, "Assists")
-            .transitionDuration(1000)
-            .x(d3.scaleBand())
-            .xUnits(dc.units.ordinal)
-            .ordinalColors(['blue', 'white'])
-            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
-        //.yAxis().ticks(4);
+    //Goals/asssists per opponent chart
+    var opponent_dim = ndx.dimension(dc.pluck('opponent'));
+    var total_goals_per_opponent = opponent_dim.group().reduceSum(dc.pluck('goals'));
+    var total_assists_per_opponent = opponent_dim.group().reduceSum(dc.pluck('assists'));
+    var goalBarChart = dc.barChart('#goals-per-opponent-chart');
+    goalBarChart
+        .width($(goalBarChart.anchor()).parent().width())
+        .height(200)
+        .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+        .dimension(opponent_dim)
+        .group(total_goals_per_opponent, "Goals")
+        .stack(total_assists_per_opponent, "Assists")
+        .transitionDuration(1000)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .ordinalColors(['blue', 'white'])
+        .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+        .yAxis().ticks(4);
 
 
-        //Pie chart 1
-        goals_per_person_PieChart
-            //.width(150)
-            //.height(150)
-            .radius(80)
-            .dimension(name_dim)
-            .group(total_goals_per_person)
-            .transitionDuration(1000)
+    //Pie chart 1
+    var name_dim = ndx.dimension(dc.pluck('name'));
+    var total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));
+    dc.pieChart('#per-person-chart')
+        .width(150)
+        .height(150)
+        .transitionDuration(1000)
+        .dimension(name_dim)
+        .group(total_goals_per_person)
         //.externalRadiusPadding(300)
         //.externalLabels(true)
 
-        //Pie chart 2
-        goals_per_opponenet_PieChart
-            //.width(150)
-            //.height(150)
-            .radius(80)
-            .transitionDuration(1000)
-            .dimension(opponent_dim)
-            .group(total_goals_per_opponent)
 
-        dc.renderAll();
-    });
-});
+    //Pie chart 2
+    var opponent_dim = ndx.dimension(dc.pluck('opponent'));
+    var total_goals_per_opponenet = opponent_dim.group().reduceSum(dc.pluck('goals'));
+    dc.pieChart('#per-store-chart')
+        .width(150)
+        .height(150)
+        .transitionDuration(1000)
+        .dimension(opponent_dim)
+        .group(total_goals_per_opponent)
+
+    dc.renderAll();
+};
+
+var resizing = false;
+console.log("Setting var resizing = false");
+var resizeTimer;
+console.log("setting var resizeTimer");
+
+
+function resize() {
+    if (!resizing) {
+        console.log("Setting var resizing = True");
+        resizing = true;
+        console.log("Set resizeTime");
+        resizeTimer = setTimeout("work()", 1000);
+    }
+    else {
+        console.log("clearTimeout");
+        clearTimeout(resizeTimer);
+        resizing = false
+        resize();
+    }
+}
+
+window.addEventListener('resize', function (event) {
+    console.log("Event listener resize fired");
+    resize();
+})
