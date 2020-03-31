@@ -231,7 +231,7 @@ $(document).ready(function () {
                 all: 'All records selected. Please click on the graph to apply filters.'
             });
 
-            
+
         //Pie chart 2
         goalsPerOpponentPieChart
             //.width(150)
