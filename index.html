@@ -16,7 +16,7 @@
 	</script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-	</script> 
+	</script>
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -61,12 +61,12 @@
 		</div>
 		<div class="container">
 			<div class="row justify-content-center">
-				<div id="select1"></div> 
+				<div id="select1"></div>
 			</div>
 		</div>
 
 
-		<div class="container-fluid">              
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12 col-lg-6 chart">
 					<div class="row justify-content-center">
@@ -91,7 +91,7 @@
 						<div style="width:100%">
 							<div id="ratings-composite-chart"></div>
 						</div>
-					</div> 
+					</div>
 					<div class="row justify-content-center">
 						<p>This chart shows the match rating each player has acquired each matchday week.</p>
 					</div>
@@ -120,7 +120,7 @@
 						<div style="width:100%">
 							<div id="goals-per-opponent-chart"></div>
 						</div>
-					</div> 
+					</div>
 					<div class="row justify-content-center">
 						<p>This chart shows the number of goals and assists made against each opponent played.</p>
 					</div>
@@ -135,9 +135,16 @@
 						<h5><em>(Chart 5)</em> Total Goals Per Person</h5>
 					</div>
 					<div class="row justify-content-center">
-						<div id="goals-per-person-piechart"></div>
+						<div class="col-6">
+							<div id="count-goals-per-person"></div>
+							<span class="filter-count"></span> selected out of <span class="total-count"></span> records
+							| <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+						</div>
+						<div class="col-6">
+							<div id="goals-per-person-piechart"></div>
+						</div>
 					</div>
-					<div class="row">
+					<div class="row justify-content-center">
 						<p>This chart shows the number of goals each player has scored compared to the total goals
 							scored.
 						</p>
@@ -149,9 +156,17 @@
 						<h5><em>(Chart 6)</em> Total Goals Per Opponent</h5>
 					</div>
 					<div class="row justify-content-center">
-						<div id="goals-per-opponent-piechart"></div>
+						<div class="col-6">
+							<div id="count-goals-per-opponent">
+								<span class="filter-count"></span> selected out of <span class="total-count"></span>
+								records | <a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+							</div>
+						</div>
+						<div class="col-6">
+							<div id="goals-per-opponent-piechart"></div>
+						</div>
 					</div>
-					<div class="row">
+					<div class="row justify-content-center">
 						<p>This chart shows the number of goals scored against the various opponents faced.</p>
 					</div>
 				</div>

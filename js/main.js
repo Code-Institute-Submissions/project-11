@@ -7,7 +7,9 @@ $(document).ready(function () {
     const ratingsLineChart = new dc.compositeChart('#ratings-composite-chart');//Match Ratings Chart object
     const personGoalsAssistsBarChart = new dc.barChart('#goals-per-person-chart');//Goals/Assists per person chart object
     const opponentGoalsAssistsBarChart = new dc.barChart('#goals-per-opponent-chart');//Goals/Assists per opponent chart object
+    const goalsPerPersonCount = new dc.dataCount('#count-goals-per-person');//data count goals per person object
     const goalsPerPersonPieChart = new dc.pieChart('#goals-per-person-piechart');//Goals per person pie chart object
+    const goalsPerOpponentCount = new dc.dataCount('#count-goals-per-opponent');//data count goals per opponent object
     const goalsPerOpponentPieChart = new dc.pieChart('#goals-per-opponent-piechart');//Goals per opponent chart object
 
     //Get data
@@ -48,7 +50,7 @@ $(document).ready(function () {
             }
         })
 
-        
+
         const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
         const minDate = date_dim.bottom(1)[0].date;//Declare and get the minimum date
         const maxDate = date_dim.top(1)[0].date;//Declare and get the maximum date
@@ -196,6 +198,16 @@ $(document).ready(function () {
             .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
         //.yAxis().ticks(4);
 
+        goalsPerPersonCount
+            .crossfilter(ndx)
+            .groupAll(all)
+            .html({
+                some: '<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
+                    ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'>Reset All</a>',
+                all: 'All records selected. Please click on the graph to apply filters.'
+            });
+
+
 
         //Pie chart 1
         goalsPerPersonPieChart
@@ -208,6 +220,18 @@ $(document).ready(function () {
         //.externalRadiusPadding(300)
         //.externalLabels(true)
 
+
+
+        goalsPerOpponentCount
+            .crossfilter(ndx)
+            .groupAll(all)
+            .html({
+                some: '<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
+                    ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'>Reset All</a>',
+                all: 'All records selected. Please click on the graph to apply filters.'
+            });
+
+            
         //Pie chart 2
         goalsPerOpponentPieChart
             //.width(150)
