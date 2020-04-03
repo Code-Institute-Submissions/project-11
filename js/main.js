@@ -170,7 +170,7 @@ $(document).ready(function () {
         //Group assists per person
         const total_assists_per_person3 = name_dim3.group().reduceSum(dc.pluck('assists'));//Group assists per person
 
-        //Goals/assists per person chart 3
+        //Goals/assists per person chart 3 object
         personGoalsAssistsBarChart
             .width($(personGoalsAssistsBarChart.anchor()).parent().width())
             .height(200)
@@ -209,6 +209,12 @@ $(document).ready(function () {
             .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
         //.yAxis().ticks(4);
 
+
+        //Create name dimension for chart 5
+        const name_dim5 = ndx.dimension(dc.pluck('name'));
+        //Group goals per person
+        const total_goals_per_person5 = name_dim5.group().reduceSum(dc.pluck('goals'));
+
         goalsPerPersonCount
             .crossfilter(ndx)
             .groupAll(all)
@@ -218,10 +224,6 @@ $(document).ready(function () {
                 all: 'All records selected. Please click on the graph to apply filters.'
             });
 
-        //Create name dimension for chart 5
-        const name_dim5 = ndx.dimension(dc.pluck('name'));
-        //Group goals per person
-        const total_goals_per_person5 = name_dim5.group().reduceSum(dc.pluck('goals'));
 
         //Pie chart 5
         goalsPerPersonPieChart
