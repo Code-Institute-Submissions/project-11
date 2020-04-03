@@ -49,6 +49,7 @@ function work() {
         }
     })
     var sub = name_dim.group().reduceSum(function (d) {
+        console.log(d.squad);
         if (d.squad === 0) {
             return +d.squad + 1;
         } else {
@@ -219,7 +220,7 @@ function work() {
 
     //Pie chart 2
     var opponent_dim = ndx.dimension(dc.pluck('opponent'));
-    var total_goals_per_opponenet = opponent_dim.group().reduceSum(dc.pluck('goals'));
+    var total_goals_per_opponent = opponent_dim.group().reduceSum(dc.pluck('goals'));
     dc.pieChart('#per-store-chart')
         .width(150)
         .height(150)

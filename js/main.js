@@ -7,8 +7,11 @@ $(document).ready(function () {
     const ratingsLineChart = new dc.compositeChart('#ratings-composite-chart');//Match Ratings Chart object
     const personGoalsAssistsBarChart = new dc.barChart('#goals-per-person-chart');//Goals/Assists per person chart object
     const opponentGoalsAssistsBarChart = new dc.barChart('#goals-per-opponent-chart');//Goals/Assists per opponent chart object
+    const goalsPerPersonCount = new dc.dataCount('#count-goals-per-person');//data count goals per person object
     const goalsPerPersonPieChart = new dc.pieChart('#goals-per-person-piechart');//Goals per person pie chart object
+    const goalsPerOpponentCount = new dc.dataCount('#count-goals-per-opponent');//data count goals per opponent object
     const goalsPerOpponentPieChart = new dc.pieChart('#goals-per-opponent-piechart');//Goals per opponent chart object
+    //const statsTable = new dc.dataTable('#data-table');//Player stats table object
 
     //Get data
     d3.json('data/stats.json').then(function (data) {
@@ -16,9 +19,9 @@ $(document).ready(function () {
 
         //Parse the date
         const dateFormatSpecifier = '%d/%m/%Y';
-        const dateFormat = d3.timeFormat(dateFormatSpecifier);
+        //const dateFormat = d3.timeFormat(dateFormatSpecifier);
         const dateFormatParser = d3.timeParse(dateFormatSpecifier);
-        const numberFormat = d3.format('.2f');
+        //const numberFormat = d3.format('.2f');
 
         data.forEach(d => {
             d.date = dateFormatParser(d.date);
@@ -29,10 +32,11 @@ $(document).ready(function () {
         const ndx = crossfilter(data);
         const all = ndx.groupAll();
 
-        //Create name dimension
-        const name_dim = ndx.dimension(dc.pluck('name'));
+        //Create name dimension for chart 1
+        const name_dim1 = ndx.dimension(dc.pluck('name'));
+
         //Create and calculate number of starts per player
-        const start = name_dim.group().reduceSum(function (d) {
+        const start = name_dim1.group().reduceSum(function (d) {
             if (d.squad === 1) {
                 return +d.squad;
             } else {
@@ -40,7 +44,7 @@ $(document).ready(function () {
             }
         })
         //Create and calculate number of subs per player
-        const sub = name_dim.group().reduceSum(function (d) {
+        const sub = name_dim1.group().reduceSum(function (d) {
             if (d.squad === 0) {
                 return +d.squad + 1;
             } else {
@@ -48,7 +52,21 @@ $(document).ready(function () {
             }
         })
 
-        
+        //Match Attendance Start/Sub Chart 1 object
+        attendanceStackedBarChart
+            .width($(attendanceStackedBarChart.anchor()).parent().width())
+            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+            .dimension(name_dim1)
+            .group(start, "Start")
+            .stack(sub, "Sub")
+            .transitionDuration(1000)
+            .x(d3.scaleBand())
+            .xUnits(dc.units.ordinal)
+            .ordinalColors(['blue', 'white'])
+            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+
+
+
         const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
         const minDate = date_dim.bottom(1)[0].date;//Declare and get the minimum date
         const maxDate = date_dim.top(1)[0].date;//Declare and get the maximum date
@@ -81,28 +99,7 @@ $(document).ready(function () {
         const paulRating = date_dim.group().reduceSum(rating_by_name('Paul'));
         const gusRating = date_dim.group().reduceSum(rating_by_name('Gus'));
 
-        const total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));//Group goals per person
-        const total_assists_per_person = name_dim.group().reduceSum(dc.pluck('assists'));//Group assists per person
-
-        const opponent_dim = ndx.dimension(dc.pluck('opponent'));//Create opponent dimension
-        const total_goals_per_opponent = opponent_dim.group().reduceSum(dc.pluck('goals'));//Group goals per opponent
-        const total_assists_per_opponent = opponent_dim.group().reduceSum(dc.pluck('assists'));//Group assists per opponent
-
-        //Match Attendance Start/Sub Chart
-        attendanceStackedBarChart
-            .width($(attendanceStackedBarChart.anchor()).parent().width())
-            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
-            .dimension(name_dim)
-            .group(start, "Start")
-            .stack(sub, "Sub")
-            .transitionDuration(1000)
-            .x(d3.scaleBand())
-            .xUnits(dc.units.ordinal)
-            .ordinalColors(['blue', 'white'])
-            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
-
-
-        //Player ratings chart
+        //Player ratings chart 2 object
         ratingsLineChart
             .width($(ratingsLineChart.anchor()).parent().width())
             .height(200)
@@ -165,14 +162,22 @@ $(document).ready(function () {
             .brushOn(false)
             .render();
 
-        //Goals/assists per person chart
+
+        //Create name dimension for chart 3
+        const name_dim3 = ndx.dimension(dc.pluck('name'));
+        //Group goals per person
+        const total_goals_per_person3 = name_dim3.group().reduceSum(dc.pluck('goals'));
+        //Group assists per person
+        const total_assists_per_person3 = name_dim3.group().reduceSum(dc.pluck('assists'));//Group assists per person
+
+        //Goals/assists per person chart 3
         personGoalsAssistsBarChart
             .width($(personGoalsAssistsBarChart.anchor()).parent().width())
             .height(200)
             .margins({ top: 30, right: 50, bottom: 30, left: 70 })
-            .dimension(name_dim)
-            .group(total_goals_per_person, "Goals")
-            .stack(total_assists_per_person, "Assists")
+            .dimension(name_dim3)
+            .group(total_goals_per_person3, "Goals")
+            .stack(total_assists_per_person3, "Assists")
             .transitionDuration(1000)
             .x(d3.scaleBand())
             .xUnits(dc.units.ordinal)
@@ -181,14 +186,22 @@ $(document).ready(function () {
         //.yAxis().ticks(4);
 
 
-        //Goals/asssists per opponent chart
+
+
+        //Create opponent dimension for chart 4
+        const opponent_dim4 = ndx.dimension(dc.pluck('opponent'));
+        const total_goals_per_opponent4 = opponent_dim4.group().reduceSum(dc.pluck('goals'));//Group goals per opponent
+        const total_assists_per_opponent4 = opponent_dim4.group().reduceSum(dc.pluck('assists'));//Group assists per opponent
+
+
+        //Goals/asssists per opponent chart 4 object
         opponentGoalsAssistsBarChart
             .width($(opponentGoalsAssistsBarChart.anchor()).parent().width())
             .height(200)
             .margins({ top: 30, right: 50, bottom: 30, left: 70 })
-            .dimension(opponent_dim)
-            .group(total_goals_per_opponent, "Goals")
-            .stack(total_assists_per_opponent, "Assists")
+            .dimension(opponent_dim4)
+            .group(total_goals_per_opponent4, "Goals")
+            .stack(total_assists_per_opponent4, "Assists")
             .transitionDuration(1000)
             .x(d3.scaleBand())
             .xUnits(dc.units.ordinal)
@@ -196,27 +209,80 @@ $(document).ready(function () {
             .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
         //.yAxis().ticks(4);
 
+        goalsPerPersonCount
+            .crossfilter(ndx)
+            .groupAll(all)
+            .html({
+                some: '<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
+                    ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'>Reset All</a>',
+                all: 'All records selected. Please click on the graph to apply filters.'
+            });
 
-        //Pie chart 1
+        //Create name dimension for chart 5
+        const name_dim5 = ndx.dimension(dc.pluck('name'));
+        //Group goals per person
+        const total_goals_per_person5 = name_dim5.group().reduceSum(dc.pluck('goals'));
+
+        //Pie chart 5
         goalsPerPersonPieChart
             //.width(150)
             //.height(150)
             .radius(80)
-            .dimension(name_dim)
-            .group(total_goals_per_person)
+            .dimension(name_dim5)
+            .group(total_goals_per_person5)
             .transitionDuration(1000)
         //.externalRadiusPadding(300)
         //.externalLabels(true)
 
-        //Pie chart 2
+
+        //Create opponent dimension for chart 6
+        const opponent_dim6 = ndx.dimension(dc.pluck('opponent'));
+        const total_goals_per_opponent6 = opponent_dim6.group().reduceSum(dc.pluck('goals'));//Group goals per opponent
+        goalsPerOpponentCount
+            .crossfilter(ndx)
+            .groupAll(all)
+            .html({
+                some: '<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
+                    ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'>Reset All</a>',
+                all: 'All records selected. Please click on the graph to apply filters.'
+            });
+
+
+        //Pie chart 6
         goalsPerOpponentPieChart
             //.width(150)
             //.height(150)
             .radius(80)
             .transitionDuration(1000)
-            .dimension(opponent_dim)
-            .group(total_goals_per_opponent)
+            .dimension(opponent_dim6)
+            .group(total_goals_per_opponent6)
 
+        /*statsTable
+            .dimension(name_dim)
+            .section(d => {
+                return d.name;
+            })
+            .size(100)
+            .columns([
+                {
+                    label: 'Starts',
+                    format: function (d) {
+                        //console.log(d);
+                        //console.log(d.goals);
+                        return (d.goals);
+
+                    }
+                },
+                function (d) { return d.squad; },
+                //function (d) { return d.sub; },
+
+                //function (d) { return d.total_assists_per_person; },
+                //function (d) { return d.rating; },
+
+
+
+            ]);
+            */
         dc.renderAll();
         dc.redrawAll();
     });
