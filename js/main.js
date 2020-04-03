@@ -85,6 +85,7 @@ $(document).ready(function () {
         const gusRating = date_dim.group().reduceSum(rating_by_name('Gus'));
 
         const total_goals_per_person = name_dim.group().reduceSum(dc.pluck('goals'));//Group goals per person
+        console.log(total_goals_per_person);
         const total_assists_per_person = name_dim.group().reduceSum(dc.pluck('assists'));//Group assists per person
 
         const opponent_dim = ndx.dimension(dc.pluck('opponent'));//Create opponent dimension
@@ -244,25 +245,32 @@ $(document).ready(function () {
 
         statsTable
             .dimension(name_dim)
-            .section(d => {
-                //console.log(d.name);
-                //return name_dim;
-
-
+            .section(function (d) {
+                return d.name;
             })
             .size(100)
             .columns([
-                /*
-                data.forEach(function (d) {                  
-                        return d.name;
-                }),
-                */
-                function (d) { return d.squad; },
-                function (d) { return d.sub; },
-                function (d) { return d.goals; },
-                function (d) { return d.assists; },
-                function (d) { return d.rating; },
-                
+
+                function (d) {
+                    console.log(d.name);
+                    console.log(d.squad);
+                    if (d.squad === 1) {
+                        console.log("d.squad = " + d.squad);
+                        return +d.squad;
+
+                    } else {
+                        console.log("0000000");
+                        return 0;
+                    }
+                },
+                //function (d) { return d.squad; },
+                //function (d) { return d.sub; },
+
+                //function (d) { return d.assists; },
+                //function (d) { return d.rating; },
+
+
+
             ]);
         dc.renderAll();
         dc.redrawAll();
