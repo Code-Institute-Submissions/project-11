@@ -19,9 +19,9 @@ $(document).ready(function () {
 
         //Parse the date
         const dateFormatSpecifier = '%d/%m/%Y';
-        const dateFormat = d3.timeFormat(dateFormatSpecifier);
+        //const dateFormat = d3.timeFormat(dateFormatSpecifier);
         const dateFormatParser = d3.timeParse(dateFormatSpecifier);
-        const numberFormat = d3.format('.2f');
+        //const numberFormat = d3.format('.2f');
 
         data.forEach(d => {
             d.date = dateFormatParser(d.date);
@@ -245,28 +245,30 @@ $(document).ready(function () {
 
         statsTable
             .dimension(name_dim)
-            .section(function (d) {
-                return d.name;
-            })
+            .section(d => {
+                    return d.name;
+                })
             .size(100)
             .columns([
+                {
+                    label: 'Starts',
+                    format: function (d) {
+                        //console.log(d.name);
+                        //console.log(d.squad);
+                        if (d.squad === 1) {
+                            //console.log("d.squad = " + d.squad);
+                            return +d.squad;
 
-                function (d) {
-                    console.log(d.name);
-                    console.log(d.squad);
-                    if (d.squad === 1) {
-                        console.log("d.squad = " + d.squad);
-                        return +d.squad;
-
-                    } else {
-                        console.log("0000000");
-                        return 0;
+                        } else {
+                            //console.log("0000000");
+                            return d.squad;
+                        }
                     }
                 },
                 //function (d) { return d.squad; },
                 //function (d) { return d.sub; },
 
-                //function (d) { return d.assists; },
+                //function (d) { return d.total_assists_per_person; },
                 //function (d) { return d.rating; },
 
 
