@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     'use strict';
     //Declare SelectMenu object
-    //const select = new dc.selectMenu('#select1');
+    const select1 = new dc.selectMenu('#select1'); 
     //Declare chart objects
     const attendanceStackedBarChart = new dc.barChart('#attendance-chart'); //Match Attendance Start/Sub Chart object
     const ratingsLineChart = new dc.compositeChart('#ratings-composite-chart');//Match Ratings Chart object
@@ -35,18 +35,18 @@ $(document).ready(function () {
         const all = ndx.groupAll();
 
         //Create the name dimension for select menu
-        //const name_dim_select = ndx.dimension(dc.pluck('name'));
-
+        const name_dim_select1 = ndx.dimension(dc.pluck('name'));
+        const playerName = name_dim_select1.group();
         //Select menu object
-        /*
+
         select1
-            .dimension(name_dim_select)
-            .groupAll(all);
+            .dimension(name_dim_select1)
+            .group(playerName)
         select1
             .title(function (d) {
                 return d.key;
             })
-        */    
+
 
         //Create name dimension for chart 1
         const name_dim1 = ndx.dimension(dc.pluck('name'));
