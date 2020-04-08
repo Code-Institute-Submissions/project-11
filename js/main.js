@@ -3,15 +3,15 @@ $(document).ready(function () {
 
     'use strict';
     //Declare SelectMenu object
-    const select1 = new dc.selectMenu('#select1'); 
+    const select1 = new dc.selectMenu('#select1');
     //Declare chart objects
     const attendanceStackedBarChart = new dc.barChart('#attendance-chart'); //Match Attendance Start/Sub Chart object
     const ratingsLineChart = new dc.compositeChart('#ratings-composite-chart');//Match Ratings Chart object
     const personGoalsAssistsBarChart = new dc.barChart('#goals-per-person-chart');//Goals/Assists per person chart object
     const opponentGoalsAssistsBarChart = new dc.barChart('#goals-per-opponent-chart');//Goals/Assists per opponent chart object
-    const goalsPerPersonCount = new dc.dataCount('#count-goals-per-person');//data count goals per person object
+    const assistsPerPersonPieChart = new dc.pieChart('#assists-per-person-piechart');//data count goals per person object
     const goalsPerPersonPieChart = new dc.pieChart('#goals-per-person-piechart');//Goals per person pie chart object
-    const goalsPerOpponentCount = new dc.dataCount('#count-goals-per-opponent');//data count goals per opponent object
+    const assistsPerOpponentPieChart = new dc.pieChart('#assists-per-opponent-piechart');//data count goals per opponent object
     const goalsPerOpponentPieChart = new dc.pieChart('#goals-per-opponent-piechart');//Goals per opponent chart object
     //const statsTable = new dc.dataTable('#data-table');//Player stats table object
 
@@ -229,17 +229,14 @@ $(document).ready(function () {
         //Create name dimension for chart 5
         const name_dim5 = ndx.dimension(dc.pluck('name'));
         //Group goals per person
+        const total_assists_per_person5 = name_dim5.group().reduceSum(dc.pluck('assists'));
         const total_goals_per_person5 = name_dim5.group().reduceSum(dc.pluck('goals'));
 
-        goalsPerPersonCount
-            .crossfilter(ndx)
-            .groupAll(all)
-            .html({
-                some: '<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
-                    ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'>Reset All</a>',
-                all: 'All records selected. Please click on the graph to apply filters.'
-            });
-
+        assistsPerPersonPieChart
+            .radius(80)
+            .dimension(name_dim5)
+            .group(total_assists_per_person5)
+            .transitionDuration(1000)
 
         //Pie chart 5
         goalsPerPersonPieChart
@@ -255,17 +252,15 @@ $(document).ready(function () {
 
         //Create opponent dimension for chart 6
         const opponent_dim6 = ndx.dimension(dc.pluck('opponent'));
+        const total_assists_per_opponent6 = opponent_dim6.group().reduceSum(dc.pluck('assists'));//Group assists per opponent
         const total_goals_per_opponent6 = opponent_dim6.group().reduceSum(dc.pluck('goals'));//Group goals per opponent
-        goalsPerOpponentCount
-            .crossfilter(ndx)
-            .groupAll(all)
-            .html({
-                some: '<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
-                    ' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'>Reset All</a>',
-                all: 'All records selected. Please click on the graph to apply filters.'
-            });
 
 
+        assistsPerOpponentPieChart
+            .radius(80)
+            .transitionDuration(1000)
+            .dimension(opponent_dim6)
+            .group(total_assists_per_opponent6)
         //Pie chart 6
         goalsPerOpponentPieChart
             //.width(150)
