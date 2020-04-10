@@ -13,7 +13,7 @@ $(document).ready(function () {
     const goalsPerPersonPieChart = new dc.pieChart('#goals-per-person-piechart');//Goals per person pie chart object
     const assistsPerOpponentPieChart = new dc.pieChart('#assists-per-opponent-piechart');//data count goals per opponent object
     const goalsPerOpponentPieChart = new dc.pieChart('#goals-per-opponent-piechart');//Goals per opponent chart object
-    //const statsTable = new dc.dataTable('#data-table');//Player stats table object
+    const statsTable = new dc.dataTable('#data-table');//Player stats table object
 
     //Get data
     d3.json('data/stats.json').then(function (data) {
@@ -270,32 +270,40 @@ $(document).ready(function () {
             .dimension(opponent_dim6)
             .group(total_goals_per_opponent6)
 
-        /*statsTable
-            .dimension(name_dim)
-            .section(d => {
+
+        const name_dim_table = ndx.dimension(dc.pluck('name'));   
+        //const goals_table = name_dim_table.group().reduceSum(function(d) {return +d.goals;});
+        const nameGrouping = name_dim_table.group().reduceSum(dc.pluck('goals'));
+        const goalsPerNameGrouping = nameGrouping.all();
+        console.log(goalsPerNameGrouping);
+
+        statsTable
+            .dimension(name_dim_table)
+            .section(function(d) {
                 return d.name;
             })
             .size(100)
             .columns([
-                {
-                    label: 'Starts',
-                    format: function (d) {
-                        //console.log(d);
-                        //console.log(d.goals);
-                        return (d.goals);
-
-                    }
-                },
-                function (d) { return d.squad; },
+                function (d) { return +d.squad; },
                 //function (d) { return d.sub; },
 
                 //function (d) { return d.total_assists_per_person; },
                 //function (d) { return d.rating; },
+                {
+                    label: 'Goals',
+                    format: function (goalsPerNameGrouping) {
+                        //console.log(goals_table.value());
+                        //console.log(goals_table.value());
+                        return goalsPerNameGrouping.value;
+
+                    }
+                },
+                
 
 
 
             ]);
-            */
+            
         dc.renderAll();
         dc.redrawAll();
     });
