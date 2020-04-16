@@ -291,8 +291,8 @@ $(document).ready(function () {
                 {
                     label: 'Goals',
                     format: function (goalsPerNameGrouping) {
-                        console.log(goalsPerNameGrouping);
-                        console.log(goalsPerNameGrouping.value);
+                        //console.log(goalsPerNameGrouping);
+                        //console.log(goalsPerNameGrouping.value);
                         //return goalsPerNameGrouping.value;
                         //return goalsPerNameGrouping.value();
                         return goalsPerNameGrouping.valueOf();                      
