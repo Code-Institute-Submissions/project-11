@@ -110,6 +110,7 @@
             //.data(function(group) { return group.top(3)})
             //.x(d3.scaleBand())
             //.xUnits(dc.units.ordinal)
+            .title(d => d.opponent)
             ;
 
         opponentChart
@@ -134,7 +135,13 @@
             "name",
             "opponent",
             "goals",
-            "assists"
+            "assists",
+            {
+                label: 'this label',
+                format: function (d) {
+                    return d.start;
+                }
+            }
         ]);
         dc.renderAll();
     });
