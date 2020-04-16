@@ -271,8 +271,8 @@ $(document).ready(function () {
             .group(total_goals_per_opponent6)
 
 
-        const name_dim_table = ndx.dimension(function(d) {return d.name;});
-        const goalGrouping = name_dim_table.group().reduceSum(function(d) {return +d.goals;});
+        const name_dim_table = ndx.dimension(function (d) { return d.name; });
+        const goalGrouping = name_dim_table.group().reduceSum(function (d) { return +d.goals; });
         console.log(goalGrouping);
         const goalsPerNameGrouping = goalGrouping.all();
         console.log(goalsPerNameGrouping);
@@ -281,37 +281,23 @@ $(document).ready(function () {
             .dimension(name_dim_table)
             .section(function (d) {
                 return d.name;
-            }, "Name")
+            })
             .showSections(true)
-            //.size(1000)
-            .sortBy(function(d) {
+            .size(1000)
+            .sortBy(function (d) {
                 return d.name;
             })
             .columns([
-                //"goalsPerNameGrouping.value",
-                //function (d) { return d.sub; },
-
-                //function (d) { return d.total_assists_per_person; },
-                //function (d) { return d.rating; },
-                
                 {
                     label: 'Goals',
                     format: function (goalsPerNameGrouping) {
-                        //console.log(goalsPerNameGrouping);
-                        for (x in goalsPerNameGrouping) {
-                            //console.log("x = " + goalsPerNameGrouping[x]);
-                            return goalsPerNameGrouping[x];
-                        }
-                        //console.log(goalsPerNameGrouping);
-                        //console.log(goals_table.value());
-                        //return goalsPerNameGrouping.valueOf();
-
+                        console.log(goalsPerNameGrouping);
+                        console.log(goalsPerNameGrouping.value);
+                        //return goalsPerNameGrouping.value;
+                        //return goalsPerNameGrouping.value();
+                        return goalsPerNameGrouping.valueOf();                      
                     }
                 },
-
-
-
-
             ]);
 
         dc.renderAll();
