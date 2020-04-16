@@ -110,7 +110,7 @@
             //.data(function(group) { return group.top(3)})
             //.x(d3.scaleBand())
             //.xUnits(dc.units.ordinal)
-            .title(d => d.opponent)
+            //.title(d => d.opponent)
             ;
 
         opponentChart
@@ -128,21 +128,29 @@
 
         visTable
         .dimension(dateDim)
-        //.section(d => {          
-            //return `${d.name}`;
-        //})
+        .section(d => {          
+            return `${d.opponent}`;
+        })
+        .showSections(true)
         .columns([
             "name",
-            "opponent",
+            //"opponent",
             "goals",
             "assists",
             {
-                label: 'this label',
+                label: 'Starts',
                 format: function (d) {
-                    return d.start;
+                    if(d.squad === 1) {
+                        return "Start";
+                    }
+                    else {
+                        return "Sub";
+                    }
                 }
             }
-        ]);
+        ])
+        .size(1000)
+        ;
         dc.renderAll();
     });
 	</script>

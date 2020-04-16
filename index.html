@@ -36,13 +36,13 @@
 	<!-- queue charting library -->
 	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js" integrity="sha256-wvO537iwaZblh5EKbL0aQlyjjtADksAZ1fqH/U0zdmA=" crossorigin="anonymous"></script>-->
 	<!--My JavaScript link-------------->
-	<script type="text/javascript" src="js/main.js"></script>
+	<!--<script type="text/javascript" src="js/main.js"></script>-->
 	<!--My css link-------------->
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
 <body>
-<a href="index1.html">Visit index1.html</a>
+	<a href="index1.html">Visit index1.html</a>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 text-center heading">
@@ -175,17 +175,15 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
-				<div id='data-table'>
-					<!-- create a custom header -->
-					<div class='header'>
-						<span>Name</span>
-						<span>Matches</span>
-						<span>Goals</span>
-						<span>Assists</span>
-						<span>Avg Rating</span>
+				<!--Chart Table-->
+				<div>
+					<div class="dc-data-count">
+						<span class="filter-count"></span> selected out of <span class="total-count"></span> records |
+						<a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
 					</div>
-					<!-- data rows will filled in here -->
 				</div>
+				<table class="table table-hover dc-data-table">
+				</table>
 			</div>
 		</div>
 
@@ -193,7 +191,88 @@
 
 
 	<script>
+		//Declare chart objects
+    const attendanceStackedBarChart = new dc.barChart('#attendance-chart'); //Match Attendance Start/Sub Chart object
+    const visCount = dc.dataCount(".dc-data-count");
+    const visTable = dc.dataTable(".dc-data-table");
+    //Get data
+    d3.json('data/stats.json').then(function (data) {
+        console.log(data);
 
+        //Parse the date
+        const dateFormatSpecifier = '%d/%m/%Y';
+        //const dateFormat = d3.timeFormat(dateFormatSpecifier);
+        const dateFormatParser = d3.timeParse(dateFormatSpecifier);
+        //const numberFormat = d3.format('.2f');
+
+        data.forEach(d => {
+            d.date = dateFormatParser(d.date);
+            //console.log(d.date);
+        });
+
+        //Create the crossfilter
+        const ndx = crossfilter(data);
+        const all = ndx.groupAll();
+
+        //Create name dimension for chart 1
+        const name_dim1 = ndx.dimension(dc.pluck('name'));
+        const dateDim = ndx.dimension(function(d) {return d.date});
+        const starts = name_dim1.group().reduceSum(dc.pluck('squad'));
+        const sub = name_dim1.group().reduceSum(function(d) {
+            if(d.squad === 0) {
+                return +d.squad + 1;
+            } else {
+                return 0;
+            }
+        })
+
+
+        //Match Attendance Start/Sub Chart 1 object
+        attendanceStackedBarChart
+            .width($(attendanceStackedBarChart.anchor()).parent().width())
+            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+            .dimension(name_dim1)
+            .group(starts, "Start")
+            .stack(sub, "Sub")
+            .transitionDuration(1000)
+            .x(d3.scaleBand())
+            .xUnits(dc.units.ordinal)
+            .ordinalColors(['blue', 'white'])
+            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+
+        visCount
+        .crossfilter(ndx)
+        .group(all);
+
+        visTable
+        .dimension(dateDim)
+        .section(d => {          
+            return `${d.opponent}`;
+        })
+        .showSections(true)
+        .columns([
+            "name",
+            //"opponent",
+            "goals",
+            "assists",
+            {
+                label: 'Starts',
+                format: function (d) {
+                    if(d.squad === 1) {
+                        return "Start";
+                    }
+                    else {
+                        return "Sub";
+                    }
+                }
+            }
+        ])
+        .size(1000)
+        ;
+            
+        dc.renderAll();
+        dc.redrawAll();
+    });
 	</script>
 </body>
 
