@@ -36,13 +36,13 @@
 	<!-- queue charting library -->
 	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js" integrity="sha256-wvO537iwaZblh5EKbL0aQlyjjtADksAZ1fqH/U0zdmA=" crossorigin="anonymous"></script>-->
 	<!--My JavaScript link-------------->
-	<script type="text/javascript" src="js/main.js"></script>
+	<!--<script type="text/javascript" src="js/main.js"></script>-->
 	<!--My css link-------------->
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
 <body>
-
+	<a href="index1.html">Visit index1.html</a>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 text-center heading">
@@ -69,7 +69,12 @@
 					</div>
 					<div class="container">
 						<div style="width:100%">
-							<div id="attendance-chart"></div>
+							<div id="attendance-chart">
+								<span class="reset" style="display: none;"><strong>Player(s) selected: </strong><span class="filter"></span></span>
+								<a class="reset" href="javascript:attendanceStackedBarChart.filterAll();dc.redrawAll();"
+									style="display: none;">reset</a>
+								<div class="clearfix"></div>
+							</div>
 						</div>
 					</div>
 					<div class="row justify-content-center">
@@ -84,7 +89,9 @@
 					</div>
 					<div class="container">
 						<div style="width:100%">
-							<div id="ratings-composite-chart"></div>
+							<div id="ratings-composite-chart">
+
+							</div>
 						</div>
 					</div>
 					<div class="row justify-content-center">
@@ -96,11 +103,17 @@
 			<div class="row">
 				<div class="col-12 col-lg-6 chart">
 					<div class="row justify-content-center">
-						<h5><em>(Chart 3)</em> Total Goals/Assists Per Person</h5>
+						<h5><em>(Chart 3) </em>Total Goals/Assists Per Person</h5>
 					</div>
 					<div class="container">
 						<div style="width:100%">
-							<div id="goals-per-person-chart"></div>
+							<div id="goals-per-person-chart">
+								<span class="reset" style="display: none;"><strong>Player(s) selected: </strong><span class="filter"></span></span>
+								<a class="reset"
+									href="javascript:personGoalsAssistsBarChart.filterAll();dc.redrawAll();"
+									style="display: none;">reset</a>
+								<div class="clearfix"></div>
+							</div>
 						</div>
 					</div>
 					<div class="row justify-content-center">
@@ -113,7 +126,13 @@
 					</div>
 					<div class="container">
 						<div style="width:100%">
-							<div id="goals-per-opponent-chart"></div>
+							<div id="goals-per-opponent-chart">
+								<span class="reset" style="display: none;"><strong>Opponent(s) selected: </strong><span class="filter"></span></span>
+								<a class="reset"
+									href="javascript:opponentGoalsAssistsBarChart.filterAll();dc.redrawAll();"
+									style="display: none;">reset</a>
+								<div class="clearfix"></div>
+							</div>
 						</div>
 					</div>
 					<div class="row justify-content-center">
@@ -131,7 +150,12 @@
 					</div>
 					<div class="row justify-content-center">
 						<div class="col-6">
-							<div id="assists-per-person-piechart"></div>
+							<div id="assists-per-person-piechart">
+								<span class="reset" style="display: none;"><strong>Opponent(s) selected: </strong><span class="filter"></span></span>
+								<a class="reset" href="javascript:assistsPerPersonPieChart.filterAll();dc.redrawAll();"
+									style="display: none;">reset</a>
+								<div class="clearfix"></div>
+							</div>
 
 						</div>
 						<div class="col-6">
@@ -175,17 +199,15 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
-				<div id='data-table'>
-					<!-- create a custom header -->
-					<div class='header'>
-						<span>Name</span>
-						<span>Matches</span>
-						<span>Goals</span>
-						<span>Assists</span>
-						<span>Avg Rating</span>
+				<!--Chart Table-->
+				<div>
+					<div class="dc-data-count">
+						<span class="filter-count"></span> selected out of <span class="total-count"></span> records |
+						<a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
 					</div>
-					<!-- data rows will filled in here -->
 				</div>
+				<table class="table table-hover dc-data-table">
+				</table>
 			</div>
 		</div>
 
@@ -193,7 +215,285 @@
 
 
 	<script>
+		//Declare chart objects
+    const attendanceStackedBarChart = new dc.barChart('#attendance-chart'); //Match Attendance Start/Sub Chart object
+    const ratingsLineChart = new dc.compositeChart('#ratings-composite-chart');//Match Ratings Chart object
+    const personGoalsAssistsBarChart = new dc.barChart('#goals-per-person-chart');//Goals/Assists per person chart object
+    const opponentGoalsAssistsBarChart = new dc.barChart('#goals-per-opponent-chart');//Goals/Assists per opponent chart object
+    const assistsPerPersonPieChart = new dc.pieChart('#assists-per-person-piechart');//data count goals per person object
+    const goalsPerPersonPieChart = new dc.pieChart('#goals-per-person-piechart');//Goals per person pie chart object
+    const assistsPerOpponentPieChart = new dc.pieChart('#assists-per-opponent-piechart');//data count goals per opponent object
+    const goalsPerOpponentPieChart = new dc.pieChart('#goals-per-opponent-piechart');//Goals per opponent chart object
 
+
+    const visCount = dc.dataCount(".dc-data-count");
+    const visTable = dc.dataTable(".dc-data-table");
+    //Get data
+    d3.json('data/stats.json').then(function (data) {
+        console.log(data);
+
+        //Parse the date
+        const dateFormatSpecifier = '%d/%m/%Y';
+        //const dateFormat = d3.timeFormat(dateFormatSpecifier);
+        const dateFormatParser = d3.timeParse(dateFormatSpecifier);
+        //const numberFormat = d3.format('.2f');
+
+        data.forEach(d => {
+            d.date = dateFormatParser(d.date);
+            //console.log(d.date);
+        });
+
+        //Create the crossfilter
+        const ndx = crossfilter(data);
+        const all = ndx.groupAll();
+
+        //Create name dimension for chart 1
+        const name_dim1 = ndx.dimension(dc.pluck('name'));
+        const dateDim = ndx.dimension(function(d) {return d.date});
+        const starts = name_dim1.group().reduceSum(dc.pluck('squad'));
+        const sub = name_dim1.group().reduceSum(function(d) {
+            if(d.squad === 0) {
+                return +d.squad + 1;
+            } else {
+                return 0;
+            }
+        })
+
+
+        //Match Attendance Start/Sub Chart 1 object
+        attendanceStackedBarChart
+            .width($(attendanceStackedBarChart.anchor()).parent().width())
+            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+            .dimension(name_dim1)
+            .group(starts, "Start")
+            .stack(sub, "Sub")
+            .transitionDuration(1000)
+            .x(d3.scaleBand())
+            .xUnits(dc.units.ordinal)
+            .ordinalColors(['blue', 'white'])
+            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+
+
+const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
+        const minDate = date_dim.bottom(1)[0].date;//Declare and get the minimum date
+        const maxDate = date_dim.top(1)[0].date;//Declare and get the maximum date
+        //Get the player rating for each date
+        function rating_by_name(name) {
+            return function (d) {
+                if (d.name === name) {
+                    return d.rating;
+                } else {
+                    return 0;
+                }
+            }
+        };
+
+        //Group the ratings by player name
+        const jamieRating = date_dim.group().reduceSum(rating_by_name('Jamie'));
+        const joshfRating = date_dim.group().reduceSum(rating_by_name('Josh F'));
+        const joshrRating = date_dim.group().reduceSum(rating_by_name('Josh R'));
+        const jamesRating = date_dim.group().reduceSum(rating_by_name('James'));
+        const jackRating = date_dim.group().reduceSum(rating_by_name('Jack'));
+        const seanRating = date_dim.group().reduceSum(rating_by_name('Sean'));
+        const ralphRating = date_dim.group().reduceSum(rating_by_name('Ralph'));
+        const alexRating = date_dim.group().reduceSum(rating_by_name('Alex'));
+        const pavanRating = date_dim.group().reduceSum(rating_by_name('Pavan'));
+        const tadghRating = date_dim.group().reduceSum(rating_by_name('Tadgh'));
+        const coleRating = date_dim.group().reduceSum(rating_by_name('Cole'));
+        const leeRating = date_dim.group().reduceSum(rating_by_name('Lee'));
+        const marcusRating = date_dim.group().reduceSum(rating_by_name('Marcus'));
+        const saadRating = date_dim.group().reduceSum(rating_by_name('Saad'));
+        const paulRating = date_dim.group().reduceSum(rating_by_name('Paul'));
+        const gusRating = date_dim.group().reduceSum(rating_by_name('Gus'));
+
+        //Player ratings chart 2 object
+        ratingsLineChart
+            .width($(ratingsLineChart.anchor()).parent().width())
+            .height(200)
+            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+            .dimension(date_dim)
+            .transitionDuration(1000)
+            .x(d3.scaleTime().domain([minDate, maxDate]))
+            .legend(dc.legend().x(0).y(0).itemHeight(7).gap(5))
+            .renderHorizontalGridLines(true)
+            .compose([
+                new dc.lineChart(ratingsLineChart)
+                    .colors('green')
+                    .group(jamieRating, 'Jamie'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('red')
+                    .group(joshfRating, 'Josh F'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('blue')
+                    .group(joshrRating, 'Josh R'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('maroon')
+                    .group(jackRating, 'Jack'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('yellow')
+                    .group(jamesRating, 'James'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('pink')
+                    .group(seanRating, 'Sean'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('tomato')
+                    .group(ralphRating, 'Ralph'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('orange')
+                    .group(alexRating, 'Alex'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('dodgerblue')
+                    .group(pavanRating, 'Pavan'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('mediumseagreen')
+                    .group(tadghRating, 'Tadgh'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('grey')
+                    .group(coleRating, 'Cole'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('slateblue')
+                    .group(leeRating, 'Lee'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('violet')
+                    .group(marcusRating, 'Marcus'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('lightgrey')
+                    .group(saadRating, 'Saad'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('teal')
+                    .group(paulRating, 'Paul'),
+                new dc.lineChart(ratingsLineChart)
+                    .colors('black')
+                    .group(gusRating, 'Gus'),
+            ])
+            .brushOn(false)
+            .render();
+
+
+        //Create name dimension for chart 3
+        const name_dim3 = ndx.dimension(dc.pluck('name'));
+        const total_goals_per_person3 = name_dim3.group().reduceSum(dc.pluck('goals'));
+        //Group assists per person
+        const total_assists_per_person3 = name_dim3.group().reduceSum(dc.pluck('assists'));//Group assists per person
+
+
+        //Goals/assists per person chart 3 object
+        personGoalsAssistsBarChart
+            .width($(personGoalsAssistsBarChart.anchor()).parent().width())
+            .height(200)
+            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+            .dimension(name_dim3)
+            .group(total_goals_per_person3, "Goals")
+            .stack(total_assists_per_person3, "Assists")
+            .transitionDuration(1000)
+            .x(d3.scaleBand())
+            .xUnits(dc.units.ordinal)
+            .ordinalColors(['blue', 'white'])
+            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+        //.yAxis().ticks(4);
+
+
+        //Create opponent dimension for chart 4
+        const opponent_dim4 = ndx.dimension(dc.pluck('opponent'));
+        const total_goals_per_opponent4 = opponent_dim4.group().reduceSum(dc.pluck('goals'));//Group goals per opponent
+        const total_assists_per_opponent4 = opponent_dim4.group().reduceSum(dc.pluck('assists'));//Group assists per opponent
+
+
+        //Goals/asssists per opponent chart 4 object
+        opponentGoalsAssistsBarChart
+            .width($(opponentGoalsAssistsBarChart.anchor()).parent().width())
+            .height(200)
+            .margins({ top: 30, right: 50, bottom: 30, left: 70 })
+            .dimension(opponent_dim4)
+            .group(total_goals_per_opponent4, "Goals")
+            .stack(total_assists_per_opponent4, "Assists")
+            .transitionDuration(1000)
+            .x(d3.scaleBand())
+            .xUnits(dc.units.ordinal)
+            .ordinalColors(['blue', 'white'])
+            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+        //.yAxis().ticks(4);
+
+//Create name dimension for chart 5
+        const name_dim5 = ndx.dimension(dc.pluck('name'));
+        //Group goals per person
+        const total_assists_per_person5 = name_dim5.group().reduceSum(dc.pluck('assists'));
+        const total_goals_per_person5 = name_dim5.group().reduceSum(dc.pluck('goals'));
+
+        assistsPerPersonPieChart
+            .radius(80)
+            .dimension(name_dim5)
+            .group(total_assists_per_person5)
+            .transitionDuration(1000)
+
+        //Pie chart 5
+        goalsPerPersonPieChart
+            //.width(150)
+            //.height(150)
+            .radius(80)
+            .dimension(name_dim5)
+            .group(total_goals_per_person5)
+            .transitionDuration(1000)
+        //.externalRadiusPadding(300)
+        //.externalLabels(true)
+
+
+        //Create opponent dimension for chart 6
+        const opponent_dim6 = ndx.dimension(dc.pluck('opponent'));
+        const total_assists_per_opponent6 = opponent_dim6.group().reduceSum(dc.pluck('assists'));//Group assists per opponent
+        const total_goals_per_opponent6 = opponent_dim6.group().reduceSum(dc.pluck('goals'));//Group goals per opponent
+
+
+        assistsPerOpponentPieChart
+            .radius(80)
+            .transitionDuration(1000)
+            .dimension(opponent_dim6)
+            .group(total_assists_per_opponent6)
+        //Pie chart 6
+        goalsPerOpponentPieChart
+            //.width(150)
+            //.height(150)
+            .radius(80)
+            .transitionDuration(1000)
+            .dimension(opponent_dim6)
+            .group(total_goals_per_opponent6)
+
+
+        visCount
+        .crossfilter(ndx)
+        .group(all);
+
+        visTable
+        .dimension(dateDim)
+        .section(d => {          
+            return `${d.opponent}`;
+        })
+        .showSections(true)
+        .columns([
+            "name",
+            //"opponent",
+            {
+                label: 'Start/Sub',
+                format: function (d) {
+                    if(d.squad === 1) {
+                        return "Start";
+                    }
+                    else {
+                        return "Sub";
+                    }
+                }
+            },
+            "goals",
+            "assists",
+            "rating"
+            
+        ])
+        .size(1000)
+        ;
+            
+        dc.renderAll();
+        dc.redrawAll();
+    });
 	</script>
 </body>
 

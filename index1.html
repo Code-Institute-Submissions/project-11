@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>index1</title>
+	<title>Index</title>
 
 	<!-- Bootstrap js files -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -24,151 +24,135 @@
 	<!-- dc CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.min.css" type="text/css" />
 	<!-- d3 charting library -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.1/d3.min.js"
+		integrity="sha256-SQJ/nCYPXFPuqoS56EfnesDBPNiitndOIfN2WdPRi/o=" crossorigin="anonymous"></script>
 	<!-- Crossfilter charting library -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js">
-	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"
+		integrity="sha256-T9tvV3x+/vCnCoFciKNZwbaJ46q9lh6iZjD0ZjD95lE=" crossorigin="anonymous"></script>
 	<!-- dc charting library -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.js"></script>
-	<!-- queue charting library -->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-queue/1.0.7/d3-queue.min.js"></script>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.2.1/dc.min.js"
+		integrity="sha256-g36jGLL708D9oZr5QHvv1KB0lnMupwfKDFK2nTK+PD0=" crossorigin="anonymous"></script>
+	<!-- queue charting library -->
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js" integrity="sha256-wvO537iwaZblh5EKbL0aQlyjjtADksAZ1fqH/U0zdmA=" crossorigin="anonymous"></script>-->
 	<!--My JavaScript link-------------->
-	<script type="text/javascript" src="js/main1.js"></script>
+	<!--<script type="text/javascript" src="js/main2.js"></script>-->
 	<!--My css link-------------->
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
 <body>
+	<a href="index.html">Visit index.html</a>
 
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-12 text-center heading">
-				<h1><img src="images/EskerCrest.JPG">ESKER <span>CELTIC</span> U13's</h1>
-			</div>
-		</div>
-		<div class="container test-notice">
-			<p>NOTE -
-				<em>This page uses the outdated library version links and is controlled by JavaScript code written on main1.js. It shows the desired output I am trying to achieve.</em>
-			</p>
-			<p><em>Click button below to view page display using the most up to date library versions</em></p>
-			<a class="btn btn-danger" href="index.html" role="button">View new functionality</a>
-		</div>
-		<div class="container intro">
-			<p>Kids love to see how they're doing and how they compare to each other. Select a name from the drop down
-				menus and see how their stats refocus.</p>
-		</div>
-		<div class="container">
-			<div class="row justify-content-center">
-				<div id="select1">
-
-				</div>
-			</div>
-		</div>
-
-
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-12 col-lg-6 chart">
-					<div class="row justify-content-center">
-						<h5>Match Attendance Start/Sub</h5>
-					</div>
-					<div class="container">
-						<div style="width:100%">
-							<div id="attendance-chart"></div>
-						</div>
-					</div>
-					<div class="row justify-content-center">
-						<p>This chart shows the number of games each player has played split between the number of
-							matches started and the number of which they were a substitute.</p>
-					</div>
-				</div>
-
-				<div class="col-12 col-lg-6 chart">
-					<div class="row justify-content-center">
-						<h5>Ratings Chart</h5>
-					</div>
-					<div class="container">
-						<div style="width:100%">
-							<div id="composite-chart"></div>
-						</div>
-					</div>
-					<div class="row justify-content-center">
-						<p>This chart shows the match rating each player has acquired each matchday week.</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-12 col-lg-6 chart">
-					<div class="row justify-content-center">
-						<h5>Total Goals/Assists Per Person</h5>
-					</div>
-					<div class="container">
-						<div style="width:100%">
-							<div id="goals-per-person-chart"></div>
-						</div>
-					</div>
-					<div class="row justify-content-center">
-						<p>This chart shows the number of goals and assists each player made.</p>
-					</div>
-				</div>
-				<div class="col-12 col-lg-6 chart">
-					<div class="row justify-content-center">
-						<h5>Total Goals/Assists Per Opponent</h5>
-					</div>
-					<div class="container">
-						<div style="width:100%">
-							<div id="goals-per-opponent-chart"></div>
-						</div>
-					</div>
-					<div class="row justify-content-center">
-						<p>This chart shows the number of goals and assists made against each opponent played.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-6 chart">
-					<div class="row justify-content-center">
-						<h5>Total Goals Per Person</h5>
-					</div>
-					<div class="row justify-content-center">
-						<div id="per-person-chart"></div>
-					</div>
-					<div class="row">
-						<p>This chart shows the number of goals each player has scored compared to the total goals
-							scored.
-						</p>
-					</div>
-				</div>
-
-				<div class="col-6 chart">
-					<div class="row justify-content-center">
-						<h5>Total Goals Per Opponent</h5>
-					</div>
-					<div class="row justify-content-center">
-						<div id="per-store-chart"></div>
-					</div>
-					<div class="row">
-						<p>This chart shows the number of goals scored against the various opponents faced.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="container">
-			<div class="row justify-content-center">
-				<a class="btn btn-primary" href="form.html" role="button">Input</a>
-			</div>
-		</div>
+	<!--Chart 1-->
+	<div id="nameType">
+		<strong>Name</strong>
+		<span class="reset" style="display: none;">selected: <span class="filter"></span></span>
+		<a class="reset" href="javascript:nameChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+		<div class="clearfix"></div>
 	</div>
 
+	<!--Chart 2-->
+	<div id="opponentType">
+		<strong>Opponent</strong>
+		<span class="reset" style="display: none;">selected: <span class="filter"></span></span>
+		<a class="reset" href="javascript:opponentChart.filterAll();dc.redrawAll();" style="display: none;">reset</a>
+		<div class="clearfix"></div>
+	</div>
 
-
+	<!--Chart Table-->
+	<div>
+		<div class="dc-data-count">
+			<span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
+				href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+		</div>
+	</div>
+	<table class="table table-hover dc-data-table">
+	</table>
 	<script>
+		const nameChart = dc.rowChart("#nameType");
+        const opponentChart = dc.rowChart("#opponentType");
+        const visCount = dc.dataCount(".dc-data-count");
+        const visTable = dc.dataTable(".dc-data-table");
 
+    //Get data
+    d3.json('data/stats.json').then(function (data, err) {
+        if (err) throw err;
+        console.log(data);
+
+        //Parse the date
+        const dateFormatSpecifier = '%d/%m/%Y';
+        //const dateFormat = d3.timeFormat(dateFormatSpecifier);
+        const dateFormatParser = d3.timeParse(dateFormatSpecifier);
+        //const numberFormat = d3.format('.2f');
+
+        data.forEach(d => {
+            d.date = dateFormatParser(d.date);
+            //console.log(d.date);
+        });
+
+        //Create the crossfilter
+        const ndx = crossfilter(data);
+        const all = ndx.groupAll();
+
+        const nameDim = ndx.dimension(function (d) { return d.name; });
+        const opponentDim = ndx.dimension(function (d) { return d.opponent; });
+        const dateDim = ndx.dimension(function(d) {return d.date});
+        const nameGroup = nameDim.group();
+        const opponentGroup = opponentDim.group();
+        const dateGroup = dateDim.group();
+        
+
+        nameChart
+            .dimension(nameDim)
+            .group(nameGroup)
+            .height(500)
+            //.data(function(group) { return group.top(3)})
+            //.x(d3.scaleBand())
+            //.xUnits(dc.units.ordinal)
+            //.title(d => d.opponent)
+            ;
+
+        opponentChart
+            .dimension(opponentDim)
+            .group(opponentGroup)
+            .height(500)
+            //.elasticX(true)
+            //.x(d3.scaleBand())
+            //.xUnits(dc.units.ordinal)
+            ;
+
+        visCount
+            .crossfilter(ndx)
+            .group(all);
+
+        visTable
+        .dimension(dateDim)
+        .section(d => {          
+            return `${d.opponent}`;
+        })
+        .showSections(true)
+        .columns([
+            "name",
+            //"opponent",
+            "goals",
+            "assists",
+            {
+                label: 'Starts',
+                format: function (d) {
+                    if(d.squad === 1) {
+                        return "Start";
+                    }
+                    else {
+                        return "Sub";
+                    }
+                }
+            }
+        ])
+        .size(1000)
+        ;
+        dc.renderAll();
+    });
 	</script>
 </body>
 
