@@ -46,6 +46,10 @@ h1 span {
     color: #ab8b4d;
 }
 
+h5 {
+    text-align: center;
+}
+
 .dc-select-menu {
     margin-bottom: 10px;
     background-color: blue;
@@ -63,19 +67,4 @@ h1 span {
 h5 {
     margin: 10px 0px 0px;
 }
-
 /*---------------------------------------------------------*/
-.test-notice {
-    color: red;
-    border: 2px solid red;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.test-notice p:first-of-type {
-    padding-top: 20px;
-}
-
-.test-notice .btn {
-    margin-bottom: 10px;
-}
