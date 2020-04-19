@@ -64,78 +64,52 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 col-lg-6 chart">
-				<div class="row justify-content-center">
-					<h5><em>(Chart 1)</em> Match Attendance Start/Sub</h5>
-				</div>
-				<div class="container">
-					<div style="width:100%">
-						<div id="attendance-chart">
-							<span class="reset" style="display: none;"><strong>Player(s) selected: </strong><span class="filter"></span></span>
-							<a class="reset" href="javascript:attendanceStackedBarChart.filterAll();dc.redrawAll();"
-								style="display: none;">reset</a>
-							<div class="clearfix"></div>
-						</div>
+				<h5><em>(Chart 1)</em> Match Attendance Start/Sub</h5>
+				<div style="width:100%">
+					<div id="attendance-chart">
+						<span class="reset" style="display: none;"><strong>Player(s) selected: </strong><span class="filter"></span></span>
+						<a class="reset" href="javascript:attendanceStackedBarChart.filterAll();dc.redrawAll();"
+							style="display: none;">reset</a>
+						<div class="clearfix"></div>
 					</div>
 				</div>
-				<div class="row justify-content-center">
-					<p>This chart shows the number of games each player has played split between the number of
-						matches started and the number of which they were a substitute.</p>
-				</div>
+				<p>This chart shows the number of games each player has played split between the number of
+					matches started and the number of which they were a substitute.</p>
 			</div>
-
 			<div class="col-12 col-lg-6 chart">
-				<div class="row justify-content-center">
-					<h5><em>(Chart 2)</em> Ratings Chart</h5>
-				</div>
-				<div class="container">
-					<div style="width:100%">
-						<div id="ratings-composite-chart">
-
-						</div>
-					</div>
-				</div>
-				<div class="row justify-content-center">
+				<h5><em>(Chart 2)</em> Ratings Chart</h5>
+				<div style="width:100%">
+					<div id="ratings-composite-chart"></div>
 					<p>This chart shows the match rating each player has acquired each matchday week.</p>
 				</div>
 			</div>
 		</div>
-
+	</div>
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 col-lg-6 chart">
-				<div class="row justify-content-center">
-					<h5><em>(Chart 3) </em>Total Goals/Assists Per Person</h5>
-				</div>
-				<div class="container">
-					<div style="width:100%">
-						<div id="goals-per-person-chart">
-							<span class="reset" style="display: none;"><strong>Player(s) selected: </strong><span class="filter"></span></span>
-							<a class="reset" href="javascript:personGoalsAssistsBarChart.filterAll();dc.redrawAll();"
-								style="display: none;">reset</a>
-							<div class="clearfix"></div>
-						</div>
+				<h5><em>(Chart 3) </em>Total Goals/Assists Per Person</h5>
+				<div style="width:100%">
+					<div id="goals-per-person-chart">
+						<span class="reset" style="display: none;"><strong>Player(s) selected: </strong><span class="filter"></span></span>
+						<a class="reset" href="javascript:personGoalsAssistsBarChart.filterAll();dc.redrawAll();"
+							style="display: none;">reset</a>
+						<div class="clearfix"></div>
 					</div>
 				</div>
-				<div class="row justify-content-center">
-					<p>This chart shows the number of goals and assists each player made.</p>
-				</div>
+				<p>This chart shows the number of goals and assists each player made.</p>
 			</div>
 			<div class="col-12 col-lg-6 chart">
-				<div class="row justify-content-center">
-					<h5><em>(Chart 4)</em> Total Goals/Assists Per Opponent</h5>
-				</div>
-				<div class="container">
-					<div style="width:100%">
-						<div id="goals-per-opponent-chart">
-							<span class="reset" style="display: none;"><strong>Opponent(s) selected: </strong><span class="filter"></span></span>
-							<a class="reset" href="javascript:opponentGoalsAssistsBarChart.filterAll();dc.redrawAll();"
-								style="display: none;">reset</a>
-							<div class="clearfix"></div>
-						</div>
+				<h5><em>(Chart 4)</em> Total Goals/Assists Per Opponent</h5>
+				<div style="width:100%">
+					<div id="goals-per-opponent-chart">
+						<span class="reset" style="display: none;"><strong>Opponent(s) selected: </strong><span class="filter"></span></span>
+						<a class="reset" href="javascript:opponentGoalsAssistsBarChart.filterAll();dc.redrawAll();"
+							style="display: none;">reset</a>
+						<div class="clearfix"></div>
 					</div>
 				</div>
-				<div class="row justify-content-center">
-					<p>This chart shows the number of goals and assists made against each opponent played.</p>
-				</div>
+				<p>This chart shows the number of goals and assists made against each opponent played.</p>
 			</div>
 		</div>
 	</div>
@@ -147,14 +121,6 @@
 					<div class="col-6">
 						<h5><em>(Chart 5)</em></h5>
 						<h5> Total Assists Per Person</h5>
-					</div>
-					<div class="col-6">
-						<h5><em>(Chart 5)</em></h5>
-						<h5> Total Goals Per Person</h5>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-6">
 						<div id="assists-per-person-piechart">
 							<span class="reset" style="display: none;"><strong>Opponent(s) selected: </strong><span class="filter"></span></span>
 							<a class="reset" href="javascript:assistsPerPersonPieChart.filterAll();dc.redrawAll();"
@@ -163,6 +129,8 @@
 						</div>
 					</div>
 					<div class="col-6">
+						<h5><em>(Chart 5)</em></h5>
+						<h5> Total Goals Per Person</h5>
 						<div id="goals-per-person-piechart">
 							<span class="reset" style="display: none;"><strong>Opponent(s) selected: </strong><span class="filter"></span></span>
 							<a class="reset" href="javascript:goalssPerPersonPieChart.filterAll();dc.redrawAll();"
@@ -170,26 +138,15 @@
 							<div class="clearfix"></div>
 						</div>
 					</div>
-				</div>
-				<div class="row justify-content-center">
-					<p>This chart shows the number of goals and assists each player has scored compared to the total
-						goals and assists made.
-					</p>
+					<p>These charts show the number of goals scored and assists made for each player.</p>
 				</div>
 			</div>
+
 			<div class="col-12 col-lg-6 chart">
 				<div class="row justify-content-center">
 					<div class="col-6">
 						<h5><em>(Chart 6)</em></h5>
 						<h5> Total Assists Per Opponent</h5>
-					</div>
-					<div class="col-6">
-						<h5><em>(Chart 6)</em></h5>
-						<h5> Total Goals Per Opponent</h5>
-					</div>
-				</div>
-				<div class="row justify-content-center">
-					<div class="col-6">
 						<div id="assists-per-opponent-piechart">
 							<span class="reset" style="display: none;"><strong>Opponent(s) selected: </strong><span class="filter"></span></span>
 							<a class="reset" href="javascript:assistsPerOpponentPieChart.filterAll();dc.redrawAll();"
@@ -198,6 +155,8 @@
 						</div>
 					</div>
 					<div class="col-6">
+						<h5><em>(Chart 6)</em></h5>
+						<h5> Total Goals Per Opponent</h5>
 						<div id="goals-per-opponent-piechart">
 							<span class="reset" style="display: none;"><strong>Opponent(s) selected: </strong><span class="filter"></span></span>
 							<a class="reset" href="javascript:goalsPerOpponentPieChart.filterAll();dc.redrawAll();"
@@ -205,9 +164,7 @@
 							<div class="clearfix"></div>
 						</div>
 					</div>
-				</div>
-				<div class="row justify-content-center">
-					<p>This chart shows the number of goals scored against the various opponents faced.</p>
+					<p>These charts show the number of goals scored and assists made against the various opponents faced.</p>
 				</div>
 			</div>
 		</div>
@@ -218,7 +175,9 @@
 				<!--Chart Table-->
 				<div>
 					<div class="dc-data-count">
-						<span class="filter-count"></span> selected out of <span class="total-count"></span> records |
+						<span class="filter-count"></span> selected out of <span class="total-count"></span>
+						records
+						|
 						<a href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
 					</div>
 				</div>
