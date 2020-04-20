@@ -10,8 +10,9 @@ body {
     padding: 0;
 }
 
-.nav-button {
-    display: block;
+
+#select1,
+#select2 {
     width: 100%;
     margin: auto;
 }
@@ -26,7 +27,7 @@ body {
 
 p {
     text-align: center;
-    margin: 0 20px 20px;
+    margin: 0 20px 10px;
     font-family: 'Lato', sans-serif;
 }
 
