@@ -53,8 +53,9 @@ h5 {
 }
 
 .dc-select-menu {
+    width: 140px;
     margin-bottom: 10px;
-    background-color: blue;
+    background-color: #3b89cf;
     color: #fff;
     border: 1px solid white;
     border-radius: 5px;
@@ -62,7 +63,7 @@ h5 {
 
 .chart {
     
-    border: 3px solid blue;
+    border: 3px solid #3b89cf;
     border-radius: 25px;
 }
 
