@@ -437,6 +437,8 @@ const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
             .dimension(name_dim5)
             .group(total_assists_per_person5)
             .transitionDuration(1000)
+            .externalLabels(17)
+            //.externalRadiusPadding(5)
 
         //Pie chart 5
         goalsPerPersonPieChart
@@ -446,9 +448,8 @@ const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
             .dimension(name_dim5)
             .group(total_goals_per_person5)
             .transitionDuration(1000)
-        //.externalRadiusPadding(300)
-        //.externalLabels(true)
-
+            .externalLabels(17)
+            
 
         //Create opponent dimension for chart 6
         const opponent_dim6 = ndx.dimension(dc.pluck('opponent'));
@@ -461,19 +462,20 @@ const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
             .transitionDuration(1000)
             .dimension(opponent_dim6)
             .group(total_assists_per_opponent6)
+            .externalLabels(17)
+
         //Pie chart 6
-        goalsPerOpponentPieChart
-            //.width(150)
-            //.height(150)
+        goalsPerOpponentPieChart         
             .radius(80)
             .transitionDuration(1000)
             .dimension(opponent_dim6)
             .group(total_goals_per_opponent6)
+            .externalLabels(17)
 
 
         visCount
         .crossfilter(ndx)
-        .group(all);
+        .groupAll(all);
 
         visTable
         .dimension(dateDim)
