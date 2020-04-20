@@ -52,11 +52,18 @@
 	</header>
 	<div class="container intro">
 		<p>Kids love to see how they're doing and how they compare to each other. Select a name from the drop down
-			menus and see how their stats refocus.</p>
+			menus or click on an area of a graph and see how their stats refocus.</p>
 	</div>
 	<div class="container">
 		<div class="row justify-content-center">
-			<div id="select1"></div>
+			<div class="col text-center">
+            <p>Select a player name</p>
+				<div id="select1"></div>
+			</div>
+			<div class="col text-center">
+            <p>Select an opponent</p>
+				<div id="select2"></div>
+			</div>
 		</div>
 	</div>
 
@@ -164,7 +171,8 @@
 							<div class="clearfix"></div>
 						</div>
 					</div>
-					<p>These charts show the number of goals scored and assists made against the various opponents faced.</p>
+					<p>These charts show the number of goals scored and assists made against the various opponents
+						faced.</p>
 				</div>
 			</div>
 		</div>
@@ -189,7 +197,11 @@
 
 
 	<script>
-		//Declare chart objects
+		//Declare SelectMenu object
+    const select1 = new dc.selectMenu('#select1');
+    //Declare SelectMenu object
+    const select2 = new dc.selectMenu('#select2');
+	//Declare chart objects
     const attendanceStackedBarChart = new dc.barChart('#attendance-chart'); //Match Attendance Start/Sub Chart object
     const ratingsLineChart = new dc.compositeChart('#ratings-composite-chart');//Match Ratings Chart object
     const personGoalsAssistsBarChart = new dc.barChart('#goals-per-person-chart');//Goals/Assists per person chart object
@@ -220,6 +232,32 @@
         //Create the crossfilter
         const ndx = crossfilter(data);
         const all = ndx.groupAll();
+
+        //Create the name dimension for select menu
+        const name_dim_select1 = ndx.dimension(dc.pluck('name'));
+        const playerName = name_dim_select1.group();
+        //Select menu object
+
+        select1
+            .dimension(name_dim_select1)
+            .group(playerName)
+        select1
+            .title(function (d) {
+                return d.key;
+            })
+
+        //Create the name dimension for select menu
+        const opponent_dim_select2 = ndx.dimension(dc.pluck('opponent'));
+        const opponentName = opponent_dim_select2.group();
+        //Select menu object
+
+        select2
+            .dimension(opponent_dim_select2)
+            .group(opponentName)
+        select2
+            .title(function (d) {
+                return d.key;
+            })
 
         //Create name dimension for chart 1
         const name_dim1 = ndx.dimension(dc.pluck('name'));
