@@ -25,12 +25,12 @@ body {
 }*/
 
 p {
+    text-align: center;
     margin: 0 20px 20px;
     font-family: 'Lato', sans-serif;
 }
 
 .intro p {
-text-align: center;
 font-family: 'Rubik', sans-serif;
 
 }
@@ -44,6 +44,11 @@ h1 {
 
 h1 span {
     color: #ab8b4d;
+}
+
+h5 {
+    text-align: center;
+    margin: 10px 0px 0px;
 }
 
 .dc-select-menu {
@@ -60,22 +65,4 @@ h1 span {
     border-radius: 25px;
 }
 
-h5 {
-    margin: 10px 0px 0px;
-}
-
 /*---------------------------------------------------------*/
-.test-notice {
-    color: red;
-    border: 2px solid red;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.test-notice p:first-of-type {
-    padding-top: 20px;
-}
-
-.test-notice .btn {
-    margin-bottom: 10px;
-}
