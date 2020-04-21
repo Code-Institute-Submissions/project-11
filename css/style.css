@@ -63,14 +63,17 @@ h5 {
     border-radius: 5px;
 }
 
-.chart {
-    
+.chart {    
     border: 3px solid #3b89cf;
     border-radius: 25px;
 }
 
 .chart p {
     padding-top: 10px;
+
 }
 
+#assists-per-person-piechart {
+    margin: auto;
+}
 /*---------------------------------------------------------*/
