@@ -65,6 +65,11 @@ a {
     border-radius: 5px;
 }
 
+hr {
+    height: 3px;
+    background-color: #3b89cf;
+    border: none;
+}
 .dc-data-count {
     padding-bottom: 10px;
 }
