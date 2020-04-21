@@ -12,7 +12,8 @@ body {
 
 
 #select1,
-#select2 {
+#select2
+ {
     width: 100%;
     margin: auto;
 }
@@ -54,13 +55,25 @@ h5 {
     margin: 10px 0px 0px;
 }
 
-.dc-select-menu {
+.dc-select-menu,
+a {
     width: 140px;
     margin-bottom: 10px;
     background-color: #3b89cf;
     color: #fff;
     border: 1px solid white;
     border-radius: 5px;
+}
+
+.dc-data-count {
+    padding-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+.main-reset {
+    padding: 0 10px;
 }
 
 .chart {    
@@ -70,10 +83,6 @@ h5 {
 
 .chart p {
     padding-top: 10px;
-
 }
 
-#assists-per-person-piechart {
-    margin: auto;
-}
 /*---------------------------------------------------------*/
