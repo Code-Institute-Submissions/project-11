@@ -81,7 +81,7 @@ The charts displayed are:
     - Goals pie chart slice size:  Total number of goals made against each opponent
   
 2) A User should have suitable menu style buttons for filtering accordinging to either player name or opponent or both.  
-3) all charts should filter and re-render when a user interacts with any chart by clicking on any section of data displayed.
+3) All charts should filter and re-render when a user interacts with any chart by clicking on any section of data displayed.
 4) A user requires the ability to reset all filters without having to do a browser refresh.
 5) A table displaying the rows of data based on filters applied by the user is compiled to add further ux to allow the user to cross-reference values obtained in the charts.
 
