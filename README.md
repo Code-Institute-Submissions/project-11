@@ -3,10 +3,22 @@
 # Peter Kellett - Milestone Project 2
 
 ## Introduction
-The basis of this project is to demonstrate my ability in the use of JavaScript and jQuery.
+This project is my milestone 2 project whilst studying the Full Stack Web Development program with Code Institute.
+The basis of this project is to demonstrate my ability in the use of JavaScript and jQuery while upholding the previous learnt practices in the use of html and css.
 
 ## Project Scope
-The use of this project is to compile the data of an underage soccer team. This data will then be used to construct dynamic charting of some key statistics of the players/team
+For this project the statistics of an underage soccer team will be used to construct a web page dashboard displaying charts showing the individual and collective data of the team.
+The main functionality of crossfiltering and rendering the charts will be achieved using the source libraries of:
+- d3.js
+    - version# d3/5.15.1/d3.min.js
+- Crossfilter.js 
+    - version# crossfilter/1.3.12/crossfilter.min.js
+- dc.js 
+    - version# dc/3.2.1/dc.min.js
+
+
+## Learning Outcomes
+...........
 
 ## Wireframes
 ### Home Page
