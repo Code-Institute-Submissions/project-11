@@ -1,49 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Bowlby+One|Lato|Rubik&display=swap');
 
 body {
-    background-color: lightblue;
-    padding: 0;
-    margin: 0;
+    background-color: lightblue;   
 }
 
 .heading {
-    padding: 0;
-}
-
-
-#select1,
-#select2
- {
-    width: 100%;
-    margin: auto;
-}
-
-/*.intro {
-    background: url("images/jamie-esker-celtic.jpg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position-y: center;
-    background-position-x: center;
-}*/
-
-p {
-    text-align: center;
-    margin: 0 20px 10px;
-    font-family: 'Lato', sans-serif;
-}
-
-.intro p {
-font-family: 'Rubik', sans-serif;
-padding: 20px 0;
-margin: 0;
-
+    padding: 0; 
 }
 
 h1 {
     font-family: 'Bowlby One', cursive;
     background-color: #3b89cf;
     color: #fff;
-    padding: 20px 20px;
+    padding: 1.25rem;
+    
 }
 
 h1 span {
@@ -52,7 +22,25 @@ h1 span {
 
 h5 {
     text-align: center;
-    margin: 10px 0px 0px;
+    margin: 0.5rem 0 0;
+}
+
+blockquote p {
+    font-family: cursive;
+    text-align: center;
+}
+
+.intro {
+    text-align: center;
+    margin: 1.25rem;
+    font-family: 'Rubik', sans-serif;
+}
+
+#select1,
+#select2
+ {
+    width: 100%;
+    margin: auto;
 }
 
 .dc-select-menu,
@@ -65,20 +53,13 @@ a {
     border-radius: 5px;
 }
 
-hr {
-    height: 3px;
-    background-color: #3b89cf;
-    border: none;
-}
+
 .dc-data-count {
     padding-bottom: 10px;
 }
 
-a {
-    text-decoration: none;
-}
 .main-reset {
-    padding: 0 10px;
+    padding: 0 0.5rem;
 }
 
 .chart {    
@@ -87,7 +68,14 @@ a {
 }
 
 .chart p {
+    font-family: cursive;
+    text-align: center;
     padding-top: 10px;
 }
 
+hr {
+    height: 3px;
+    background-color: #3b89cf;
+    border: none;
+}
 /*---------------------------------------------------------*/
