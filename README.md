@@ -126,7 +126,33 @@ The data used for rendering the charts is stored in JSON format. The value objec
 
 ## Testing  
 ### Unit testing
-Unit testing was applied by first rendering the charts on a stand alone basis. This tests the d3 application if the chart renders via the DOM. It also tests that the chart dimension and grouping are correct if the axis data type is correct. When this was successful it was then added to the main page where integration testing was applied.
+Unit testing was applied by first rendering the charts on a stand alone basis. This tests the d3 application if the chart renders via the DOM. It also tests that the chart dimension and grouping are correct if the axis data type is correct. 
+
+### Integration testing
+After unit testing is deemed successful, ie the chart renders successfully on a stand alone basis, the chart is then integrated to the main page and testing can now be carried out on the crossfilter functionality.  
+
+#### Player name select menu test  
+1) Click on drop down menu to reveal player names.
+2) Click on player name #1 
+3) Verify all charts re-render displaying only the chosen players stats.
+4) Verify the data table only displays rows of the chosen player name.
+5) Verify the number in the data-count widget corresponds to the number of rows in the data table.
+6) Click on 'Select all' in player name drop down menu.
+7) Verify all charts re-render showing filter has been removed.
+8) Repeat steps 1-7 for each player name in the list.  
+
+#### Opponent name Select menu test  
+1) Click on drop down menu to reveal opponent names.
+2) Click on opponent name #1 
+3) Verify all charts re-render displaying only the chosen opponents stats.
+4) Verify the data table only displays rows of the chosen opponent name.
+5) Verify the number in the data-count widget corresponds to the number of rows in the data table.
+6) Click on 'Select all' in opponent name drop down menu.
+7) Verify all charts re-render showing filter has been removed.
+8) Repeat steps 1-7 for each opponent name in the list.  
+
+
+ When this was successful it was then added to the main page where integration testing was applied.
 
 ## References  
 #### d3.js 
