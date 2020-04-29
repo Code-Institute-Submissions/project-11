@@ -125,7 +125,8 @@ The data used for rendering the charts is stored in JSON format. The value objec
 - "rating": ,
 
 ## Testing  
-
+### Unit testing
+Unit testing was applied by first rendering the charts on a stand alone basis. This tests the d3 application if the chart renders via the DOM. It also tests that the chart dimension and grouping are correct if the axis data type is correct. When this was successful it was then added to the main page where integration testing was applied.
 
 ## References  
 #### d3.js 
