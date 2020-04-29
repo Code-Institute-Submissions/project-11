@@ -14,13 +14,13 @@ The main functionality of crossfiltering the data and rendering the charts will 
 ## Source libraries used
 #### d3.js 
 This library is required for placing the Chart objects into the html structure using the DOM.
-- Version used: d3/5.15.1/d3.min.js  
-
+Version used: 
+- d3/5.15.1/d3.min.js 
 
 #### Crossfilter.js 
 This library does the main load handling of the data as it gives the user a fast multidimensional filtering functionality.  
-- Version used: crossfilter/1.3.12/crossfilter.min.js  
-
+Version used: 
+- crossfilter/1.3.12/crossfilter.min.js  
 
 #### dc.js
 This library is used to construct and render the respective charts as filtering the crossfilter dataset occurs.  
@@ -91,8 +91,28 @@ https://res.cloudinary.com/dfboxofas/image/upload/v1578494633/Project%202/Projec
 ### Input Form Page
 https://res.cloudinary.com/dfboxofas/image/upload/v1578494638/Project%202/Project_2_Form_page_wireframe_godbml.png
 
-## Home Page
-This is where the dynamic charting takes place. The charting dynamics uses the following libraries.
+
+## Features  
+### Drop down filter menu's  
+There are 2 drop down filter menu's positioned above the charts for the user to select stats by the player name or by the opponent name.  
+
+#### Player name dropdown select menu  
+- This uses the player name as the dimension and is grouped by name.  
+
+#### Opponent name dropdown select menu
+- This uses the opponent name as the dimension and is grouped by opponent name.  
+
+### Data count  
+The data count gives the user an indication of how much of the data is selected based on the current filter settings the user is on. It gives the user the number of rows of data selected out of the total number of rows of data.  
+
+### Reset all button  
+The reset all button resets all filters previously selected by the user.  
+
+### Charts  
+The user has the option to apply filters by clicking on any coloured section of any of the graphs. all other charts instantly rerender filtering all the other charts in relation to the section clicked.  
+
+### Data table  
+To add to the UX, a table displaying the rows of data available by the filters applied is displayed. This will aid the user and provides a means of cross-referencing the values shown in each chart.  
 
 ## Data used for chart rendering
 The data used for rendering the charts is stored in JSON format. The value object pairs are:
@@ -103,6 +123,32 @@ The data used for rendering the charts is stored in JSON format. The value objec
 - "goals": , 
 - "assists": , 
 - "rating": ,
+
+## Testing  
+
+
+## References  
+#### d3.js 
+- https://d3js.org/#introduction 
+- https://github.com/d3/d3/blob/master/CHANGES.md#changes-in-d3-50  
+
+#### Crossfilter.js 
+- https://github.com/crossfilter/crossfilter/wiki/API-Reference  
+- http://crossfilter.github.io/crossfilter/  
+
+#### dc.js  
+- https://dc-js.github.io/dc.js/
+- https://dc-js.github.io/dc.js/docs/stock.html  
+- https://dc-js.github.io/dc.js/docs/html/index.html  
+- https://dc-js.github.io/dc.js/examples/  
+
+#### Bootstrap  
+- https://getbootstrap.com/docs/4.0/getting-started/introduction/  
+
+## Learning Outcomes
+...........  
+
+  
 
 
 ## Form Page
@@ -117,7 +163,3 @@ The fields required are:
 - Goals Field: This is a numerical only field for the user to input the number of goals scored by the respective player.
 - Assists field: This is a numerical only field for the user to input the number of assists by the respective player.
 - Rating field: This is a numerical only field for the user to input the match rating assigned to the respective player.
-
-
-## Learning Outcomes
-...........
