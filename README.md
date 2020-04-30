@@ -108,7 +108,9 @@ The user has the option to apply filters by clicking on any coloured section of 
 ### Data table  
 To add to the UX, a table displaying the rows of data available by the filters applied is displayed. This will aid the user and provides a means of cross-referencing the values shown in each chart.  
 
-## Data used for chart rendering
+### Screenshots
+
+## Data Type - JSON name:value pairs
 The data used for rendering the charts is stored in JSON format. The value object pairs are:
 - "date": "", 
 - "name": "", 
@@ -145,7 +147,25 @@ After unit testing is deemed successful, ie the chart renders successfully on a 
 7) Verify all charts re-render showing filter has been removed.
 8) Repeat steps 1-7 for each opponent name in the list.  
 
+#### Filtering by chart sections test  
+1) Click on a section of the chart.  
+2) Verify the chart re-filters on chosen section.
+3) Verify all other charts and data table re-render with the same filter applied.  
+4) Verify the chosen filter name appears above the respective chart in accompaniment with a reset button.
+5) Click on another chart section of chart under test.
+6) Verify all other charts and data table re-render with the new filter added.  
+7) Repeat steps 5 and 6 for each section available.
+8) Click reset button to finish.
+9) Verify all charts and data table re-render with no filters applied.
+10) Repeat for each chart.  
 
+## Bugs and fixes
+I encountered 2 main bugs while developing this site and each required a workaround in order to fix.
+1) #### Not all charts were crossfiltering correctly.
+    I had a problem where only some of the charts, notably chart 1 and 2, would not apply the filters set by another chart. It was failing the 'Filtering by chart sections test'. After checking and rechecking my code, the documentation and reaching out on Slack, I turned to Tutor Support and had to be provided with a hot fix to workaround. My understanding for this reason was that a dimension could not be called on more than once so if a dimension is required for subsequent charts it needs to be renamed uniquely. As several of my charts use the 'name dimension' and 'opponent dimension' I have had to declare and name them respectively.  
+
+2) #### Reset buttons would not function.  
+    The reset buttons which appear within each chart would not function. I'm not sure of the reason for this but rather than introduce an onClick event for each button I discovered that the reset buttons would work when the code was in script tags in the html file rather than a seperate .js file. This was my fix for the bug so I took no further action.
 
 ## References  
 #### d3.js 
@@ -168,7 +188,11 @@ After unit testing is deemed successful, ie the chart renders successfully on a 
 ## Learning Outcomes
 ...........  
 
-  
+## Deployment  
+.............
+
+## Acknowledgements  
+.............
 
 
 ## Form Page
