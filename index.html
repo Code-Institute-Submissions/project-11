@@ -282,10 +282,10 @@
         //Create name dimension for chart 1
         const name_dim1 = ndx.dimension(dc.pluck('name'));
         const dateDim = ndx.dimension(function(d) {return d.date});
-        const starts = name_dim1.group().reduceSum(dc.pluck('squad'));
+        const starts = name_dim1.group().reduceSum(dc.pluck('start'));
         const sub = name_dim1.group().reduceSum(function(d) {
-            if(d.squad === 0) {
-                return +d.squad + 1;
+            if(d.start === 0) {
+                return +d.start + 1;
             } else {
                 return 0;
             }
@@ -522,7 +522,7 @@ const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
             {
                 label: 'Start/Sub',
                 format: function (d) {
-                    if(d.squad === 1) {
+                    if(d.start === 1) {
                         return "Start";
                     }
                     else {
