@@ -9,23 +9,17 @@ The basis of this project is to demonstrate my ability in the use of JavaScript 
 ## Project Scope
 For this project the statistics of an underage soccer team will be used to construct a web page dashboard displaying charts showing the individual and collective data of the team.
 
-The main functionality of crossfiltering the data and rendering the charts will be achieved using the source libraries of Crossfilter and dc charting. Crossfilter gives a fast multidimensional filtering tool for rendering groups and values of complex data based on user input. dc.js provides the tools for compiling the charts based on the filters applied to crossfilter. d3.js is the library used to render the chart objects to the html structure using the DOM. 
+The main functionality of crossfiltering the data and rendering the charts will be achieved using the source libraries of Crossfilter and dc charting. Crossfilter gives a fast multidimensional filtering tool for rendering groups and values of complex data based on user input. dc.js provides the tools for compiling the chart objects based on the filters applied to crossfilter. d3.js is the library used to bind the chart objects to the html structure using the DOM. 
 
 ## Source libraries used
 #### d3.js 
-This library is required for placing the Chart objects into the html structure using the DOM.
-Version used: 
-- d3/5.15.1/d3.min.js 
+- Version used: d3/5.15.1/d3.min.js 
 
 #### Crossfilter.js 
-This library does the main load handling of the data as it gives the user a fast multidimensional filtering functionality.  
-Version used: 
-- crossfilter/1.3.12/crossfilter.min.js  
+- Version used: crossfilter/1.3.12/crossfilter.min.js  
 
 #### dc.js
-This library is used to construct and render the respective charts as filtering the crossfilter dataset occurs.  
 - Version used: dc/3.2.1/dc.min.js  
-
 
 Other source files used were:  
 #### Bootstrap JavaScript libraries  
@@ -152,7 +146,6 @@ After unit testing is deemed successful, ie the chart renders successfully on a 
 8) Repeat steps 1-7 for each opponent name in the list.  
 
 
- When this was successful it was then added to the main page where integration testing was applied.
 
 ## References  
 #### d3.js 
