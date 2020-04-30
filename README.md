@@ -207,6 +207,16 @@ I encountered 2 main bugs while developing this site and each required a workaro
 2) #### Reset buttons would not function.  
     The reset buttons which appear within each chart would not function. I'm not sure of the reason for this but rather than introduce an onClick event for each button I discovered that the reset buttons would work when the code was in script tags in the html file rather than a seperate .js file. This was my fix for the bug so I took no further action.
 
+## Deployment  
+This project is hosted with GitHub.
+
+#### Deployment procedure  
+1) Create a new upstream branch or raise an issue in GitHub.
+2) Open this branch or issue in code editor. For this project GitPod was used.
+3) Add and commit code to this branch until satisfied code can be merged with the main branch.
+4) Send a pull request to GitHub requesting the branch can be merged.
+5) If there are no conflicts raised this branch or issue can then be closed by performing a merge onto the main branch. A merge can also be performed from GitPod.
+
 ## References  
 #### d3.js 
 - https://d3js.org/#introduction 
@@ -226,24 +236,16 @@ I encountered 2 main bugs while developing this site and each required a workaro
 - https://getbootstrap.com/docs/4.0/getting-started/introduction/  
 
 ## Learning Outcomes
-...........  
-
-## Deployment  
-.............
+I had several new aspects to overcome while doing this project.
+1) #### Transition from Cloud9 to GitPod code editor. 
+    Although this was difficult to start with no further difficulties were encountered and I'm quite comfortable with using it now.
+2) #### The importance of using current versions of source files.
+    I started this project using the Code Institute tutorials and was working fine but I quickly encountered bugs and errors when I tried to expand on my code using referenced documentation. When I updated and used the newest versions I found my original code was now not valid and was throwing console errors. This was a good learning curve as it made me have to closely inspect and understand the documentation in order to adapt my existing code correctly.  
+3) #### Debugging and troubleshooting  
+I gained knowledge in the use of using breakpoints in the debug tool and also of logging values and object types to the console in order to ascertain if my dimensions and grouping were being correctly applied.  
 
 ## Acknowledgements  
-.............
+I wish to acknowledge the following for their advice and input to this project.  
+- Rahul Patil for his mentoring advice  
+- Code Institute Tutor Support for their help with bug fixes.
 
-
-## Form Page
-This page is used by the team administrator to input new data to the chartData.JSON file. A HTML form is used to input the relevant data required.
-The fields required are:
-- Date: A jQuery date picker widget is used for this using the following link snippets.
-  - <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-- Opposition: This is a freetype text field for the user to input the opponent team name.
-- Player list: This player list auto compiles with the form fields set as readonly. This player list is saved seperately in a players.json file. 3 extra fields are automatically displayed adjacent to each player name for the user to input the number of Goals/Assists/Rating for each player to the chartData.json file.
-- Goals Field: This is a numerical only field for the user to input the number of goals scored by the respective player.
-- Assists field: This is a numerical only field for the user to input the number of assists by the respective player.
-- Rating field: This is a numerical only field for the user to input the match rating assigned to the respective player.
