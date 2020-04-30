@@ -43,24 +43,31 @@ The charts displayed are:
     - Type: Stacked bar chart  
     - X-Axis: Player name  
     - Y-Axis: Number of matches each player has started  
-    - Stacked Y-Axis: Number of matches each player was sub
+    - Stacked Y-Axis: Number of matches each player was sub  
 
     #### Chart 2 - Ratings Chart  
     - Type: Composite line chart
     - X-Axis: Date  
     - Y-Axis: Player rating  
+    This is a composite line chart and is acheived by taking the date dimension, and for each name on each date, calling a function which returns the given rating for that player. 
 
     #### Chart 3 - Total Goals/Assists Per Person
     - Type: Stacked bar chart  
     - X-Axis: Player name  
     - Y-Axis: Number of goals each player has scored  
-    - Stacked Y-Axis: Number of assists each player has made  
+    - Stacked Y-Axis: Number of assists each player has made 
+
+    Functionality: This is acheived by creating a name dimension and grouping and reducing the sum of the number goals for each player into a single value. This gives the number of    goals for each player.  
+    The stacked portion is achieved by taking the same name dimension and grouping and reducing the sum of the number of assists for each player into a single value. This gives the number of assists for each player.
 
     #### Chart 4 - Total Goals/Assists Per Opponent  
     - Type: Stacked bar chart  
     - X-Axis: Opponent name  
     - Y-Axis: Number of goals each player has scored against each opponent 
-    - Stacked Y-Axis: Number of assists each player has made  against each opponent  
+    - Stacked Y-Axis: Number of assists each player has made  against each opponent 
+
+    Functionality: This is acheived by creating an opponent dimension and grouping and reducing the sum of the number of goals against each opponent into a single value. 
+The stacked portion is achieved by taking the same opponent dimension and grouping and reducing the sum of assists against each opponent into a single value.  
 
     #### Chart 5 - Total Assists and Goals Per Person  
     - Type: Pie charts
@@ -108,17 +115,50 @@ The user has the option to apply filters by clicking on any coloured section of 
 ### Data table  
 To add to the UX, a table displaying the rows of data available by the filters applied is displayed. This will aid the user and provides a means of cross-referencing the values shown in each chart.  
 
-### Screenshots
+### Screenshot
+- Main page: https://res.cloudinary.com/dfboxofas/image/upload/v1588252727/Project%202/Home_screenshot_zrkfha.jpg  
 
 ## Data Type - JSON name:value pairs
 The data used for rendering the charts is stored in JSON format. The value object pairs are:
 - "date": "", 
 - "name": "", 
-- "squad": 0/1, 
+- "start": 0/1, 
 - "opponent": "", 
 - "goals": , 
 - "assists": , 
 - "rating": ,
+
+## Functionality  
+#### Chart 1 - Match Attendance Start/Sub  
+This is achieved by creating a name dimension and grouping and reducing the sum of the number of [squad = 1] totals for each player into a single value. This gives the number of starts for each player.  
+The stacked portion is achieved by taking the same name dimension and grouping and reducing the sum of the number of [squad = 0] totals for each player into a single value. This gives the number of subs for each player.  
+
+#### Chart 2 - Ratings Chart  
+This is a composite line chart and is acheived by taking the date dimension, and for each name on each date, calling a function which returns the given rating for that player. 
+
+#### Chart 3 - Total Goals/Assists Per Person
+This is acheived by creating a name dimension and grouping and reducing the sum of the number goals for each player into a single value. This gives the number of goals for each player.  
+The stacked portion is achieved by taking the same name dimension and grouping and reducing the sum of the number of assists for each player into a single value. This gives the number of assists for each player.
+
+#### Chart 4 - Total Goals/Assists Per Opponent  
+This is acheived by creating an opponent dimension and grouping and reducing the sum of the number of goals against each opponent into a single value. 
+The stacked portion is achieved by taking the same opponent dimension and grouping and reducing the sum of assists against each opponent into a single value.  
+
+#### Chart 5 - Total Assists Per Person  
+This is acheived by creating a name dimension and grouping and reducing the sum of the number assists for each player into a single value. This gives the number of assists for each player. 
+The slice size is then proportionally calculated based on the total number available by way of the applied filter. 
+
+#### Chart 5 - Total Goals Per Person  
+This is acheived by creating a name dimension and grouping and reducing the sum of the number goals for each player into a single value. This gives the number of goals for each player. 
+The slice size is then proportionally calculated based on the total number available by way of the applied filter. 
+
+#### Chart 6 - Total Assists per Opponent  
+This is acheived by creating an opponent dimension and grouping and reducing the sum of the number assists for each opponent into a single value. This gives the number of assists against each opponent. 
+The slice size is then proportionally calculated based on the total number available by way of the applied filter. 
+
+#### Chart 6 - Total Goals Per Opponent  
+This is acheived by creating an opponent dimension and grouping and reducing the sum of the number goals against each opponent into a single value. This gives the number of goals against each opponent. 
+The slice size is then proportionally calculated based on the total number available by way of the applied filter.  
 
 ## Testing  
 ### Unit testing
