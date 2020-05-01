@@ -49,7 +49,6 @@ The charts displayed are:
     - Type: Composite line chart
     - X-Axis: Date  
     - Y-Axis: Player rating  
-    This is a composite line chart and is acheived by taking the date dimension, and for each name on each date, calling a function which returns the given rating for that player. 
 
     #### Chart 3 - Total Goals/Assists Per Person
     - Type: Stacked bar chart  
@@ -57,17 +56,11 @@ The charts displayed are:
     - Y-Axis: Number of goals each player has scored  
     - Stacked Y-Axis: Number of assists each player has made 
 
-    Functionality: This is acheived by creating a name dimension and grouping and reducing the sum of the number goals for each player into a single value. This gives the number of    goals for each player.  
-    The stacked portion is achieved by taking the same name dimension and grouping and reducing the sum of the number of assists for each player into a single value. This gives the number of assists for each player.
-
     #### Chart 4 - Total Goals/Assists Per Opponent  
     - Type: Stacked bar chart  
     - X-Axis: Opponent name  
     - Y-Axis: Number of goals each player has scored against each opponent 
     - Stacked Y-Axis: Number of assists each player has made  against each opponent 
-
-    Functionality: This is acheived by creating an opponent dimension and grouping and reducing the sum of the number of goals against each opponent into a single value. 
-The stacked portion is achieved by taking the same opponent dimension and grouping and reducing the sum of assists against each opponent into a single value.  
 
     #### Chart 5 - Total Assists and Goals Per Person  
     - Type: Pie charts
@@ -89,9 +82,6 @@ The stacked portion is achieved by taking the same opponent dimension and groupi
 ## Wireframes
 ### Home Page
 https://res.cloudinary.com/dfboxofas/image/upload/v1578494633/Project%202/Project_2_Home_Page_Wireframe_sk69rm.png
-### Input Form Page
-https://res.cloudinary.com/dfboxofas/image/upload/v1578494638/Project%202/Project_2_Form_page_wireframe_godbml.png
-
 
 ## Features  
 ### Drop down filter menu's  
@@ -113,7 +103,7 @@ The reset all button resets all filters previously selected by the user.
 The user has the option to apply filters by clicking on any coloured section of any of the graphs. all other charts instantly rerender filtering all the other charts in relation to the section clicked.  
 
 ### Data table  
-To add to the UX, a table displaying the rows of data available by the filters applied is displayed. This will aid the user and provides a means of cross-referencing the values shown in each chart.  
+To add to the UX, a table displaying the rows of data available by the filters applied is displayed. This will aid the user and provides a means of cross-referencing the values shown in each chart.
 
 ### Screenshot
 - Main page: https://res.cloudinary.com/dfboxofas/image/upload/v1588252727/Project%202/Home_screenshot_zrkfha.jpg  
@@ -160,6 +150,9 @@ The slice size is then proportionally calculated based on the total number avail
 This is acheived by creating an opponent dimension and grouping and reducing the sum of the number goals against each opponent into a single value. This gives the number of goals against each opponent. 
 The slice size is then proportionally calculated based on the total number available by way of the applied filter.  
 
+#### Data Table  
+The data table uses the date as the dimension dimension. The data is the sectioned by opponent and the columns displayed are Name, Start/Sub, Goals, Assists, Rating.
+
 ## Testing  
 ### Unit testing
 Unit testing was applied by first rendering the charts on a stand alone basis. This tests the d3 application if the chart renders via the DOM. It also tests that the chart dimension and grouping are correct if the axis data type is correct. 
@@ -167,7 +160,8 @@ Unit testing was applied by first rendering the charts on a stand alone basis. T
 ### Integration testing
 After unit testing is deemed successful, ie the chart renders successfully on a stand alone basis, the chart is then integrated to the main page and testing can now be carried out on the crossfilter functionality.  
 
-#### Player name select menu test  
+## Tests
+#### 1) Player name select menu test  
 1) Click on drop down menu to reveal player names.
 2) Click on player name #1 
 3) Verify all charts re-render displaying only the chosen players stats.
@@ -177,7 +171,7 @@ After unit testing is deemed successful, ie the chart renders successfully on a 
 7) Verify all charts re-render showing filter has been removed.
 8) Repeat steps 1-7 for each player name in the list.  
 
-#### Opponent name Select menu test  
+#### 2) Opponent name Select menu test  
 1) Click on drop down menu to reveal opponent names.
 2) Click on opponent name #1 
 3) Verify all charts re-render displaying only the chosen opponents stats.
@@ -187,7 +181,7 @@ After unit testing is deemed successful, ie the chart renders successfully on a 
 7) Verify all charts re-render showing filter has been removed.
 8) Repeat steps 1-7 for each opponent name in the list.  
 
-#### Filtering by chart sections test  
+#### 3) Filtering by chart sections test  
 1) Click on a section of the chart.  
 2) Verify the chart re-filters on chosen section.
 3) Verify all other charts and data table re-render with the same filter applied.  
@@ -202,10 +196,10 @@ After unit testing is deemed successful, ie the chart renders successfully on a 
 ## Bugs and fixes
 I encountered 2 main bugs while developing this site and each required a workaround in order to fix.
 1) #### Not all charts were crossfiltering correctly.
-    I had a problem where only some of the charts, notably chart 1 and 2, would not apply the filters set by another chart. It was failing the 'Filtering by chart sections test'. After checking and rechecking my code, the documentation and reaching out on Slack, I turned to Tutor Support and had to be provided with a hot fix to workaround. My understanding for this reason was that a dimension could not be called on more than once so if a dimension is required for subsequent charts it needs to be renamed uniquely. As several of my charts use the 'name dimension' and 'opponent dimension' I have had to declare and name them respectively.  
+    I had a problem where only some of the charts, notably chart 1 and 2, would not apply the filters set by another chart. It was failing the 'Filtering by chart sections test'. After checking and rechecking my code, the documentation and reaching out on Slack, I turned to Tutor Support and had to be provided with a hot fix as a workaround. My understanding for this reason was that a dimension could not be called on more than once so if a dimension is required for subsequent charts it needs to be renamed uniquely. As several of my charts use the 'name dimension' and 'opponent dimension' I have had to declare and name them respectively.  
 
 2) #### Reset buttons would not function.  
-    The reset buttons which appear within each chart would not function. I'm not sure of the reason for this but rather than introduce an onClick event for each button I discovered that the reset buttons would work when the code was in script tags in the html file rather than a seperate .js file. This was my fix for the bug so I took no further action.
+    The reset buttons which appear within each chart would not function. I'm not sure of the reason for this but in trying to introduce an onClick event for each button I discovered that the reset buttons would work when the code was in script tags in the html file rather than a separate .js file. This was my fix for the bug so I took no further action.
 
 ## Deployment  
 This project is hosted with GitHub.
@@ -242,7 +236,7 @@ I had several new aspects to overcome while doing this project.
 2) #### The importance of using current versions of source files.
     I started this project using the Code Institute tutorials and was working fine but I quickly encountered bugs and errors when I tried to expand on my code using referenced documentation. When I updated and used the newest versions I found my original code was now not valid and was throwing console errors. This was a good learning curve as it made me have to closely inspect and understand the documentation in order to adapt my existing code correctly.  
 3) #### Debugging and troubleshooting  
-I gained knowledge in the use of using breakpoints in the debug tool and also of logging values and object types to the console in order to ascertain if my dimensions and grouping were being correctly applied.  
+    I gained knowledge in the use of using breakpoints in the debug tool and also of logging values and object types to the console in order to ascertain if my dimensions and grouping were being correctly applied.  
 
 ## Acknowledgements  
 I wish to acknowledge the following for their advice and input to this project.  
