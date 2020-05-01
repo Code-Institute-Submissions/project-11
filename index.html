@@ -160,7 +160,7 @@
 								<div id="goals-per-person-piechart">
 									<span class="reset" style="display: none;"><strong>Player(s) selected: </strong><span class="filter"></span></span>
 									<a class="reset"
-										href="javascript:goalssPerPersonPieChart.filterAll();dc.redrawAll();"
+										href="javascript:goalsPerPersonPieChart.filterAll();dc.redrawAll();"
 										style="display: none;">Reset</a>
 									<div class="clearfix"></div>
 								</div>
@@ -216,37 +216,30 @@
 		</div>
 	</div>
 
-	<script>
-		//Declare SelectMenu object
-    const select1 = new dc.selectMenu('#select1');
-    //Declare SelectMenu object
-    const select2 = new dc.selectMenu('#select2');
-	//Declare chart objects
-    const attendanceStackedBarChart = new dc.barChart('#attendance-chart'); //Match Attendance Start/Sub Chart object
-    const ratingsLineChart = new dc.compositeChart('#ratings-composite-chart');//Match Ratings Chart object
-    const personGoalsAssistsBarChart = new dc.barChart('#goals-per-person-chart');//Goals/Assists per person chart object
-    const opponentGoalsAssistsBarChart = new dc.barChart('#goals-per-opponent-chart');//Goals/Assists per opponent chart object
-    const assistsPerPersonPieChart = new dc.pieChart('#assists-per-person-piechart');//data count goals per person object
-    const goalsPerPersonPieChart = new dc.pieChart('#goals-per-person-piechart');//Goals per person pie chart object
-    const assistsPerOpponentPieChart = new dc.pieChart('#assists-per-opponent-piechart');//data count goals per opponent object
-    const goalsPerOpponentPieChart = new dc.pieChart('#goals-per-opponent-piechart');//Goals per opponent chart object
+    <script>	
+    // jshint esversion: 6
 
+    const select1 = new dc.selectMenu('#select1');//Declare SelectMenu object   
+    const select2 = new dc.selectMenu('#select2');//Declare SelectMenu object	
+    const attendanceStackedBarChart = new dc.barChart('#attendance-chart'); //Declare Match Attendance Start/Sub Chart object 
+    const ratingsLineChart = new dc.compositeChart('#ratings-composite-chart');//Declare Match Ratings Chart object
+    const personGoalsAssistsBarChart = new dc.barChart('#goals-per-person-chart');//Declare Goals/Assists per person chart object
+    const opponentGoalsAssistsBarChart = new dc.barChart('#goals-per-opponent-chart');//Declare Goals/Assists per opponent chart object
+    const assistsPerPersonPieChart = new dc.pieChart('#assists-per-person-piechart');//Declare data count goals per person object
+    const goalsPerPersonPieChart = new dc.pieChart('#goals-per-person-piechart');//Declare Goals per person pie chart object
+    const assistsPerOpponentPieChart = new dc.pieChart('#assists-per-opponent-piechart');//Declare data count goals per opponent object
+    const goalsPerOpponentPieChart = new dc.pieChart('#goals-per-opponent-piechart');//Declare Goals per opponent chart object
+    const visCount = dc.dataCount(".dc-data-count");//Declare object for data count 
+    const visTable = dc.dataTable(".dc-data-table");//Declare object for data table
 
-    const visCount = dc.dataCount(".dc-data-count");
-    const visTable = dc.dataTable(".dc-data-table");
     //Get data
     d3.json('data/stats.json').then(function (data) {
-        //console.log(data);
-
         //Parse the date
         const dateFormatSpecifier = '%d/%m/%Y';
-        //const dateFormat = d3.timeFormat(dateFormatSpecifier);
         const dateFormatParser = d3.timeParse(dateFormatSpecifier);
-        //const numberFormat = d3.format('.2f');
 
         data.forEach(d => {
             d.date = dateFormatParser(d.date);
-            //console.log(d.date);
         });
 
         //Create the crossfilter
@@ -256,32 +249,32 @@
         //Create the name dimension for select menu
         const name_dim_select1 = ndx.dimension(dc.pluck('name'));
         const playerName = name_dim_select1.group();
-        //Select menu object
-
+        
+        //Player name Select menu object
         select1
             .dimension(name_dim_select1)
-            .group(playerName)
+            .group(playerName);
         select1
             .title(function (d) {
                 return d.key;
-            })
+            });
 
         //Create the name dimension for select menu
         const opponent_dim_select2 = ndx.dimension(dc.pluck('opponent'));
         const opponentName = opponent_dim_select2.group();
-        //Select menu object
-
+        
+        //Opponent Select menu object
         select2
             .dimension(opponent_dim_select2)
-            .group(opponentName)
+            .group(opponentName);  
         select2
             .title(function (d) {
                 return d.key;
-            })
+            });
 
         //Create name dimension for chart 1
         const name_dim1 = ndx.dimension(dc.pluck('name'));
-        const dateDim = ndx.dimension(function(d) {return d.date});
+        const dateDim = ndx.dimension(function(d) {return d.date;});
         const starts = name_dim1.group().reduceSum(dc.pluck('start'));
         const sub = name_dim1.group().reduceSum(function(d) {
             if(d.start === 0) {
@@ -289,8 +282,7 @@
             } else {
                 return 0;
             }
-        })
-
+        });
 
         //Match Attendance Start/Sub Chart 1 object
         attendanceStackedBarChart
@@ -303,10 +295,9 @@
             .x(d3.scaleBand())
             .xUnits(dc.units.ordinal)
             .ordinalColors(['#3b89cf', 'white'])
-            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
+            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5));
 
-
-const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
+        const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
         const minDate = date_dim.bottom(1)[0].date;//Declare and get the minimum date
         const maxDate = date_dim.top(1)[0].date;//Declare and get the maximum date
         //Get the player rating for each date
@@ -317,8 +308,8 @@ const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
                 } else {
                     return 0;
                 }
-            }
-        };
+            };
+        }
 
         //Group the ratings by player name
         const jamieRating = date_dim.group().reduceSum(rating_by_name('Jamie'));
@@ -401,13 +392,11 @@ const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
             .brushOn(false)
             .render();
 
-
         //Create name dimension for chart 3
         const name_dim3 = ndx.dimension(dc.pluck('name'));
         const total_goals_per_person3 = name_dim3.group().reduceSum(dc.pluck('goals'));
         //Group assists per person
         const total_assists_per_person3 = name_dim3.group().reduceSum(dc.pluck('assists'));//Group assists per person
-
 
         //Goals/assists per person chart 3 object
         personGoalsAssistsBarChart
@@ -421,15 +410,12 @@ const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
             .x(d3.scaleBand())
             .xUnits(dc.units.ordinal)
             .ordinalColors(['#3b89cf', 'white'])
-            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
-            //.yAxis().ticks(4);
-
+            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5));
 
         //Create opponent dimension for chart 4
         const opponent_dim4 = ndx.dimension(dc.pluck('opponent'));
         const total_goals_per_opponent4 = opponent_dim4.group().reduceSum(dc.pluck('goals'));//Group goals per opponent
         const total_assists_per_opponent4 = opponent_dim4.group().reduceSum(dc.pluck('assists'));//Group assists per opponent
-
 
         //Goals/asssists per opponent chart 4 object
         opponentGoalsAssistsBarChart
@@ -443,39 +429,36 @@ const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
             .x(d3.scaleBand())
             .xUnits(dc.units.ordinal)
             .ordinalColors(['#3b89cf', 'white'])
-            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5))
-        //.yAxis().ticks(4);
+            .legend(dc.legend().x(0).y(10).itemHeight(15).gap(5));
 
-//Create name dimension for chart 5
+        //Create name dimension for chart 5
         const name_dim5 = ndx.dimension(dc.pluck('name'));
         //Group goals per person
         const total_assists_per_person5 = name_dim5.group().reduceSum(dc.pluck('assists'));
         const total_goals_per_person5 = name_dim5.group().reduceSum(dc.pluck('goals'));
 
+        //Create object Pie chart 5 assists
         assistsPerPersonPieChart
             .width($(assistsPerPersonPieChart.anchor()).parent().width())
-            //.margins({ top: 30, right: 50, bottom: 30, left: 70 })
-            //.radius(80)
             .dimension(name_dim5)
             .group(total_assists_per_person5)
             .transitionDuration(1000)
             .externalLabels(10)
             .externalRadiusPadding(17)
             .slicesCap(6)
-            .minAngleForLabel(0.2)
+            .minAngleForLabel(0.2);
             
 
-        //Pie chart 5
+        //Create object Pie chart 5 goals
         goalsPerPersonPieChart
             .width($(goalsPerPersonPieChart.anchor()).parent().width())
-            //.radius(80)
             .dimension(name_dim5)
             .group(total_goals_per_person5)
             .transitionDuration(1000)
             .externalLabels(10)
             .externalRadiusPadding(17)
             .slicesCap(6)
-            .minAngleForLabel(0.2)
+            .minAngleForLabel(0.2);
             
 
         //Create opponent dimension for chart 6
@@ -483,33 +466,32 @@ const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
         const total_assists_per_opponent6 = opponent_dim6.group().reduceSum(dc.pluck('assists'));//Group assists per opponent
         const total_goals_per_opponent6 = opponent_dim6.group().reduceSum(dc.pluck('goals'));//Group goals per opponent
 
-
+        //Create object Pie chart 6 assists
         assistsPerOpponentPieChart
             .width($(assistsPerOpponentPieChart.anchor()).parent().width())
-            //.radius(80)
             .transitionDuration(1000)
             .dimension(opponent_dim6)
             .group(total_assists_per_opponent6)
             .externalLabels(17)
             .externalRadiusPadding(30)
-            .minAngleForLabel(0.2)
+            .minAngleForLabel(0.2);
 
-        //Pie chart 6
+        //Create object Pie chart 6 Goals
         goalsPerOpponentPieChart  
             .width($(goalsPerOpponentPieChart.anchor()).parent().width())       
-            //.radius(80)
             .transitionDuration(1000)
             .dimension(opponent_dim6)
             .group(total_goals_per_opponent6)
             .externalLabels(17)
             .externalRadiusPadding(30)
-            .minAngleForLabel(0.2)
+            .minAngleForLabel(0.2);
 
-
+        //Create object Data count
         visCount
         .crossfilter(ndx)
         .groupAll(all);
 
+        //Create object Data table
         visTable
         .dimension(dateDim)
         .section(d => {          
@@ -518,7 +500,6 @@ const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
         .showSections(true)
         .columns([
             "name",
-            //"opponent",
             {
                 label: 'Start/Sub',
                 format: function (d) {
@@ -532,11 +513,9 @@ const date_dim = ndx.dimension(dc.pluck('date'));//Create date dimension
             },
             "goals",
             "assists",
-            "rating"
-            
+            "rating"           
         ])
-        .size(1000)
-        ;
+        .size(1000);
             
         dc.renderAll();
         dc.redrawAll();
