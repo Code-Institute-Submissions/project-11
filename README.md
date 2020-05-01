@@ -193,6 +193,18 @@ After unit testing is deemed successful, ie the chart renders successfully on a 
 9) Verify all charts and data table re-render with no filters applied.
 10) Repeat for each chart.  
 
+#### 4) HTML code validator test  
+1) Run all HTML code through a code checker validator.
+https://validator.w3.org/  
+
+#### 5) CSS code validator test  
+1) Run all CSS code through a code checker validator.  
+https://validator.w3.org/  
+
+#### 6) JS code validator test  
+1) Run all JS code through a code checker validator  
+https://jshint.com/
+
 ## Bugs and fixes
 I encountered 2 main bugs while developing this site and each required a workaround in order to fix.
 1) #### Not all charts were crossfiltering correctly.
